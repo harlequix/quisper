@@ -5,7 +5,6 @@ import
     log "github.com/sirupsen/logrus"
     _ "io"
     "os"
-    "fmt"
     _ "time"
 )
 
@@ -18,16 +17,12 @@ func NewLogger(module string) *Logger {
     log.SetLevel(log.WarnLevel)
 
     base := log.New()
-    var file, err = os.OpenFile(module+".log", os.O_RDWR|os.O_CREATE, 0666)
-    if err != nil {
-        fmt.Println("Could Not Open Log File : " + err.Error())
-    }
 
     base.SetFormatter(&log.TextFormatter{
 		DisableColors: false,
 		DisableTimestamp: false,
 	})
-    _ = file
+
     base.SetOutput(os.Stdout)
     base.SetLevel(log.ErrorLevel)
 
