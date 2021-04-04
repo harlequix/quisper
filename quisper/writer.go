@@ -13,27 +13,33 @@ import
     "context"
     "github.com/sirupsen/logrus"
     "github.com/harlequix/quisper/internal/encoding"
+    "github.com/harlequix/quisper/internal/format"
+    "github.com/harlequix/quisper/internal/decoding"
+    prot "github.com/harlequix/quisper/protocol"
+    quic "github.com/lucas-clemente/quic-go"
+    "math/rand"
 )
 
 type Backend interface {
-    Dial (cid []byte) error
+    Dial (cid []byte) (quic.Session,error)
 }
 
 
 var logger *log.Logger
 const RoleTX string = "tx"
 const RoleRX string = "rx"
-const TXOffset int64 = 2
-const RXOffset int64 = 0
-const RXReadyOffset int64 = TXOffset + 1
+const TXOffset uint64 = 2
+const RXOffset uint64 = 0
+const RXReadyOffset uint64 = TXOffset + 1
 
 func init() {
     logger = log.NewLogger("Manager")
 }
 
 type DialResult struct {
-    CID []byte
+    CID *prot.CID
     Result int
+    Session quic.Session
 }
 
 type Writer struct {
@@ -45,8 +51,8 @@ type Writer struct {
     cid_length int
     logger *log.Logger
     role string
-    offset int64
-    dispatchChan chan([]byte)
+    offset uint64
+    dispatchChan chan(*prot.CID)
     resultChan chan(*DialResult)
     timeslotChan chan *timeslots.Timeslot
 }
@@ -54,7 +60,7 @@ type Writer struct {
 func NewWriter(addr string, secret string) *Writer {
     backend := backends.NewNativeBackend(addr, nil) // TODO select backend
     timeslot := timeslots.NewTimeslotScheduler(10*time.Second) // TODO make duration configurable
-    logger.Info("Create new backend ", addr)
+    logger.Trace("Create new backend ", addr)
     return &Writer{
         addr: addr,
         secret: secret,
@@ -65,7 +71,7 @@ func NewWriter(addr string, secret string) *Writer {
         logger: log.NewLogger(RoleTX + "-" + secret),
         role: RoleTX,
         offset: TXOffset,
-        dispatchChan: make(chan []byte, 10),
+        dispatchChan: make(chan *prot.CID, 10),
         resultChan: make(chan *DialResult, 10),
         timeslotChan: make(chan *timeslots.Timeslot),
     }
@@ -74,7 +80,7 @@ func NewWriter(addr string, secret string) *Writer {
 func NewReader(addr string, secret string) *Writer {
     backend := backends.NewNativeBackend(addr, nil) // TODO select backend
     timeslot := timeslots.NewTimeslotScheduler(10*time.Second) // TODO make duration configurable
-    logger.Info("Create new backend ", addr)
+    logger.Trace("Create new backend ", addr)
     return &Writer{
         addr: addr,
         secret: secret,
@@ -85,7 +91,7 @@ func NewReader(addr string, secret string) *Writer {
         logger: log.NewLogger(RoleRX + "-" + secret),
         role: RoleRX,
         offset: RXOffset,
-        dispatchChan: make(chan []byte, 10),
+        dispatchChan: make(chan *prot.CID, 10),
         resultChan: make(chan *DialResult, 10),
         timeslotChan: make(chan *timeslots.Timeslot),
     }
@@ -97,7 +103,7 @@ func (self *Writer)runDispatcher(ctx context.Context)  {
     for it := 0; it < cap; it++ {
         bucketQueue <- true
     }
-    var overflow [][]byte
+    var overflow []*prot.CID
     _ = overflow // fuck you go
     for {
         select {
@@ -107,7 +113,7 @@ func (self *Writer)runDispatcher(ctx context.Context)  {
                 overflow = append(overflow, entry)
             case _ = <- bucketQueue:
                 if len(overflow) > 0 {
-                    var cid []byte
+                    var cid *prot.CID
                     cid, overflow = overflow[0], overflow[1:]
                     go self.dispatchWrapper(cid, self.resultChan, bucketQueue)
                 } else {
@@ -117,7 +123,7 @@ func (self *Writer)runDispatcher(ctx context.Context)  {
     }
 }
 
-func (self *Writer) dispatchWrapper(cid []byte, feedback chan *DialResult, tokenBucket chan bool){
+func (self *Writer) dispatchWrapper(cid *prot.CID, feedback chan *DialResult, tokenBucket chan bool){
     self.dispatch(cid, feedback)
     tokenBucket <- true
 }
@@ -125,23 +131,20 @@ func (self *Writer) dispatchWrapper(cid []byte, feedback chan *DialResult, token
 func (self *Writer)runEncoder(ctx context.Context)  {
     log := self.logger.WithField("func", "encoder")
     _ = log
-    decoder := encoding.NewDecoder()
+    decoder := decoding.NewDecoder()
     for {
         select {
             case <- ctx.Done():
                 return
             case result := <- self.resultChan:
-                self.logger.WithField("cid", result.CID).WithField("result", result.Result).Debug("received message")
-                idSl, suffixSl := timeslots.Cut(result.CID)
-                id := timeslots.SuffixToDec(idSl)
-                suffix := timeslots.SuffixToDec(suffixSl) - 24
+                self.logger.WithField("cid", result.CID).WithField("result", result.Result).Trace("received message")
                 var value byte
                 if result.Result == 0 {
                     value = encoding.ZERO
                 } else {
                     value = encoding.ONE
                 }
-                decoder.SetCID(id, suffix, value)
+                decoder.SetCID(result.CID, value)
             case NewSlot := <- self.timeslotChan:
                 // capB := NewSlot.GetHeaderValue("bitsSent")
                 cap := NewSlot.Cnt
@@ -153,7 +156,16 @@ func (self *Writer)runEncoder(ctx context.Context)  {
 
 func (self *Writer)  MainLoop(ctx context.Context, pipeline chan(byte)){
     logger := self.logger.WithField("component", "MainLoop")
-    timeslotChn := make(chan int64)
+    logger.Trace("Mainloop started")
+    fmt.Println("HelloWorld")
+    timeslotChn := make(chan uint64)
+    timeslotStatusChn := make(chan bool)
+    reportChn := make(chan uint64, 1)
+    logger.Trace("about to place something into the reportChn")
+    reportChn <- uint64(0)
+    logger.Trace("placed into reportChn")
+    var sync bool = false
+    _ = sync
     self.TimeslotScheduler.Logger = &log.Logger{self.logger.WithField("component", "scheduler")}
     go self.TimeslotScheduler.RunScheduler(ctx, timeslotChn)
     go self.runDispatcher(ctx)
@@ -162,59 +174,103 @@ func (self *Writer)  MainLoop(ctx context.Context, pipeline chan(byte)){
     for {
         select {
             case timeslotNum := <- timeslotChn:
-                var oldTimeslot int64 = 0
+                logger.WithField("New", timeslotNum + self.offset).Trace("Setup new Timeslot")
+                var oldTimeslot uint64 = 0
                 if self.timeslot != nil {
                     oldTimeslot = self.timeslot.Num
                 }
                 cancel()
                 controlWork, cancel = context.WithCancel(ctx)
-                var bitsSent uint64 = 0
+                _ = controlWork
+
+                bitsSent := <- reportChn
+                reportChn = make(chan uint64, 1)
                 if self.timeslot != nil {
-                    bitsSent = self.timeslot.Cnt
                     if self.role == RoleTX {
-                        self.writeSentBits(self.timeslot)
+                        self.writeSentBits(self.timeslot, bitsSent)
                     }
+                    sync = self.timeslot.Status
+                    // if bitsSent != self.timeslot.Cnt {
+                    //     // fmt.Println("RACERACERACE")
+                    // }
                 }
 
-                _ = bitsSent
+
+
                 self.timeslot = timeslots.NewTimeslot(timeslotNum + self.offset)
-                self.initTimeslot()
+                // self.initTimeslot()
+                self.signalReadiness(self.timeslot)
+                timeslotStatusChn = make(chan bool)
+                go self.checkReadiness(self.timeslot, timeslotStatusChn)
                 logger.WithFields(logrus.Fields{
                     "From": oldTimeslot,
                     "To": self.timeslot.Num,
                     "BitSent": bitsSent,
-                    }).Info("Switch to new timeslot")
-                logger.WithField("Timeslot", self.timeslot.Num).WithField("Status", self.timeslot.Status).Info("Timeslot ready?")
-                if self.timeslot.Status == true {
-                    go self.work(controlWork, self.timeslot, pipeline)
+                    }).Trace("Switch to new timeslot")
+                logger.WithField("Timeslot", self.timeslot.Num).WithField("Status", self.timeslot.Status).Trace("Timeslot ready?")
+                if sync == true {
+                    logger.Trace("Start Working")
+                    go self.work(controlWork, self.timeslot, pipeline, reportChn)
+                } else {
+                    reportChn <- 0
                 }
+                // if sync == false && self.timeslot.Status == true {
+                //     fmt.Println("Clients synchronized")
+                //     logger.Trace("Client in Sync")
+                // }
+                // if sync == true && self.timeslot.Status == false {
+                //     fmt.Println("Synchronization lost")
+                //     logger.Trace("Synchronization lost")
+                // }
+                // sync = self.timeslot.Status
+                // if self.timeslot.Status == true {
+                //     go self.work(controlWork, self.timeslot, pipeline)
+                // }
+            case status := <- timeslotStatusChn:
+                if status == false {
+                        cancel()
+                        //TODO go Back N
+                }
+                self.timeslot.Status = status
         }
     }
 }
 
 func (self *Writer) initTimeslot() {
     self.signalReadiness(self.timeslot)
-    self.timeslot.Status = self.checkReadiness(self.timeslot)
+    // self.timeslot.Status = self.checkReadiness(self.timeslot)
 }
 
-func (self *Writer) work(ctx context.Context, timeslot *timeslots.Timeslot, pipeline chan(byte)) {
+func (self *Writer) work(ctx context.Context, timeslot *timeslots.Timeslot, pipeline chan(byte), report chan(uint64)) {
+    var sent uint64 = 0
     if self.role == RoleTX {
         for {
             select {
                 case <- ctx.Done():
+                    self.logger.WithField("timeslot", timeslot.Num).Trace("Cancelling work")
+                    report <- sent
                     return
-                case bit := <- pipeline:
-                    cid := timeslot.GetCID()
-                    if bit == 49 {
-                        err := self.backend.Dial(cid)
-                        _ = err
+                case Byte := <- pipeline:
+                    block := format.NewBlock()
+                    block.SetByte(Byte)
+                    cids := block.GetCIDs(timeslot, sent)
+                    bits := block.GetBits()
+                    sent++
+                    self.logger.WithField("Byte", Byte).WithField("bits", bits).Trace("Convert")
+                    for index := range bits {
+                        self.logger.WithField("CID", cids[index].String()).WithField("Bit", bits[index]).Trace("Sending bit")
+                        if bits[index] == encoding.ONE {
+                            go self.dispatch(cids[index], nil)
+                        }
                     }
             }
         }
     } else if self.role == RoleRX {
         num:= self.getBitsSent(timeslot)
         // timeslot.Cnt = num
+        self.logger.WithField("num", num).Trace("Bits to probe")
         go self.handleTimeslot(num, timeslot)
+        report <- 0
 
     }
 }
@@ -223,34 +279,41 @@ func (self *Writer) handleTimeslot(num uint64, slot *timeslots.Timeslot){
     slotCopy := timeslots.NewTimeslot(slot.Num)
     slotCopy.Cnt = num
     self.timeslotChan <- slotCopy
-    for it := uint64(0); it < num; it++ {
+    for it := uint64(0); it < num*uint64(prot.BlockLen); it++ {
         self.dispatchChan <- slot.GetCID()
     }
 }
 
-func (self *Writer) evalDial(cid []byte, err error) *DialResult {
+func (self *Writer) evalDial(cid *prot.CID, session quic.Session, err error) *DialResult {
     var result int
     if err == nil {
         result = 0
     } else if strings.HasPrefix(err.Error(), "CRYPTO_ERROR") {
-        self.logger.WithField("cid", cid).Trace("Counting a connection success")
+        // self.logger.WithField("cid", cid).Trace("Counting a connection success")
         result = 0
     } else {
+        fmt.Println(err)
         result = 1
     }
     return &DialResult{
         CID: cid,
         Result: result,
+        Session: session,
     }
 }
 
-func (self *Writer)dispatch(cid []byte, feedback chan(*DialResult))  {
-    err := self.backend.Dial(cid)
-    feedback <- self.evalDial(cid, err)
+func (self *Writer)dispatch(cid *prot.CID, feedback chan(*DialResult))  {
+    self.logger.WithField("cid", cid.String()).Trace("Start Request")
+    session, err := self.backend.Dial(cid.Bytes())
+    ret := self.evalDial(cid, session, err)
+    self.logger.WithField("cid", cid.String()).WithField("result", ret.Result).Trace("Finished Request")
+    if feedback != nil {
+        feedback <- ret
+    }
 }
 
-func (self *Writer) writeSentBits (slot *timeslots.Timeslot) {
-    sentBits := slot.Cnt
+func (self *Writer) writeSentBits (slot *timeslots.Timeslot, sentBits uint64) {
+    //sentBits := slot.Cnt
     if sentBits == 0 {
         return
     }
@@ -260,7 +323,7 @@ func (self *Writer) writeSentBits (slot *timeslots.Timeslot) {
     hdrCids, _ := slot.GetHeader("BitsSent")
     for i, cid := range hdrCids {
         if bs[i] == encoding.ONE {
-            self.backend.Dial(cid)
+            self.dispatch(cid, nil)
         }
     }
 }
@@ -294,28 +357,38 @@ func (self *Writer) getBitsSent (slot *timeslots.Timeslot) uint64{
 }
 
 func (self *Writer) signalReadiness(slot *timeslots.Timeslot) {
-    feedback := make(chan *DialResult, 4)
-    var admin_bits [4]uint64
-    var readyTimeSlot *timeslots.Timeslot
+    var cids []*prot.CID
     if self.role == RoleTX {
-        admin_bits = [4] uint64{0,1,2,3}
-        readyTimeSlot = slot
-
+        cids, _ = slot.GetHeader("WriterRDY")
     } else {
-        admin_bits = [4] uint64{4,5,6,7}
-        readyTimeSlot = timeslots.NewTimeslot(slot.Num + RXReadyOffset)
+        readyTimeSlot := timeslots.NewTimeslot(slot.Num + RXReadyOffset)
+        cids, _ = readyTimeSlot.GetHeader("ReaderRDY")
     }
-    self.logger.WithField("timeslot", readyTimeSlot.Num).Debug("Setting readiness on Timeslot")
-    for _, bit := range admin_bits {
-        cid := readyTimeSlot.GetGenCID(bit)
-        go self.dispatch(cid, feedback)
+    for _, cid := range cids {
+        self.dispatch(cid, nil)
     }
-    for range admin_bits {
-        _ = <- feedback // wait for request to finish
-    }
+    // feedback := make(chan *DialResult, 4)
+    // var admin_bits [4]uint64
+    // var readyTimeSlot *timeslots.Timeslot
+    // if self.role == RoleTX {
+    //     admin_bits = [4] uint64{0,1,2,3}
+    //     readyTimeSlot = slot
+    //
+    // } else {
+    //     admin_bits = [4] uint64{4,5,6,7}
+    //     readyTimeSlot = timeslots.NewTimeslot(slot.Num + RXReadyOffset)
+    // }
+    // self.logger.WithField("timeslot", readyTimeSlot.Num).Debug("Setting readiness on Timeslot")
+    // for _, bit := range admin_bits {
+    //     cid := readyTimeSlot.GetGenCID(bit)
+    //     go self.dispatch(cid, feedback)
+    // }
+    // for range admin_bits {
+    //     _ = <- feedback // wait for request to finish
+    // }
 }
 
-func (self *Writer) checkReadiness(slot *timeslots.Timeslot) bool {
+func (self *Writer) checkReadiness(slot *timeslots.Timeslot, resp chan(bool)) {
     feedback := make(chan *DialResult, 4)
     var admin_bits [4]uint64
     if self.role == RoleTX {
@@ -330,13 +403,14 @@ func (self *Writer) checkReadiness(slot *timeslots.Timeslot) bool {
     }
     for range admin_bits {
         rdy := <- feedback
-        self.logger.WithField("result", rdy.Result).Trace("Result from check")
+        // self.logger.WithField("result", rdy.Result).Trace("Result from check")
         if rdy.Result == 0 {
-            self.logger.Trace("Slot not ready")
-            return false
+            // self.logger.Trace("Slot not ready")
+            resp <- false
+            return
         }
     }
-    return true
+    resp <- true
 }
 
 // func (self *Writer) Read(from uint64, to uint64) []byte {
@@ -358,7 +432,74 @@ func (self *Writer) checkReadiness(slot *timeslots.Timeslot) bool {
 //     }
 //     return message
 // }
+func (self *Writer) TestServer(){
+    var timeslotNum uint64 = uint64(rand.Uint32())<<32 + uint64(rand.Uint32())
+    test_bits := []uint64{0}
+    feedback := make(chan *DialResult, len(test_bits))
+    timeslot := timeslots.NewTimeslot(timeslotNum)
+    for _, bit := range test_bits {
+        cid := timeslot.GetGenCID(bit)
+        self.dispatch(cid, nil)
+    }
+    for _, bit := range test_bits {
+        cid := timeslot.GetGenCID(bit)
+        go self.dispatch(cid, feedback)
+    }
+    var resultNum int = 0
+    for _ = range test_bits {
+        result := <- feedback
+        resultNum += result.Result
+    }
+    if resultNum == len(test_bits){
+        fmt.Println("Server is quisper ready")
+    } else if resultNum == 0 {
+        fmt.Println("Server is not quisper ready")
+    } else {
+        fmt.Printf("The server only succeded in %d out of %d requests", resultNum, len(test_bits))
+    }
+}
 
+func (self *Writer) TestLongServer() {
+    var timeslotNum uint64 = uint64(rand.Uint32())<<32 + uint64(rand.Uint32())
+    test_bits := []uint64{0}
+    feedback := make(chan *DialResult, len(test_bits))
+    hold := make(chan *DialResult, len(test_bits))
+    timeslot := timeslots.NewTimeslot(timeslotNum)
+    for _, bit := range test_bits {
+        cid := timeslot.GetGenCID(bit)
+        self.dispatch(cid, hold)
+    }
+    holder := NewConnectionManager()
+    for _ = range test_bits {
+        result := <- hold
+        if result.Session == nil {
+            fmt.Println("cannot connect")
+        } else {
+            holder.Hold(timeslot.Num, result.Session)
+        }
+    }
+    fmt.Println("Dispatched first group, now delaying")
+    time.Sleep(10 * time.Second)
+    fmt.Println("Continuing")
+    var resultNum int = 0
+    for _, bit := range test_bits {
+        cid := timeslot.GetGenCID(bit)
+        go self.dispatch(cid, feedback)
+    }
+    for _ = range test_bits {
+        result := <- feedback
+        resultNum += result.Result
+    }
+    holder.Retire(timeslot.Num)
+    fmt.Println("Long test")
+    if resultNum == len(test_bits){
+        fmt.Println("Server is quisper ready")
+    } else if resultNum == 0 {
+        fmt.Println("Server is not quisper ready")
+    } else {
+        fmt.Printf("The server only succeded in %d out of %d requests", resultNum, len(test_bits))
+    }
+}
 
 func main(){
     Writer := NewWriter("192.168.0.2:12345", "secret")

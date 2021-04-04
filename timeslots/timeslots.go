@@ -1,7 +1,7 @@
 package timeslots
 import (
     log "github.com/harlequix/quisper/log"
-
+    prot "github.com/harlequix/quisper/protocol"
     "time"
     "context"
     "encoding/binary"
@@ -10,7 +10,7 @@ import (
 type Timeslot struct {
     Prefix []byte
     Cnt uint64
-    Num int64
+    Num uint64
     adminOffset uint64
     Status bool
     Header map[string]*Header
@@ -25,7 +25,7 @@ type Header struct {
     Value []byte
 }
 
-func NewTimeslot (num int64) *Timeslot {
+func NewTimeslot (num uint64) *Timeslot {
     prefix := make([]byte, 8)
     binary.LittleEndian.PutUint64(prefix, uint64(num))
     slot := &Timeslot {
@@ -57,9 +57,9 @@ func (self *Timeslot) addHeader(name string, len uint64){
     self.adminOffset += len
 }
 
-func (self *Timeslot) GetHeader(name string) ([][]byte, error) {
+func (self *Timeslot) GetHeader(name string) ([]*prot.CID, error) {
     if hdr, ok := self.Header[name]; ok {
-        out := make([][]byte, hdr.Len)
+        out := make([]*prot.CID, hdr.Len)
         for index := uint64(0); index < hdr.Len; index++ {
                 out[index] = self.GetGenCID(hdr.From + index)
         }
@@ -69,9 +69,8 @@ func (self *Timeslot) GetHeader(name string) ([][]byte, error) {
 
 }
 
-func (self *Timeslot) SetHeaderValue (cid []byte, val byte){
-    _, cid = Cut(cid)
-    index := SuffixToDec(cid)
+func (self *Timeslot) SetHeaderValue (cid *prot.CID, val byte){
+    _, index := cid.Cut()
     for _, element := range self.Header {
         if index >= element.From && index < element.To {
             element.Value[index - element.From] = val
@@ -95,18 +94,25 @@ func SuffixToDec(suffix []byte) uint64 {
     return binary.LittleEndian.Uint64(suffix)
 }
 
-func (self *Timeslot) GetGenCID(numb uint64) []byte{
-    suffix := make([]byte, 8)
-    binary.LittleEndian.PutUint64(suffix, numb)
-    cid := append(self.Prefix, suffix...)
+func (self *Timeslot) GetGenCID(numb uint64) *prot.CID{
+    // suffix := make([]byte, 8)
+    // binary.LittleEndian.PutUint64(suffix, numb)
+    // cid := append(self.Prefix, suffix...)
+    return prot.NewCIDuint(self.Num, numb)
+}
+
+func (self *Timeslot) GetCID() *prot.CID{
+    cid := self.GetGenCID(self.Cnt + self.adminOffset)
+    self.Cnt++
+    // suffix := make([]byte, 8)
+    // binary.LittleEndian.PutUint64(suffix, self.Cnt+self.adminOffset)
+    // self.Cnt = self.Cnt + 1
+    // cid := append(self.Prefix, suffix...)
     return cid
 }
 
-func (self *Timeslot) GetCID() []byte{
-    suffix := make([]byte, 8)
-    binary.LittleEndian.PutUint64(suffix, self.Cnt+self.adminOffset)
-    self.Cnt = self.Cnt + 1
-    cid := append(self.Prefix, suffix...)
+func (self *Timeslot) GetBodyCID(offset uint64) *prot.CID {
+    cid := self.GetGenCID(self.adminOffset + offset)
     return cid
 }
 
@@ -122,13 +128,14 @@ func NewTimeslotScheduler (duration time.Duration) *TimeslotScheduler{
     }
 }
 
-func (self *TimeslotScheduler) RunScheduler(ctx context.Context, feedback chan(int64)){
-    current := time.Now().UnixNano()
-    duration := self.Duration.Nanoseconds()
-    timeslot := current / duration
+func (self *TimeslotScheduler) RunScheduler(ctx context.Context, feedback chan(uint64)){
+    current := uint64(time.Now().UnixNano())
+    duration := uint64(self.Duration.Nanoseconds())
+    timeslot := uint64(current / duration)
     timeToNext := timeslot * duration + duration - current
     self.Logger.WithField("Time", timeToNext).Trace("waiting time")
     // log.Info("")
+    feedback <- uint64(timeslot)
     time.Sleep(time.Duration(timeToNext))
     ticker := time.NewTicker(self.Duration)
     timeslot = timeslot + 1
@@ -142,7 +149,7 @@ func (self *TimeslotScheduler) RunScheduler(ctx context.Context, feedback chan(i
                     self.Logger.WithField("old", dbg).Debug("Throw away old data")
                 default:
             }
-            feedback <- timeslot
+            feedback <- uint64(timeslot)
         case <- ctx.Done():
             return
         }

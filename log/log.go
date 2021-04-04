@@ -4,6 +4,7 @@ import
 (
     log "github.com/sirupsen/logrus"
     _ "io"
+    "io/ioutil"
     "os"
     _ "time"
 )
@@ -20,17 +21,18 @@ func NewLogger(module string) *Logger {
 
     base.SetFormatter(&log.TextFormatter{
 		DisableColors: false,
-		DisableTimestamp: false,
+		DisableTimestamp: true,
 	})
-
+    // AddTracer(base)
     base.SetOutput(os.Stdout)
-    base.SetLevel(log.ErrorLevel)
-
-    base.Debug("warning")
+    base.SetOutput(ioutil.Discard)
+    base.SetLevel(log.TraceLevel)
+    AddTracer(base, module)
     baselogger := base.WithFields(
         log.Fields{
             "name": module,
         })
+
     logger := &Logger{baselogger}
     return logger
 }

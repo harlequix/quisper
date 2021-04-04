@@ -1,0 +1,946 @@
+2021/03/28 15:42:15 failed to sufficiently increase receive buffer size (was: 208 kiB, wanted: 2048 kiB, got: 416 kiB). See https://github.com/lucas-clemente/quic-go/wiki/UDP-Receive-Buffer-Size for details.
+2021/03/28 15:42:15 failed to sufficiently increase receive buffer size (was: 208 kiB, wanted: 2048 kiB, got: 416 kiB). See https://github.com/lucas-clemente/quic-go/wiki/UDP-Receive-Buffer-Size for details.
+2021/03/28 15:42:15 Activating reading of ECN bits for IPv4 and IPv6.
+2021/03/28 15:42:15 Activating reading of ECN bits for IPv4 and IPv6.
+2021/03/28 15:42:15 client Starting new connection to 192.168.0.2 ([::]:47578 -> 192.168.0.2:12344), source connection ID bff18a4236ca15990000000000000000, destination connection ID bff18a4236ca15990000000000000000, version draft-29
+2021/03/28 15:42:15 client Starting new connection to 192.168.0.2 ([::]:47578 -> 192.168.0.2:12344), source connection ID bff18a4236ca15990000000000000000, destination connection ID bff18a4236ca15990000000000000000, version draft-29
+2021/03/28 15:42:15 muxer Adding connection ID bff18a4236ca15990000000000000000.
+2021/03/28 15:42:15 muxer Adding connection ID bff18a4236ca15990000000000000000.
+2021/03/28 15:42:15 client Not doing 0-RTT.
+2021/03/28 15:42:15 client Not doing 0-RTT.
+2021/03/28 15:42:15 client Sending a keep-alive PING to keep the connection alive.
+2021/03/28 15:42:15 client Sending a keep-alive PING to keep the connection alive.
+2021/03/28 15:42:15 client -> Sending packet 0 (1252 bytes) for connection bff18a4236ca15990000000000000000, Initial
+2021/03/28 15:42:15 client -> Sending packet 0 (1252 bytes) for connection bff18a4236ca15990000000000000000, Initial
+2021/03/28 15:42:15 client 	Long Header{Type: Initial, DestConnectionID: bff18a4236ca15990000000000000000, SrcConnectionID: bff18a4236ca15990000000000000000, Token: (empty), PacketNumber: 0, PacketNumberLen: 2, Length: 1210, Version: draft-29}
+2021/03/28 15:42:15 client 	Long Header{Type: Initial, DestConnectionID: bff18a4236ca15990000000000000000, SrcConnectionID: bff18a4236ca15990000000000000000, Token: (empty), PacketNumber: 0, PacketNumberLen: 2, Length: 1210, Version: draft-29}
+2021/03/28 15:42:15 client 	-> &wire.CryptoFrame{Offset: 0, Data length: 295, Offset + Data length: 295}
+2021/03/28 15:42:15 client 	-> &wire.CryptoFrame{Offset: 0, Data length: 295, Offset + Data length: 295}
+2021/03/28 15:42:15 client <- Reading packet 0 (1252 bytes) for connection bff18a4236ca15990000000000000000, Initial
+2021/03/28 15:42:15 client <- Reading packet 0 (1252 bytes) for connection bff18a4236ca15990000000000000000, Initial
+2021/03/28 15:42:15 client 	Long Header{Type: Initial, DestConnectionID: bff18a4236ca15990000000000000000, SrcConnectionID: d885d558435b6dc7, Token: (empty), PacketNumber: 0, PacketNumberLen: 1, Length: 1218, Version: draft-29}
+2021/03/28 15:42:15 client Received first packet. Switching destination connection ID to: d885d558435b6dc7
+2021/03/28 15:42:15 client 	<- &wire.CryptoFrame{Offset: 0, Data length: 90, Offset + Data length: 90}
+2021/03/28 15:42:15 client 	Long Header{Type: Initial, DestConnectionID: bff18a4236ca15990000000000000000, SrcConnectionID: d885d558435b6dc7, Token: (empty), PacketNumber: 0, PacketNumberLen: 1, Length: 1218, Version: draft-29}
+2021/03/28 15:42:15 client Received first packet. Switching destination connection ID to: d885d558435b6dc7
+2021/03/28 15:42:15 client 	<- &wire.CryptoFrame{Offset: 0, Data length: 90, Offset + Data length: 90}
+2021/03/28 15:42:15 client Received ServerHello message (90 bytes, encryption level: Initial)
+2021/03/28 15:42:15 client Received ServerHello message (90 bytes, encryption level: Initial)
+2021/03/28 15:42:15 client Installed Handshake Write keys (using TLS_AES_128_GCM_SHA256)
+2021/03/28 15:42:15 client Installed Handshake Write keys (using TLS_AES_128_GCM_SHA256)
+2021/03/28 15:42:15 client Installed Handshake Read keys (using TLS_AES_128_GCM_SHA256)
+2021/03/28 15:42:15 client Installed Handshake Read keys (using TLS_AES_128_GCM_SHA256)
+2021/03/28 15:42:15 client 	Queueing ACK because the first packet should be acknowledged.
+2021/03/28 15:42:15 client Sending a keep-alive PING to keep the connection alive.
+2021/03/28 15:42:15 client 	Queueing ACK because the first packet should be acknowledged.
+2021/03/28 15:42:15 client Sending a keep-alive PING to keep the connection alive.
+2021/03/28 15:42:15 client -> Sending packet 1 (1252 bytes) for connection bff18a4236ca15990000000000000000, Initial
+2021/03/28 15:42:15 client -> Sending packet 1 (1252 bytes) for connection bff18a4236ca15990000000000000000, Initial
+2021/03/28 15:42:15 client 	Long Header{Type: Initial, DestConnectionID: d885d558435b6dc7, SrcConnectionID: bff18a4236ca15990000000000000000, Token: (empty), PacketNumber: 1, PacketNumberLen: 2, Length: 1218, Version: draft-29}
+2021/03/28 15:42:15 client 	-> &wire.AckFrame{LargestAcked: 0, LowestAcked: 0, DelayTime: 0s}
+2021/03/28 15:42:15 client 	Long Header{Type: Initial, DestConnectionID: d885d558435b6dc7, SrcConnectionID: bff18a4236ca15990000000000000000, Token: (empty), PacketNumber: 1, PacketNumberLen: 2, Length: 1218, Version: draft-29}
+2021/03/28 15:42:15 client 	-> &wire.AckFrame{LargestAcked: 0, LowestAcked: 0, DelayTime: 0s}
+2021/03/28 15:42:15 client <- Reading packet 1 (1252 bytes) for connection bff18a4236ca15990000000000000000, Handshake
+2021/03/28 15:42:15 client <- Reading packet 1 (1252 bytes) for connection bff18a4236ca15990000000000000000, Handshake
+2021/03/28 15:42:15 client 	Long Header{Type: Handshake, DestConnectionID: bff18a4236ca15990000000000000000, SrcConnectionID: d885d558435b6dc7, PacketNumber: 1, PacketNumberLen: 1, Length: 1219, Version: draft-29}
+2021/03/28 15:42:15 client 	<- &wire.CryptoFrame{Offset: 0, Data length: 1198, Offset + Data length: 1198}
+2021/03/28 15:42:15 client Received EncryptedExtensions message (127 bytes, encryption level: Handshake)
+2021/03/28 15:42:15 client 	Long Header{Type: Handshake, DestConnectionID: bff18a4236ca15990000000000000000, SrcConnectionID: d885d558435b6dc7, PacketNumber: 1, PacketNumberLen: 1, Length: 1219, Version: draft-29}
+2021/03/28 15:42:15 client 	<- &wire.CryptoFrame{Offset: 0, Data length: 1198, Offset + Data length: 1198}
+2021/03/28 15:42:15 client Received EncryptedExtensions message (127 bytes, encryption level: Handshake)
+2021/03/28 15:42:15 client Processed Transport Parameters: &wire.TransportParameters{OriginalDestinationConnectionID: bff18a4236ca15990000000000000000, InitialSourceConnectionID: d885d558435b6dc7, InitialMaxStreamDataBidiLocal: 0, InitialMaxStreamDataBidiRemote: 1048576, InitialMaxStreamDataUni: 12288, InitialMaxData: 1572864, MaxBidiStreamNum: 100, MaxUniStreamNum: 3, MaxIdleTimeout: 30s, AckDelayExponent: 3, MaxAckDelay: 25ms, ActiveConnectionIDLimit: 8, StatelessResetToken: 0x9e402936437cf253cf76bd240b9f89db}
+2021/03/28 15:42:15 client Processed Transport Parameters: &wire.TransportParameters{OriginalDestinationConnectionID: bff18a4236ca15990000000000000000, InitialSourceConnectionID: d885d558435b6dc7, InitialMaxStreamDataBidiLocal: 0, InitialMaxStreamDataBidiRemote: 1048576, InitialMaxStreamDataUni: 12288, InitialMaxData: 1572864, MaxBidiStreamNum: 100, MaxUniStreamNum: 3, MaxIdleTimeout: 30s, AckDelayExponent: 3, MaxAckDelay: 25ms, ActiveConnectionIDLimit: 8, StatelessResetToken: 0x9e402936437cf253cf76bd240b9f89db}
+2021/03/28 15:42:15 muxer Adding connection ID 2d7c1c552c589c91d208811b0e8400f7.
+2021/03/28 15:42:15 muxer Adding connection ID 3bbbf1bd8624a54183f7b8d855037484.
+2021/03/28 15:42:15 muxer Adding connection ID 7ad88f5e6cdf724e1d0cdc25df5e9652.
+2021/03/28 15:42:15 muxer Adding connection ID 2d7c1c552c589c91d208811b0e8400f7.
+2021/03/28 15:42:15 muxer Adding connection ID 3bbbf1bd8624a54183f7b8d855037484.
+2021/03/28 15:42:15 muxer Adding connection ID 7ad88f5e6cdf724e1d0cdc25df5e9652.
+2021/03/28 15:42:15 muxer Adding connection ID 5ce774f5980691c787d8652cf1e08f7c.
+2021/03/28 15:42:15 muxer Adding connection ID 5ce774f5980691c787d8652cf1e08f7c.
+2021/03/28 15:42:15 muxer Adding connection ID 152964f79403ae5b96659e42e079d43e.
+2021/03/28 15:42:15 muxer Adding connection ID 152964f79403ae5b96659e42e079d43e.
+2021/03/28 15:42:15 client Received Certificate message (843 bytes, encryption level: Handshake)
+2021/03/28 15:42:15 client Received Certificate message (843 bytes, encryption level: Handshake)
+2021/03/28 15:42:15 client 	Queueing ACK because the first packet should be acknowledged.
+2021/03/28 15:42:15 client 	Queueing ACK because the first packet should be acknowledged.
+2021/03/28 15:42:15 client Parsed a coalesced packet. Part 1: 127 bytes. Remaining: 57 bytes.
+2021/03/28 15:42:15 client Parsed a coalesced packet. Part 1: 127 bytes. Remaining: 57 bytes.
+2021/03/28 15:42:15 client <- Reading packet 2 (127 bytes) for connection bff18a4236ca15990000000000000000, Handshake
+2021/03/28 15:42:15 client <- Reading packet 2 (127 bytes) for connection bff18a4236ca15990000000000000000, Handshake
+2021/03/28 15:42:15 client 	Long Header{Type: Handshake, DestConnectionID: bff18a4236ca15990000000000000000, SrcConnectionID: d885d558435b6dc7, PacketNumber: 2, PacketNumberLen: 1, Length: 94, Version: draft-29}
+2021/03/28 15:42:15 client 	<- &wire.CryptoFrame{Offset: 1198, Data length: 72, Offset + Data length: 1270}
+2021/03/28 15:42:15 client 	Long Header{Type: Handshake, DestConnectionID: bff18a4236ca15990000000000000000, SrcConnectionID: d885d558435b6dc7, PacketNumber: 2, PacketNumberLen: 1, Length: 94, Version: draft-29}
+2021/03/28 15:42:15 client 	<- &wire.CryptoFrame{Offset: 1198, Data length: 72, Offset + Data length: 1270}
+2021/03/28 15:42:15 client Received CertificateVerify message (264 bytes, encryption level: Handshake)
+2021/03/28 15:42:15 client Received CertificateVerify message (264 bytes, encryption level: Handshake)
+2021/03/28 15:42:15 client Received Finished message (36 bytes, encryption level: Handshake)
+2021/03/28 15:42:15 client Received Finished message (36 bytes, encryption level: Handshake)
+2021/03/28 15:42:15 client Installed 1-RTT Read keys (using TLS_AES_128_GCM_SHA256)
+2021/03/28 15:42:15 client Installed 1-RTT Read keys (using TLS_AES_128_GCM_SHA256)
+2021/03/28 15:42:15 client Installed 1-RTT Write keys (using TLS_AES_128_GCM_SHA256)
+2021/03/28 15:42:15 client Parsed a coalesced packet. Part 2: 57 bytes. Remaining: 0 bytes.
+2021/03/28 15:42:15 client <- Reading packet 3 (57 bytes) for connection bff18a4236ca15990000000000000000, Initial
+2021/03/28 15:42:15 client 	Long Header{Type: Initial, DestConnectionID: bff18a4236ca15990000000000000000, SrcConnectionID: d885d558435b6dc7, Token: (empty), PacketNumber: 3, PacketNumberLen: 1, Length: 23, Version: draft-29}
+2021/03/28 15:42:15 client 	<- &wire.AckFrame{LargestAcked: 0, LowestAcked: 0, DelayTime: 20.696ms}
+2021/03/28 15:42:15 client 	newly acked packets (1): [0]
+2021/03/28 15:42:15 client 	updated RTT: 32.646652ms (σ: 16.323326ms)
+2021/03/28 15:42:15 client Installed 1-RTT Write keys (using TLS_AES_128_GCM_SHA256)
+2021/03/28 15:42:15 client Parsed a coalesced packet. Part 2: 57 bytes. Remaining: 0 bytes.
+2021/03/28 15:42:15 client <- Reading packet 3 (57 bytes) for connection bff18a4236ca15990000000000000000, Initial
+2021/03/28 15:42:15 client 	Long Header{Type: Initial, DestConnectionID: bff18a4236ca15990000000000000000, SrcConnectionID: d885d558435b6dc7, Token: (empty), PacketNumber: 3, PacketNumberLen: 1, Length: 23, Version: draft-29}
+2021/03/28 15:42:15 client 	<- &wire.AckFrame{LargestAcked: 0, LowestAcked: 0, DelayTime: 20.696ms}
+2021/03/28 15:42:15 client 	newly acked packets (1): [0]
+2021/03/28 15:42:15 client 	updated RTT: 32.646652ms (σ: 16.323326ms)
+2021/03/28 15:42:15 client Dropping Initial keys.
+2021/03/28 15:42:15 client Dropping Initial keys.
+2021/03/28 15:42:15 client -> Sending coalesced packet (2 parts, 304 bytes) for connection bff18a4236ca15990000000000000000
+2021/03/28 15:42:15 client -> Sending coalesced packet (2 parts, 304 bytes) for connection bff18a4236ca15990000000000000000
+2021/03/28 15:42:15 client 	Long Header{Type: Handshake, DestConnectionID: d885d558435b6dc7, SrcConnectionID: bff18a4236ca15990000000000000000, PacketNumber: 0, PacketNumberLen: 2, Length: 62, Version: draft-29}
+2021/03/28 15:42:15 client 	-> &wire.AckFrame{LargestAcked: 2, LowestAcked: 1, DelayTime: 0s}
+2021/03/28 15:42:15 client 	-> &wire.CryptoFrame{Offset: 0, Data length: 36, Offset + Data length: 36}
+2021/03/28 15:42:15 client 	Long Header{Type: Handshake, DestConnectionID: d885d558435b6dc7, SrcConnectionID: bff18a4236ca15990000000000000000, PacketNumber: 0, PacketNumberLen: 2, Length: 62, Version: draft-29}
+2021/03/28 15:42:15 client 	-> &wire.AckFrame{LargestAcked: 2, LowestAcked: 1, DelayTime: 0s}
+2021/03/28 15:42:15 client 	-> &wire.CryptoFrame{Offset: 0, Data length: 36, Offset + Data length: 36}
+2021/03/28 15:42:15 client 	Short Header{DestConnectionID: d885d558435b6dc7, PacketNumber: 0, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:15 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: 152964f79403ae5b96659e42e079d43e, StatelessResetToken: 0x1c3386a4dafdbd6664b2a420e66cc1e6}
+2021/03/28 15:42:15 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 5ce774f5980691c787d8652cf1e08f7c, StatelessResetToken: 0x7bca52f07d2752189788609ec0fca6ef}
+2021/03/28 15:42:15 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 7ad88f5e6cdf724e1d0cdc25df5e9652, StatelessResetToken: 0x4f8aadfbcf5c8aab874d8d03273cc6eb}
+2021/03/28 15:42:15 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: 3bbbf1bd8624a54183f7b8d855037484, StatelessResetToken: 0x69f624447306e38ed1cd9c389214a246}
+2021/03/28 15:42:15 client 	Short Header{DestConnectionID: d885d558435b6dc7, PacketNumber: 0, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:15 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: 152964f79403ae5b96659e42e079d43e, StatelessResetToken: 0x1c3386a4dafdbd6664b2a420e66cc1e6}
+2021/03/28 15:42:15 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 5ce774f5980691c787d8652cf1e08f7c, StatelessResetToken: 0x7bca52f07d2752189788609ec0fca6ef}
+2021/03/28 15:42:15 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 7ad88f5e6cdf724e1d0cdc25df5e9652, StatelessResetToken: 0x4f8aadfbcf5c8aab874d8d03273cc6eb}
+2021/03/28 15:42:15 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: 3bbbf1bd8624a54183f7b8d855037484, StatelessResetToken: 0x69f624447306e38ed1cd9c389214a246}
+2021/03/28 15:42:15 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: 2d7c1c552c589c91d208811b0e8400f7, StatelessResetToken: 0x4e37ec7d24c82b39a666049895f00ede}
+2021/03/28 15:42:15 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: 2d7c1c552c589c91d208811b0e8400f7, StatelessResetToken: 0x4e37ec7d24c82b39a666049895f00ede}
+2021/03/28 15:42:15 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:15 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:15 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:15 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:15 Activating reading of ECN bits for IPv4 and IPv6.
+2021/03/28 15:42:15 Activating reading of ECN bits for IPv4 and IPv6.
+2021/03/28 15:42:15 client Starting new connection to 192.168.0.2 ([::]:53766 -> 192.168.0.2:12344), source connection ID bff18a4236ca15990000000000000000, destination connection ID bff18a4236ca15990000000000000000, version draft-29
+2021/03/28 15:42:15 client Starting new connection to 192.168.0.2 ([::]:53766 -> 192.168.0.2:12344), source connection ID bff18a4236ca15990000000000000000, destination connection ID bff18a4236ca15990000000000000000, version draft-29
+2021/03/28 15:42:15 muxer Adding connection ID bff18a4236ca15990000000000000000.
+2021/03/28 15:42:15 muxer Adding connection ID bff18a4236ca15990000000000000000.
+2021/03/28 15:42:15 client Not doing 0-RTT.
+2021/03/28 15:42:15 client Not doing 0-RTT.
+2021/03/28 15:42:15 client Sending a keep-alive PING to keep the connection alive.
+2021/03/28 15:42:15 client Sending a keep-alive PING to keep the connection alive.
+2021/03/28 15:42:15 client -> Sending packet 0 (1252 bytes) for connection bff18a4236ca15990000000000000000, Initial
+2021/03/28 15:42:15 client -> Sending packet 0 (1252 bytes) for connection bff18a4236ca15990000000000000000, Initial
+2021/03/28 15:42:15 client 	Long Header{Type: Initial, DestConnectionID: bff18a4236ca15990000000000000000, SrcConnectionID: bff18a4236ca15990000000000000000, Token: (empty), PacketNumber: 0, PacketNumberLen: 2, Length: 1210, Version: draft-29}
+2021/03/28 15:42:15 client 	Long Header{Type: Initial, DestConnectionID: bff18a4236ca15990000000000000000, SrcConnectionID: bff18a4236ca15990000000000000000, Token: (empty), PacketNumber: 0, PacketNumberLen: 2, Length: 1210, Version: draft-29}
+2021/03/28 15:42:15 client 	-> &wire.CryptoFrame{Offset: 0, Data length: 295, Offset + Data length: 295}
+2021/03/28 15:42:15 client 	-> &wire.CryptoFrame{Offset: 0, Data length: 295, Offset + Data length: 295}
+2021/03/28 15:42:15 client Loss detection alarm for Handshake fired in PTO mode. PTO count: 1
+2021/03/28 15:42:15 client Loss detection alarm for Handshake fired in PTO mode. PTO count: 1
+2021/03/28 15:42:15 client -> Sending packet 1 (90 bytes) for connection bff18a4236ca15990000000000000000, Handshake
+2021/03/28 15:42:15 client -> Sending packet 1 (90 bytes) for connection bff18a4236ca15990000000000000000, Handshake
+2021/03/28 15:42:15 client 	Long Header{Type: Handshake, DestConnectionID: d885d558435b6dc7, SrcConnectionID: bff18a4236ca15990000000000000000, PacketNumber: 1, PacketNumberLen: 2, Length: 57, Version: draft-29}
+2021/03/28 15:42:15 client 	Long Header{Type: Handshake, DestConnectionID: d885d558435b6dc7, SrcConnectionID: bff18a4236ca15990000000000000000, PacketNumber: 1, PacketNumberLen: 2, Length: 57, Version: draft-29}
+2021/03/28 15:42:15 client 	-> &wire.CryptoFrame{Offset: 0, Data length: 36, Offset + Data length: 36}
+2021/03/28 15:42:15 client 	-> &wire.CryptoFrame{Offset: 0, Data length: 36, Offset + Data length: 36}
+2021/03/28 15:42:15 client -> Sending packet 2 (90 bytes) for connection bff18a4236ca15990000000000000000, Handshake
+2021/03/28 15:42:15 client -> Sending packet 2 (90 bytes) for connection bff18a4236ca15990000000000000000, Handshake
+2021/03/28 15:42:15 client 	Long Header{Type: Handshake, DestConnectionID: d885d558435b6dc7, SrcConnectionID: bff18a4236ca15990000000000000000, PacketNumber: 2, PacketNumberLen: 2, Length: 57, Version: draft-29}
+2021/03/28 15:42:15 client 	-> &wire.CryptoFrame{Offset: 0, Data length: 36, Offset + Data length: 36}
+2021/03/28 15:42:15 client 	Long Header{Type: Handshake, DestConnectionID: d885d558435b6dc7, SrcConnectionID: bff18a4236ca15990000000000000000, PacketNumber: 2, PacketNumberLen: 2, Length: 57, Version: draft-29}
+2021/03/28 15:42:15 client 	-> &wire.CryptoFrame{Offset: 0, Data length: 36, Offset + Data length: 36}
+2021/03/28 15:42:15 client Parsed a coalesced packet. Part 1: 55 bytes. Remaining: 37 bytes.
+2021/03/28 15:42:15 client Parsed a coalesced packet. Part 1: 55 bytes. Remaining: 37 bytes.
+2021/03/28 15:42:15 client <- Reading packet 4 (55 bytes) for connection bff18a4236ca15990000000000000000, Handshake
+2021/03/28 15:42:15 client 	Long Header{Type: Handshake, DestConnectionID: bff18a4236ca15990000000000000000, SrcConnectionID: d885d558435b6dc7, PacketNumber: 4, PacketNumberLen: 1, Length: 22, Version: draft-29}
+2021/03/28 15:42:15 client 	<- &wire.AckFrame{LargestAcked: 2, LowestAcked: 0, DelayTime: 0s}
+2021/03/28 15:42:15 client Peer doesn't await address validation any longer.
+2021/03/28 15:42:15 client <- Reading packet 4 (55 bytes) for connection bff18a4236ca15990000000000000000, Handshake
+2021/03/28 15:42:15 client 	Long Header{Type: Handshake, DestConnectionID: bff18a4236ca15990000000000000000, SrcConnectionID: d885d558435b6dc7, PacketNumber: 4, PacketNumberLen: 1, Length: 22, Version: draft-29}
+2021/03/28 15:42:15 client 	<- &wire.AckFrame{LargestAcked: 2, LowestAcked: 0, DelayTime: 0s}
+2021/03/28 15:42:15 client Peer doesn't await address validation any longer.
+2021/03/28 15:42:15 client 	newly acked packets (3): [0 1 2]
+2021/03/28 15:42:15 client 	updated RTT: 29.83ms (σ: 17.874ms)
+2021/03/28 15:42:15 client Canceling loss detection timer. No packets in flight.
+2021/03/28 15:42:15 client 	newly acked packets (3): [0 1 2]
+2021/03/28 15:42:15 client 	updated RTT: 29.83ms (σ: 17.874ms)
+2021/03/28 15:42:15 client Canceling loss detection timer. No packets in flight.
+2021/03/28 15:42:15 client Parsed a coalesced packet. Part 2: 37 bytes. Remaining: 0 bytes.
+2021/03/28 15:42:15 client <- Reading packet 5 (37 bytes) for connection bff18a4236ca15990000000000000000, 1-RTT
+2021/03/28 15:42:15 client 	Short Header{DestConnectionID: bff18a4236ca15990000000000000000, PacketNumber: 5, PacketNumberLen: 1, KeyPhase: 0}
+2021/03/28 15:42:15 client 	<- &wire.HandshakeDoneFrame{}
+2021/03/28 15:42:15 client Parsed a coalesced packet. Part 2: 37 bytes. Remaining: 0 bytes.
+2021/03/28 15:42:15 client <- Reading packet 5 (37 bytes) for connection bff18a4236ca15990000000000000000, 1-RTT
+2021/03/28 15:42:15 client 	Short Header{DestConnectionID: bff18a4236ca15990000000000000000, PacketNumber: 5, PacketNumberLen: 1, KeyPhase: 0}
+2021/03/28 15:42:15 client 	<- &wire.HandshakeDoneFrame{}
+2021/03/28 15:42:15 client Dropping Handshake keys.
+2021/03/28 15:42:15 client 	Queueing ACK because the first packet should be acknowledged.
+2021/03/28 15:42:15 client Dropping Handshake keys.
+2021/03/28 15:42:15 client 	Queueing ACK because the first packet should be acknowledged.
+2021/03/28 15:42:15 client -> Sending packet 1 (32 bytes) for connection bff18a4236ca15990000000000000000, 1-RTT
+2021/03/28 15:42:15 client -> Sending packet 1 (32 bytes) for connection bff18a4236ca15990000000000000000, 1-RTT
+2021/03/28 15:42:15 client 	Short Header{DestConnectionID: d885d558435b6dc7, PacketNumber: 1, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:15 client 	-> &wire.AckFrame{LargestAcked: 5, LowestAcked: 5, DelayTime: 341.346µs}
+2021/03/28 15:42:15 client 	Short Header{DestConnectionID: d885d558435b6dc7, PacketNumber: 1, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:15 client 	-> &wire.AckFrame{LargestAcked: 5, LowestAcked: 5, DelayTime: 341.346µs}
+2021/03/28 15:42:15 client Loss detection alarm for 1-RTT fired in PTO mode. PTO count: 1
+2021/03/28 15:42:15 client Loss detection alarm for 1-RTT fired in PTO mode. PTO count: 1
+2021/03/28 15:42:15 client -> Sending packet 3 (209 bytes) for connection bff18a4236ca15990000000000000000, 1-RTT
+2021/03/28 15:42:15 client -> Sending packet 3 (209 bytes) for connection bff18a4236ca15990000000000000000, 1-RTT
+2021/03/28 15:42:15 client 	Short Header{DestConnectionID: d885d558435b6dc7, PacketNumber: 3, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:15 client 	Short Header{DestConnectionID: d885d558435b6dc7, PacketNumber: 3, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:15 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: 152964f79403ae5b96659e42e079d43e, StatelessResetToken: 0x1c3386a4dafdbd6664b2a420e66cc1e6}
+2021/03/28 15:42:15 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: 152964f79403ae5b96659e42e079d43e, StatelessResetToken: 0x1c3386a4dafdbd6664b2a420e66cc1e6}
+2021/03/28 15:42:15 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 5ce774f5980691c787d8652cf1e08f7c, StatelessResetToken: 0x7bca52f07d2752189788609ec0fca6ef}
+2021/03/28 15:42:15 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 5ce774f5980691c787d8652cf1e08f7c, StatelessResetToken: 0x7bca52f07d2752189788609ec0fca6ef}
+2021/03/28 15:42:15 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 7ad88f5e6cdf724e1d0cdc25df5e9652, StatelessResetToken: 0x4f8aadfbcf5c8aab874d8d03273cc6eb}
+2021/03/28 15:42:15 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: 3bbbf1bd8624a54183f7b8d855037484, StatelessResetToken: 0x69f624447306e38ed1cd9c389214a246}
+2021/03/28 15:42:15 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 7ad88f5e6cdf724e1d0cdc25df5e9652, StatelessResetToken: 0x4f8aadfbcf5c8aab874d8d03273cc6eb}
+2021/03/28 15:42:15 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: 3bbbf1bd8624a54183f7b8d855037484, StatelessResetToken: 0x69f624447306e38ed1cd9c389214a246}
+2021/03/28 15:42:15 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: 2d7c1c552c589c91d208811b0e8400f7, StatelessResetToken: 0x4e37ec7d24c82b39a666049895f00ede}
+2021/03/28 15:42:15 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:15 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:15 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: 2d7c1c552c589c91d208811b0e8400f7, StatelessResetToken: 0x4e37ec7d24c82b39a666049895f00ede}
+2021/03/28 15:42:15 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:15 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:15 client -> Sending packet 4 (209 bytes) for connection bff18a4236ca15990000000000000000, 1-RTT
+2021/03/28 15:42:15 client 	Short Header{DestConnectionID: d885d558435b6dc7, PacketNumber: 4, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:15 client -> Sending packet 4 (209 bytes) for connection bff18a4236ca15990000000000000000, 1-RTT
+2021/03/28 15:42:15 client 	Short Header{DestConnectionID: d885d558435b6dc7, PacketNumber: 4, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:15 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: 152964f79403ae5b96659e42e079d43e, StatelessResetToken: 0x1c3386a4dafdbd6664b2a420e66cc1e6}
+2021/03/28 15:42:15 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: 152964f79403ae5b96659e42e079d43e, StatelessResetToken: 0x1c3386a4dafdbd6664b2a420e66cc1e6}
+2021/03/28 15:42:15 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 5ce774f5980691c787d8652cf1e08f7c, StatelessResetToken: 0x7bca52f07d2752189788609ec0fca6ef}
+2021/03/28 15:42:15 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 7ad88f5e6cdf724e1d0cdc25df5e9652, StatelessResetToken: 0x4f8aadfbcf5c8aab874d8d03273cc6eb}
+2021/03/28 15:42:15 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 5ce774f5980691c787d8652cf1e08f7c, StatelessResetToken: 0x7bca52f07d2752189788609ec0fca6ef}
+2021/03/28 15:42:15 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 7ad88f5e6cdf724e1d0cdc25df5e9652, StatelessResetToken: 0x4f8aadfbcf5c8aab874d8d03273cc6eb}
+2021/03/28 15:42:15 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: 3bbbf1bd8624a54183f7b8d855037484, StatelessResetToken: 0x69f624447306e38ed1cd9c389214a246}
+2021/03/28 15:42:15 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: 2d7c1c552c589c91d208811b0e8400f7, StatelessResetToken: 0x4e37ec7d24c82b39a666049895f00ede}
+2021/03/28 15:42:15 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: 3bbbf1bd8624a54183f7b8d855037484, StatelessResetToken: 0x69f624447306e38ed1cd9c389214a246}
+2021/03/28 15:42:15 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: 2d7c1c552c589c91d208811b0e8400f7, StatelessResetToken: 0x4e37ec7d24c82b39a666049895f00ede}
+2021/03/28 15:42:15 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:15 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:15 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:15 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:15 client Loss detection alarm for Initial fired in PTO mode. PTO count: 1
+2021/03/28 15:42:15 client Loss detection alarm for Initial fired in PTO mode. PTO count: 1
+2021/03/28 15:42:15 client -> Sending packet 1 (1252 bytes) for connection bff18a4236ca15990000000000000000, Initial
+2021/03/28 15:42:15 client -> Sending packet 1 (1252 bytes) for connection bff18a4236ca15990000000000000000, Initial
+2021/03/28 15:42:15 client 	Long Header{Type: Initial, DestConnectionID: bff18a4236ca15990000000000000000, SrcConnectionID: bff18a4236ca15990000000000000000, Token: (empty), PacketNumber: 1, PacketNumberLen: 2, Length: 1210, Version: draft-29}
+2021/03/28 15:42:15 client 	Long Header{Type: Initial, DestConnectionID: bff18a4236ca15990000000000000000, SrcConnectionID: bff18a4236ca15990000000000000000, Token: (empty), PacketNumber: 1, PacketNumberLen: 2, Length: 1210, Version: draft-29}
+2021/03/28 15:42:15 client 	-> &wire.CryptoFrame{Offset: 0, Data length: 295, Offset + Data length: 295}
+2021/03/28 15:42:15 client 	-> &wire.CryptoFrame{Offset: 0, Data length: 295, Offset + Data length: 295}
+2021/03/28 15:42:15 client -> Sending packet 2 (1252 bytes) for connection bff18a4236ca15990000000000000000, Initial
+2021/03/28 15:42:15 client -> Sending packet 2 (1252 bytes) for connection bff18a4236ca15990000000000000000, Initial
+2021/03/28 15:42:15 client 	Long Header{Type: Initial, DestConnectionID: bff18a4236ca15990000000000000000, SrcConnectionID: bff18a4236ca15990000000000000000, Token: (empty), PacketNumber: 2, PacketNumberLen: 2, Length: 1210, Version: draft-29}
+2021/03/28 15:42:15 client 	-> &wire.CryptoFrame{Offset: 0, Data length: 295, Offset + Data length: 295}
+2021/03/28 15:42:15 client 	Long Header{Type: Initial, DestConnectionID: bff18a4236ca15990000000000000000, SrcConnectionID: bff18a4236ca15990000000000000000, Token: (empty), PacketNumber: 2, PacketNumberLen: 2, Length: 1210, Version: draft-29}
+2021/03/28 15:42:15 client 	-> &wire.CryptoFrame{Offset: 0, Data length: 295, Offset + Data length: 295}
+2021/03/28 15:42:16 client Loss detection alarm for 1-RTT fired in PTO mode. PTO count: 2
+2021/03/28 15:42:16 client Loss detection alarm for 1-RTT fired in PTO mode. PTO count: 2
+2021/03/28 15:42:16 client -> Sending packet 6 (209 bytes) for connection bff18a4236ca15990000000000000000, 1-RTT
+2021/03/28 15:42:16 client 	Short Header{DestConnectionID: d885d558435b6dc7, PacketNumber: 6, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:16 client -> Sending packet 6 (209 bytes) for connection bff18a4236ca15990000000000000000, 1-RTT
+2021/03/28 15:42:16 client 	Short Header{DestConnectionID: d885d558435b6dc7, PacketNumber: 6, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: 152964f79403ae5b96659e42e079d43e, StatelessResetToken: 0x1c3386a4dafdbd6664b2a420e66cc1e6}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 5ce774f5980691c787d8652cf1e08f7c, StatelessResetToken: 0x7bca52f07d2752189788609ec0fca6ef}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: 152964f79403ae5b96659e42e079d43e, StatelessResetToken: 0x1c3386a4dafdbd6664b2a420e66cc1e6}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 5ce774f5980691c787d8652cf1e08f7c, StatelessResetToken: 0x7bca52f07d2752189788609ec0fca6ef}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 7ad88f5e6cdf724e1d0cdc25df5e9652, StatelessResetToken: 0x4f8aadfbcf5c8aab874d8d03273cc6eb}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: 3bbbf1bd8624a54183f7b8d855037484, StatelessResetToken: 0x69f624447306e38ed1cd9c389214a246}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 7ad88f5e6cdf724e1d0cdc25df5e9652, StatelessResetToken: 0x4f8aadfbcf5c8aab874d8d03273cc6eb}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: 3bbbf1bd8624a54183f7b8d855037484, StatelessResetToken: 0x69f624447306e38ed1cd9c389214a246}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: 2d7c1c552c589c91d208811b0e8400f7, StatelessResetToken: 0x4e37ec7d24c82b39a666049895f00ede}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: 2d7c1c552c589c91d208811b0e8400f7, StatelessResetToken: 0x4e37ec7d24c82b39a666049895f00ede}
+2021/03/28 15:42:16 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:16 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:16 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:16 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:16 client -> Sending packet 7 (209 bytes) for connection bff18a4236ca15990000000000000000, 1-RTT
+2021/03/28 15:42:16 client -> Sending packet 7 (209 bytes) for connection bff18a4236ca15990000000000000000, 1-RTT
+2021/03/28 15:42:16 client 	Short Header{DestConnectionID: d885d558435b6dc7, PacketNumber: 7, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: 152964f79403ae5b96659e42e079d43e, StatelessResetToken: 0x1c3386a4dafdbd6664b2a420e66cc1e6}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 5ce774f5980691c787d8652cf1e08f7c, StatelessResetToken: 0x7bca52f07d2752189788609ec0fca6ef}
+2021/03/28 15:42:16 client 	Short Header{DestConnectionID: d885d558435b6dc7, PacketNumber: 7, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: 152964f79403ae5b96659e42e079d43e, StatelessResetToken: 0x1c3386a4dafdbd6664b2a420e66cc1e6}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 5ce774f5980691c787d8652cf1e08f7c, StatelessResetToken: 0x7bca52f07d2752189788609ec0fca6ef}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 7ad88f5e6cdf724e1d0cdc25df5e9652, StatelessResetToken: 0x4f8aadfbcf5c8aab874d8d03273cc6eb}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: 3bbbf1bd8624a54183f7b8d855037484, StatelessResetToken: 0x69f624447306e38ed1cd9c389214a246}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: 2d7c1c552c589c91d208811b0e8400f7, StatelessResetToken: 0x4e37ec7d24c82b39a666049895f00ede}
+2021/03/28 15:42:16 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:16 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 7ad88f5e6cdf724e1d0cdc25df5e9652, StatelessResetToken: 0x4f8aadfbcf5c8aab874d8d03273cc6eb}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: 3bbbf1bd8624a54183f7b8d855037484, StatelessResetToken: 0x69f624447306e38ed1cd9c389214a246}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: 2d7c1c552c589c91d208811b0e8400f7, StatelessResetToken: 0x4e37ec7d24c82b39a666049895f00ede}
+2021/03/28 15:42:16 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:16 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:16 client Loss detection alarm for Initial fired in PTO mode. PTO count: 2
+2021/03/28 15:42:16 client Loss detection alarm for Initial fired in PTO mode. PTO count: 2
+2021/03/28 15:42:16 client -> Sending packet 3 (1252 bytes) for connection bff18a4236ca15990000000000000000, Initial
+2021/03/28 15:42:16 client -> Sending packet 3 (1252 bytes) for connection bff18a4236ca15990000000000000000, Initial
+2021/03/28 15:42:16 client 	Long Header{Type: Initial, DestConnectionID: bff18a4236ca15990000000000000000, SrcConnectionID: bff18a4236ca15990000000000000000, Token: (empty), PacketNumber: 3, PacketNumberLen: 2, Length: 1210, Version: draft-29}
+2021/03/28 15:42:16 client 	Long Header{Type: Initial, DestConnectionID: bff18a4236ca15990000000000000000, SrcConnectionID: bff18a4236ca15990000000000000000, Token: (empty), PacketNumber: 3, PacketNumberLen: 2, Length: 1210, Version: draft-29}
+2021/03/28 15:42:16 client 	-> &wire.CryptoFrame{Offset: 0, Data length: 295, Offset + Data length: 295}
+2021/03/28 15:42:16 client 	-> &wire.CryptoFrame{Offset: 0, Data length: 295, Offset + Data length: 295}
+2021/03/28 15:42:16 client -> Sending packet 4 (1252 bytes) for connection bff18a4236ca15990000000000000000, Initial
+2021/03/28 15:42:16 client -> Sending packet 4 (1252 bytes) for connection bff18a4236ca15990000000000000000, Initial
+2021/03/28 15:42:16 client 	Long Header{Type: Initial, DestConnectionID: bff18a4236ca15990000000000000000, SrcConnectionID: bff18a4236ca15990000000000000000, Token: (empty), PacketNumber: 4, PacketNumberLen: 2, Length: 1210, Version: draft-29}
+2021/03/28 15:42:16 client 	Long Header{Type: Initial, DestConnectionID: bff18a4236ca15990000000000000000, SrcConnectionID: bff18a4236ca15990000000000000000, Token: (empty), PacketNumber: 4, PacketNumberLen: 2, Length: 1210, Version: draft-29}
+2021/03/28 15:42:16 client 	-> &wire.CryptoFrame{Offset: 0, Data length: 295, Offset + Data length: 295}
+2021/03/28 15:42:16 client 	-> &wire.CryptoFrame{Offset: 0, Data length: 295, Offset + Data length: 295}
+2021/03/28 15:42:16 client Loss detection alarm for 1-RTT fired in PTO mode. PTO count: 3
+2021/03/28 15:42:16 client Loss detection alarm for 1-RTT fired in PTO mode. PTO count: 3
+2021/03/28 15:42:16 client -> Sending packet 9 (209 bytes) for connection bff18a4236ca15990000000000000000, 1-RTT
+2021/03/28 15:42:16 client 	Short Header{DestConnectionID: d885d558435b6dc7, PacketNumber: 9, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: 152964f79403ae5b96659e42e079d43e, StatelessResetToken: 0x1c3386a4dafdbd6664b2a420e66cc1e6}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 5ce774f5980691c787d8652cf1e08f7c, StatelessResetToken: 0x7bca52f07d2752189788609ec0fca6ef}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 7ad88f5e6cdf724e1d0cdc25df5e9652, StatelessResetToken: 0x4f8aadfbcf5c8aab874d8d03273cc6eb}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: 3bbbf1bd8624a54183f7b8d855037484, StatelessResetToken: 0x69f624447306e38ed1cd9c389214a246}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: 2d7c1c552c589c91d208811b0e8400f7, StatelessResetToken: 0x4e37ec7d24c82b39a666049895f00ede}
+2021/03/28 15:42:16 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:16 client -> Sending packet 9 (209 bytes) for connection bff18a4236ca15990000000000000000, 1-RTT
+2021/03/28 15:42:16 client 	Short Header{DestConnectionID: d885d558435b6dc7, PacketNumber: 9, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: 152964f79403ae5b96659e42e079d43e, StatelessResetToken: 0x1c3386a4dafdbd6664b2a420e66cc1e6}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 5ce774f5980691c787d8652cf1e08f7c, StatelessResetToken: 0x7bca52f07d2752189788609ec0fca6ef}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 7ad88f5e6cdf724e1d0cdc25df5e9652, StatelessResetToken: 0x4f8aadfbcf5c8aab874d8d03273cc6eb}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: 3bbbf1bd8624a54183f7b8d855037484, StatelessResetToken: 0x69f624447306e38ed1cd9c389214a246}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: 2d7c1c552c589c91d208811b0e8400f7, StatelessResetToken: 0x4e37ec7d24c82b39a666049895f00ede}
+2021/03/28 15:42:16 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:16 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:16 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:16 client -> Sending packet 10 (209 bytes) for connection bff18a4236ca15990000000000000000, 1-RTT
+2021/03/28 15:42:16 client -> Sending packet 10 (209 bytes) for connection bff18a4236ca15990000000000000000, 1-RTT
+2021/03/28 15:42:16 client 	Short Header{DestConnectionID: d885d558435b6dc7, PacketNumber: 10, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:16 client 	Short Header{DestConnectionID: d885d558435b6dc7, PacketNumber: 10, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: 152964f79403ae5b96659e42e079d43e, StatelessResetToken: 0x1c3386a4dafdbd6664b2a420e66cc1e6}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 5ce774f5980691c787d8652cf1e08f7c, StatelessResetToken: 0x7bca52f07d2752189788609ec0fca6ef}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: 152964f79403ae5b96659e42e079d43e, StatelessResetToken: 0x1c3386a4dafdbd6664b2a420e66cc1e6}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 5ce774f5980691c787d8652cf1e08f7c, StatelessResetToken: 0x7bca52f07d2752189788609ec0fca6ef}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 7ad88f5e6cdf724e1d0cdc25df5e9652, StatelessResetToken: 0x4f8aadfbcf5c8aab874d8d03273cc6eb}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 7ad88f5e6cdf724e1d0cdc25df5e9652, StatelessResetToken: 0x4f8aadfbcf5c8aab874d8d03273cc6eb}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: 3bbbf1bd8624a54183f7b8d855037484, StatelessResetToken: 0x69f624447306e38ed1cd9c389214a246}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: 2d7c1c552c589c91d208811b0e8400f7, StatelessResetToken: 0x4e37ec7d24c82b39a666049895f00ede}
+2021/03/28 15:42:16 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:16 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: 3bbbf1bd8624a54183f7b8d855037484, StatelessResetToken: 0x69f624447306e38ed1cd9c389214a246}
+2021/03/28 15:42:16 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: 2d7c1c552c589c91d208811b0e8400f7, StatelessResetToken: 0x4e37ec7d24c82b39a666049895f00ede}
+2021/03/28 15:42:16 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:16 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:17 client Loss detection alarm for Initial fired in PTO mode. PTO count: 3
+2021/03/28 15:42:17 client Loss detection alarm for Initial fired in PTO mode. PTO count: 3
+2021/03/28 15:42:17 client -> Sending packet 5 (1252 bytes) for connection bff18a4236ca15990000000000000000, Initial
+2021/03/28 15:42:17 client 	Long Header{Type: Initial, DestConnectionID: bff18a4236ca15990000000000000000, SrcConnectionID: bff18a4236ca15990000000000000000, Token: (empty), PacketNumber: 5, PacketNumberLen: 2, Length: 1210, Version: draft-29}
+2021/03/28 15:42:17 client 	-> &wire.CryptoFrame{Offset: 0, Data length: 295, Offset + Data length: 295}
+2021/03/28 15:42:17 client -> Sending packet 5 (1252 bytes) for connection bff18a4236ca15990000000000000000, Initial
+2021/03/28 15:42:17 client 	Long Header{Type: Initial, DestConnectionID: bff18a4236ca15990000000000000000, SrcConnectionID: bff18a4236ca15990000000000000000, Token: (empty), PacketNumber: 5, PacketNumberLen: 2, Length: 1210, Version: draft-29}
+2021/03/28 15:42:17 client 	-> &wire.CryptoFrame{Offset: 0, Data length: 295, Offset + Data length: 295}
+2021/03/28 15:42:17 client -> Sending packet 6 (1252 bytes) for connection bff18a4236ca15990000000000000000, Initial
+2021/03/28 15:42:17 client -> Sending packet 6 (1252 bytes) for connection bff18a4236ca15990000000000000000, Initial
+2021/03/28 15:42:17 client 	Long Header{Type: Initial, DestConnectionID: bff18a4236ca15990000000000000000, SrcConnectionID: bff18a4236ca15990000000000000000, Token: (empty), PacketNumber: 6, PacketNumberLen: 2, Length: 1210, Version: draft-29}
+2021/03/28 15:42:17 client 	-> &wire.CryptoFrame{Offset: 0, Data length: 295, Offset + Data length: 295}
+2021/03/28 15:42:17 client 	Long Header{Type: Initial, DestConnectionID: bff18a4236ca15990000000000000000, SrcConnectionID: bff18a4236ca15990000000000000000, Token: (empty), PacketNumber: 6, PacketNumberLen: 2, Length: 1210, Version: draft-29}
+2021/03/28 15:42:17 client 	-> &wire.CryptoFrame{Offset: 0, Data length: 295, Offset + Data length: 295}
+2021/03/28 15:42:17 client Loss detection alarm for 1-RTT fired in PTO mode. PTO count: 4
+2021/03/28 15:42:17 client Loss detection alarm for 1-RTT fired in PTO mode. PTO count: 4
+2021/03/28 15:42:17 client -> Sending packet 12 (209 bytes) for connection bff18a4236ca15990000000000000000, 1-RTT
+2021/03/28 15:42:17 client -> Sending packet 12 (209 bytes) for connection bff18a4236ca15990000000000000000, 1-RTT
+2021/03/28 15:42:17 client 	Short Header{DestConnectionID: d885d558435b6dc7, PacketNumber: 12, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:17 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: 152964f79403ae5b96659e42e079d43e, StatelessResetToken: 0x1c3386a4dafdbd6664b2a420e66cc1e6}
+2021/03/28 15:42:17 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 5ce774f5980691c787d8652cf1e08f7c, StatelessResetToken: 0x7bca52f07d2752189788609ec0fca6ef}
+2021/03/28 15:42:17 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 7ad88f5e6cdf724e1d0cdc25df5e9652, StatelessResetToken: 0x4f8aadfbcf5c8aab874d8d03273cc6eb}
+2021/03/28 15:42:17 client 	Short Header{DestConnectionID: d885d558435b6dc7, PacketNumber: 12, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:17 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: 152964f79403ae5b96659e42e079d43e, StatelessResetToken: 0x1c3386a4dafdbd6664b2a420e66cc1e6}
+2021/03/28 15:42:17 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 5ce774f5980691c787d8652cf1e08f7c, StatelessResetToken: 0x7bca52f07d2752189788609ec0fca6ef}
+2021/03/28 15:42:17 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 7ad88f5e6cdf724e1d0cdc25df5e9652, StatelessResetToken: 0x4f8aadfbcf5c8aab874d8d03273cc6eb}
+2021/03/28 15:42:17 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: 3bbbf1bd8624a54183f7b8d855037484, StatelessResetToken: 0x69f624447306e38ed1cd9c389214a246}
+2021/03/28 15:42:17 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: 2d7c1c552c589c91d208811b0e8400f7, StatelessResetToken: 0x4e37ec7d24c82b39a666049895f00ede}
+2021/03/28 15:42:17 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:17 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:17 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: 3bbbf1bd8624a54183f7b8d855037484, StatelessResetToken: 0x69f624447306e38ed1cd9c389214a246}
+2021/03/28 15:42:17 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: 2d7c1c552c589c91d208811b0e8400f7, StatelessResetToken: 0x4e37ec7d24c82b39a666049895f00ede}
+2021/03/28 15:42:17 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:17 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:17 client -> Sending packet 13 (209 bytes) for connection bff18a4236ca15990000000000000000, 1-RTT
+2021/03/28 15:42:17 client -> Sending packet 13 (209 bytes) for connection bff18a4236ca15990000000000000000, 1-RTT
+2021/03/28 15:42:17 client 	Short Header{DestConnectionID: d885d558435b6dc7, PacketNumber: 13, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:17 client 	Short Header{DestConnectionID: d885d558435b6dc7, PacketNumber: 13, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:17 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: 152964f79403ae5b96659e42e079d43e, StatelessResetToken: 0x1c3386a4dafdbd6664b2a420e66cc1e6}
+2021/03/28 15:42:17 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 5ce774f5980691c787d8652cf1e08f7c, StatelessResetToken: 0x7bca52f07d2752189788609ec0fca6ef}
+2021/03/28 15:42:17 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: 152964f79403ae5b96659e42e079d43e, StatelessResetToken: 0x1c3386a4dafdbd6664b2a420e66cc1e6}
+2021/03/28 15:42:17 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 5ce774f5980691c787d8652cf1e08f7c, StatelessResetToken: 0x7bca52f07d2752189788609ec0fca6ef}
+2021/03/28 15:42:17 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 7ad88f5e6cdf724e1d0cdc25df5e9652, StatelessResetToken: 0x4f8aadfbcf5c8aab874d8d03273cc6eb}
+2021/03/28 15:42:17 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: 3bbbf1bd8624a54183f7b8d855037484, StatelessResetToken: 0x69f624447306e38ed1cd9c389214a246}
+2021/03/28 15:42:17 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 7ad88f5e6cdf724e1d0cdc25df5e9652, StatelessResetToken: 0x4f8aadfbcf5c8aab874d8d03273cc6eb}
+2021/03/28 15:42:17 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: 3bbbf1bd8624a54183f7b8d855037484, StatelessResetToken: 0x69f624447306e38ed1cd9c389214a246}
+2021/03/28 15:42:17 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: 2d7c1c552c589c91d208811b0e8400f7, StatelessResetToken: 0x4e37ec7d24c82b39a666049895f00ede}
+2021/03/28 15:42:17 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:17 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: 2d7c1c552c589c91d208811b0e8400f7, StatelessResetToken: 0x4e37ec7d24c82b39a666049895f00ede}
+2021/03/28 15:42:17 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:17 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:17 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:17 muxer Tracking 6 connection IDs and 1 reset tokens.
+2021/03/28 15:42:17 muxer Tracking 6 connection IDs and 1 reset tokens.
+2021/03/28 15:42:17 muxer Tracking 1 connection IDs and 0 reset tokens.
+2021/03/28 15:42:17 muxer Tracking 1 connection IDs and 0 reset tokens.
+2021/03/28 15:42:17 client Destroying session: NO_ERROR: No recent network activity
+2021/03/28 15:42:17 muxer Removing connection ID bff18a4236ca15990000000000000000.
+2021/03/28 15:42:17 client Destroying session: NO_ERROR: No recent network activity
+2021/03/28 15:42:17 muxer Removing connection ID bff18a4236ca15990000000000000000.
+2021/03/28 15:42:17 client Connection bff18a4236ca15990000000000000000 closed.
+2021/03/28 15:42:17 client Connection bff18a4236ca15990000000000000000 closed.
+2021/03/28 15:42:17 Activating reading of ECN bits for IPv4 and IPv6.
+2021/03/28 15:42:17 Activating reading of ECN bits for IPv4 and IPv6.
+2021/03/28 15:42:17 client Starting new connection to 192.168.0.2 ([::]:33265 -> 192.168.0.2:12344), source connection ID ccf19cf3b95efd0e0000000000000000, destination connection ID ccf19cf3b95efd0e0000000000000000, version draft-29
+2021/03/28 15:42:17 client Starting new connection to 192.168.0.2 ([::]:33265 -> 192.168.0.2:12344), source connection ID ccf19cf3b95efd0e0000000000000000, destination connection ID ccf19cf3b95efd0e0000000000000000, version draft-29
+2021/03/28 15:42:17 muxer Adding connection ID ccf19cf3b95efd0e0000000000000000.
+2021/03/28 15:42:17 muxer Adding connection ID ccf19cf3b95efd0e0000000000000000.
+2021/03/28 15:42:17 client Not doing 0-RTT.
+2021/03/28 15:42:17 client Not doing 0-RTT.
+2021/03/28 15:42:17 client Sending a keep-alive PING to keep the connection alive.
+2021/03/28 15:42:17 client Sending a keep-alive PING to keep the connection alive.
+2021/03/28 15:42:17 client -> Sending packet 0 (1252 bytes) for connection ccf19cf3b95efd0e0000000000000000, Initial
+2021/03/28 15:42:17 client -> Sending packet 0 (1252 bytes) for connection ccf19cf3b95efd0e0000000000000000, Initial
+2021/03/28 15:42:17 client 	Long Header{Type: Initial, DestConnectionID: ccf19cf3b95efd0e0000000000000000, SrcConnectionID: ccf19cf3b95efd0e0000000000000000, Token: (empty), PacketNumber: 0, PacketNumberLen: 2, Length: 1210, Version: draft-29}
+2021/03/28 15:42:17 client 	Long Header{Type: Initial, DestConnectionID: ccf19cf3b95efd0e0000000000000000, SrcConnectionID: ccf19cf3b95efd0e0000000000000000, Token: (empty), PacketNumber: 0, PacketNumberLen: 2, Length: 1210, Version: draft-29}
+2021/03/28 15:42:17 client 	-> &wire.CryptoFrame{Offset: 0, Data length: 291, Offset + Data length: 291}
+2021/03/28 15:42:17 client 	-> &wire.CryptoFrame{Offset: 0, Data length: 291, Offset + Data length: 291}
+2021/03/28 15:42:17 client <- Reading packet 0 (1252 bytes) for connection ccf19cf3b95efd0e0000000000000000, Initial
+2021/03/28 15:42:17 client <- Reading packet 0 (1252 bytes) for connection ccf19cf3b95efd0e0000000000000000, Initial
+2021/03/28 15:42:17 client 	Long Header{Type: Initial, DestConnectionID: ccf19cf3b95efd0e0000000000000000, SrcConnectionID: 2bee850a08cbd7fd, Token: (empty), PacketNumber: 0, PacketNumberLen: 1, Length: 1218, Version: draft-29}
+2021/03/28 15:42:17 client Received first packet. Switching destination connection ID to: 2bee850a08cbd7fd
+2021/03/28 15:42:17 client 	<- &wire.CryptoFrame{Offset: 0, Data length: 90, Offset + Data length: 90}
+2021/03/28 15:42:17 client 	Long Header{Type: Initial, DestConnectionID: ccf19cf3b95efd0e0000000000000000, SrcConnectionID: 2bee850a08cbd7fd, Token: (empty), PacketNumber: 0, PacketNumberLen: 1, Length: 1218, Version: draft-29}
+2021/03/28 15:42:17 client Received first packet. Switching destination connection ID to: 2bee850a08cbd7fd
+2021/03/28 15:42:17 client 	<- &wire.CryptoFrame{Offset: 0, Data length: 90, Offset + Data length: 90}
+2021/03/28 15:42:17 client Received ServerHello message (90 bytes, encryption level: Initial)
+2021/03/28 15:42:17 client Received ServerHello message (90 bytes, encryption level: Initial)
+2021/03/28 15:42:17 client Installed Handshake Write keys (using TLS_AES_128_GCM_SHA256)
+2021/03/28 15:42:17 client Installed Handshake Write keys (using TLS_AES_128_GCM_SHA256)
+2021/03/28 15:42:17 client Installed Handshake Read keys (using TLS_AES_128_GCM_SHA256)
+2021/03/28 15:42:17 client Installed Handshake Read keys (using TLS_AES_128_GCM_SHA256)
+2021/03/28 15:42:17 client 	Queueing ACK because the first packet should be acknowledged.
+2021/03/28 15:42:17 client 	Queueing ACK because the first packet should be acknowledged.
+2021/03/28 15:42:17 client <- Reading packet 1 (1252 bytes) for connection ccf19cf3b95efd0e0000000000000000, Handshake
+2021/03/28 15:42:17 client <- Reading packet 1 (1252 bytes) for connection ccf19cf3b95efd0e0000000000000000, Handshake
+2021/03/28 15:42:17 client 	Long Header{Type: Handshake, DestConnectionID: ccf19cf3b95efd0e0000000000000000, SrcConnectionID: 2bee850a08cbd7fd, PacketNumber: 1, PacketNumberLen: 1, Length: 1219, Version: draft-29}
+2021/03/28 15:42:17 client 	Long Header{Type: Handshake, DestConnectionID: ccf19cf3b95efd0e0000000000000000, SrcConnectionID: 2bee850a08cbd7fd, PacketNumber: 1, PacketNumberLen: 1, Length: 1219, Version: draft-29}
+2021/03/28 15:42:17 client 	<- &wire.CryptoFrame{Offset: 0, Data length: 1198, Offset + Data length: 1198}
+2021/03/28 15:42:17 client 	<- &wire.CryptoFrame{Offset: 0, Data length: 1198, Offset + Data length: 1198}
+2021/03/28 15:42:17 client Received EncryptedExtensions message (127 bytes, encryption level: Handshake)
+2021/03/28 15:42:17 client Received EncryptedExtensions message (127 bytes, encryption level: Handshake)
+2021/03/28 15:42:17 client Processed Transport Parameters: &wire.TransportParameters{OriginalDestinationConnectionID: ccf19cf3b95efd0e0000000000000000, InitialSourceConnectionID: 2bee850a08cbd7fd, InitialMaxStreamDataBidiLocal: 0, InitialMaxStreamDataBidiRemote: 1048576, InitialMaxStreamDataUni: 12288, InitialMaxData: 1572864, MaxBidiStreamNum: 100, MaxUniStreamNum: 3, MaxIdleTimeout: 30s, AckDelayExponent: 3, MaxAckDelay: 25ms, ActiveConnectionIDLimit: 8, StatelessResetToken: 0xb2b48866c6725819dd3d1f7feb665b47}
+2021/03/28 15:42:17 client Processed Transport Parameters: &wire.TransportParameters{OriginalDestinationConnectionID: ccf19cf3b95efd0e0000000000000000, InitialSourceConnectionID: 2bee850a08cbd7fd, InitialMaxStreamDataBidiLocal: 0, InitialMaxStreamDataBidiRemote: 1048576, InitialMaxStreamDataUni: 12288, InitialMaxData: 1572864, MaxBidiStreamNum: 100, MaxUniStreamNum: 3, MaxIdleTimeout: 30s, AckDelayExponent: 3, MaxAckDelay: 25ms, ActiveConnectionIDLimit: 8, StatelessResetToken: 0xb2b48866c6725819dd3d1f7feb665b47}
+2021/03/28 15:42:17 muxer Adding connection ID eb40e1be64f4e211ffdff0293ec22d35.
+2021/03/28 15:42:17 muxer Adding connection ID eb40e1be64f4e211ffdff0293ec22d35.
+2021/03/28 15:42:17 muxer Adding connection ID c783afa14096ff3f09133dc883ec6037.
+2021/03/28 15:42:17 muxer Adding connection ID c783afa14096ff3f09133dc883ec6037.
+2021/03/28 15:42:17 muxer Adding connection ID 9f5f93cfb4049fb6b24469b87c8cfd33.
+2021/03/28 15:42:17 muxer Adding connection ID 9f5f93cfb4049fb6b24469b87c8cfd33.
+2021/03/28 15:42:17 muxer Adding connection ID 45a649bf986b74502ab24a9337fa7fc9.
+2021/03/28 15:42:17 muxer Adding connection ID 45a649bf986b74502ab24a9337fa7fc9.
+2021/03/28 15:42:17 muxer Adding connection ID f3cf7902f288c44b945887b931893568.
+2021/03/28 15:42:17 muxer Adding connection ID f3cf7902f288c44b945887b931893568.
+2021/03/28 15:42:17 client Received Certificate message (843 bytes, encryption level: Handshake)
+2021/03/28 15:42:17 client Received Certificate message (843 bytes, encryption level: Handshake)
+2021/03/28 15:42:17 client 	Queueing ACK because the first packet should be acknowledged.
+2021/03/28 15:42:17 client 	Queueing ACK because the first packet should be acknowledged.
+2021/03/28 15:42:17 client Parsed a coalesced packet. Part 1: 127 bytes. Remaining: 57 bytes.
+2021/03/28 15:42:17 client Parsed a coalesced packet. Part 1: 127 bytes. Remaining: 57 bytes.
+2021/03/28 15:42:17 client <- Reading packet 2 (127 bytes) for connection ccf19cf3b95efd0e0000000000000000, Handshake
+2021/03/28 15:42:17 client <- Reading packet 2 (127 bytes) for connection ccf19cf3b95efd0e0000000000000000, Handshake
+2021/03/28 15:42:17 client 	Long Header{Type: Handshake, DestConnectionID: ccf19cf3b95efd0e0000000000000000, SrcConnectionID: 2bee850a08cbd7fd, PacketNumber: 2, PacketNumberLen: 1, Length: 94, Version: draft-29}
+2021/03/28 15:42:17 client 	<- &wire.CryptoFrame{Offset: 1198, Data length: 72, Offset + Data length: 1270}
+2021/03/28 15:42:17 client 	Long Header{Type: Handshake, DestConnectionID: ccf19cf3b95efd0e0000000000000000, SrcConnectionID: 2bee850a08cbd7fd, PacketNumber: 2, PacketNumberLen: 1, Length: 94, Version: draft-29}
+2021/03/28 15:42:17 client 	<- &wire.CryptoFrame{Offset: 1198, Data length: 72, Offset + Data length: 1270}
+2021/03/28 15:42:17 client Received CertificateVerify message (264 bytes, encryption level: Handshake)
+2021/03/28 15:42:17 client Received CertificateVerify message (264 bytes, encryption level: Handshake)
+2021/03/28 15:42:17 client Received Finished message (36 bytes, encryption level: Handshake)
+2021/03/28 15:42:17 client Received Finished message (36 bytes, encryption level: Handshake)
+2021/03/28 15:42:17 client Installed 1-RTT Read keys (using TLS_AES_128_GCM_SHA256)
+2021/03/28 15:42:17 client Installed 1-RTT Read keys (using TLS_AES_128_GCM_SHA256)
+2021/03/28 15:42:17 client Installed 1-RTT Write keys (using TLS_AES_128_GCM_SHA256)
+2021/03/28 15:42:17 client Installed 1-RTT Write keys (using TLS_AES_128_GCM_SHA256)
+2021/03/28 15:42:17 client Parsed a coalesced packet. Part 2: 57 bytes. Remaining: 0 bytes.
+2021/03/28 15:42:17 client <- Reading packet 3 (57 bytes) for connection ccf19cf3b95efd0e0000000000000000, Initial
+2021/03/28 15:42:17 client 	Long Header{Type: Initial, DestConnectionID: ccf19cf3b95efd0e0000000000000000, SrcConnectionID: 2bee850a08cbd7fd, Token: (empty), PacketNumber: 3, PacketNumberLen: 1, Length: 23, Version: draft-29}
+2021/03/28 15:42:17 client 	<- &wire.AckFrame{LargestAcked: 0, LowestAcked: 0, DelayTime: 36.336ms}
+2021/03/28 15:42:17 client 	newly acked packets (1): [0]
+2021/03/28 15:42:17 client 	updated RTT: 40.96734ms (σ: 20.48367ms)
+2021/03/28 15:42:17 client Dropping Initial keys.
+2021/03/28 15:42:17 client -> Sending coalesced packet (3 parts, 1252 bytes) for connection ccf19cf3b95efd0e0000000000000000
+2021/03/28 15:42:17 client 	Long Header{Type: Initial, DestConnectionID: 2bee850a08cbd7fd, SrcConnectionID: ccf19cf3b95efd0e0000000000000000, Token: (empty), PacketNumber: 1, PacketNumberLen: 2, Length: 920, Version: draft-29}
+2021/03/28 15:42:17 client 	-> &wire.AckFrame{LargestAcked: 3, LowestAcked: 0, AckRanges: {{Largest: 3, Smallest: 3}, {Largest: 0, Smallest: 0}}, DelayTime: 0s}
+2021/03/28 15:42:17 client 	Long Header{Type: Handshake, DestConnectionID: 2bee850a08cbd7fd, SrcConnectionID: ccf19cf3b95efd0e0000000000000000, PacketNumber: 0, PacketNumberLen: 2, Length: 57, Version: draft-29}
+2021/03/28 15:42:17 client 	-> &wire.CryptoFrame{Offset: 0, Data length: 36, Offset + Data length: 36}
+2021/03/28 15:42:17 client 	Short Header{DestConnectionID: 2bee850a08cbd7fd, PacketNumber: 0, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:17 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: f3cf7902f288c44b945887b931893568, StatelessResetToken: 0xb2a07ffb0dd8bc8919cdfd09e7335a85}
+2021/03/28 15:42:17 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 45a649bf986b74502ab24a9337fa7fc9, StatelessResetToken: 0xd542342cf35fce13bea9a473d2abfd90}
+2021/03/28 15:42:17 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 9f5f93cfb4049fb6b24469b87c8cfd33, StatelessResetToken: 0xa91b4c1846137aab6ed1e8cecd63978c}
+2021/03/28 15:42:17 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: c783afa14096ff3f09133dc883ec6037, StatelessResetToken: 0x56df92768c2355112499a3be37975a4b}
+2021/03/28 15:42:17 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: eb40e1be64f4e211ffdff0293ec22d35, StatelessResetToken: 0x7b8d3879e8171aa5843dc06955b12147}
+2021/03/28 15:42:17 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:17 client -> Sending packet 1 (56 bytes) for connection ccf19cf3b95efd0e0000000000000000, Handshake
+2021/03/28 15:42:17 client 	Long Header{Type: Handshake, DestConnectionID: 2bee850a08cbd7fd, SrcConnectionID: ccf19cf3b95efd0e0000000000000000, PacketNumber: 1, PacketNumberLen: 2, Length: 23, Version: draft-29}
+2021/03/28 15:42:17 client 	-> &wire.AckFrame{LargestAcked: 2, LowestAcked: 1, DelayTime: 0s}
+2021/03/28 15:42:17 client Parsed a coalesced packet. Part 2: 57 bytes. Remaining: 0 bytes.
+2021/03/28 15:42:17 client <- Reading packet 3 (57 bytes) for connection ccf19cf3b95efd0e0000000000000000, Initial
+2021/03/28 15:42:17 client 	Long Header{Type: Initial, DestConnectionID: ccf19cf3b95efd0e0000000000000000, SrcConnectionID: 2bee850a08cbd7fd, Token: (empty), PacketNumber: 3, PacketNumberLen: 1, Length: 23, Version: draft-29}
+2021/03/28 15:42:17 client 	<- &wire.AckFrame{LargestAcked: 0, LowestAcked: 0, DelayTime: 36.336ms}
+2021/03/28 15:42:17 client 	newly acked packets (1): [0]
+2021/03/28 15:42:17 client 	updated RTT: 40.96734ms (σ: 20.48367ms)
+2021/03/28 15:42:17 client Dropping Initial keys.
+2021/03/28 15:42:17 client -> Sending coalesced packet (3 parts, 1252 bytes) for connection ccf19cf3b95efd0e0000000000000000
+2021/03/28 15:42:17 client 	Long Header{Type: Initial, DestConnectionID: 2bee850a08cbd7fd, SrcConnectionID: ccf19cf3b95efd0e0000000000000000, Token: (empty), PacketNumber: 1, PacketNumberLen: 2, Length: 920, Version: draft-29}
+2021/03/28 15:42:17 client 	-> &wire.AckFrame{LargestAcked: 3, LowestAcked: 0, AckRanges: {{Largest: 3, Smallest: 3}, {Largest: 0, Smallest: 0}}, DelayTime: 0s}
+2021/03/28 15:42:17 client 	Long Header{Type: Handshake, DestConnectionID: 2bee850a08cbd7fd, SrcConnectionID: ccf19cf3b95efd0e0000000000000000, PacketNumber: 0, PacketNumberLen: 2, Length: 57, Version: draft-29}
+2021/03/28 15:42:17 client 	-> &wire.CryptoFrame{Offset: 0, Data length: 36, Offset + Data length: 36}
+2021/03/28 15:42:17 client 	Short Header{DestConnectionID: 2bee850a08cbd7fd, PacketNumber: 0, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:17 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: f3cf7902f288c44b945887b931893568, StatelessResetToken: 0xb2a07ffb0dd8bc8919cdfd09e7335a85}
+2021/03/28 15:42:17 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 45a649bf986b74502ab24a9337fa7fc9, StatelessResetToken: 0xd542342cf35fce13bea9a473d2abfd90}
+2021/03/28 15:42:17 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 9f5f93cfb4049fb6b24469b87c8cfd33, StatelessResetToken: 0xa91b4c1846137aab6ed1e8cecd63978c}
+2021/03/28 15:42:17 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: c783afa14096ff3f09133dc883ec6037, StatelessResetToken: 0x56df92768c2355112499a3be37975a4b}
+2021/03/28 15:42:17 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: eb40e1be64f4e211ffdff0293ec22d35, StatelessResetToken: 0x7b8d3879e8171aa5843dc06955b12147}
+2021/03/28 15:42:17 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:17 client -> Sending packet 1 (56 bytes) for connection ccf19cf3b95efd0e0000000000000000, Handshake
+2021/03/28 15:42:17 client 	Long Header{Type: Handshake, DestConnectionID: 2bee850a08cbd7fd, SrcConnectionID: ccf19cf3b95efd0e0000000000000000, PacketNumber: 1, PacketNumberLen: 2, Length: 23, Version: draft-29}
+2021/03/28 15:42:17 client 	-> &wire.AckFrame{LargestAcked: 2, LowestAcked: 1, DelayTime: 0s}
+2021/03/28 15:42:17 client <- Reading packet 4 (55 bytes) for connection ccf19cf3b95efd0e0000000000000000, Handshake
+2021/03/28 15:42:17 client <- Reading packet 4 (55 bytes) for connection ccf19cf3b95efd0e0000000000000000, Handshake
+2021/03/28 15:42:17 client 	Long Header{Type: Handshake, DestConnectionID: ccf19cf3b95efd0e0000000000000000, SrcConnectionID: 2bee850a08cbd7fd, PacketNumber: 4, PacketNumberLen: 1, Length: 22, Version: draft-29}
+2021/03/28 15:42:17 client 	Long Header{Type: Handshake, DestConnectionID: ccf19cf3b95efd0e0000000000000000, SrcConnectionID: 2bee850a08cbd7fd, PacketNumber: 4, PacketNumberLen: 1, Length: 22, Version: draft-29}
+2021/03/28 15:42:17 client 	<- &wire.AckFrame{LargestAcked: 1, LowestAcked: 1, DelayTime: 56µs}
+2021/03/28 15:42:17 client Peer doesn't await address validation any longer.
+2021/03/28 15:42:17 client 	<- &wire.AckFrame{LargestAcked: 1, LowestAcked: 1, DelayTime: 56µs}
+2021/03/28 15:42:17 client Peer doesn't await address validation any longer.
+2021/03/28 15:42:17 client Loss detection alarm for Handshake fired in PTO mode. PTO count: 1
+2021/03/28 15:42:17 client Loss detection alarm for Handshake fired in PTO mode. PTO count: 1
+2021/03/28 15:42:17 client -> Sending packet 2 (90 bytes) for connection ccf19cf3b95efd0e0000000000000000, Handshake
+2021/03/28 15:42:17 client -> Sending packet 2 (90 bytes) for connection ccf19cf3b95efd0e0000000000000000, Handshake
+2021/03/28 15:42:17 client 	Long Header{Type: Handshake, DestConnectionID: 2bee850a08cbd7fd, SrcConnectionID: ccf19cf3b95efd0e0000000000000000, PacketNumber: 2, PacketNumberLen: 2, Length: 57, Version: draft-29}
+2021/03/28 15:42:17 client 	-> &wire.CryptoFrame{Offset: 0, Data length: 36, Offset + Data length: 36}
+2021/03/28 15:42:17 client 	Long Header{Type: Handshake, DestConnectionID: 2bee850a08cbd7fd, SrcConnectionID: ccf19cf3b95efd0e0000000000000000, PacketNumber: 2, PacketNumberLen: 2, Length: 57, Version: draft-29}
+2021/03/28 15:42:17 client 	-> &wire.CryptoFrame{Offset: 0, Data length: 36, Offset + Data length: 36}
+2021/03/28 15:42:17 client -> Sending packet 3 (90 bytes) for connection ccf19cf3b95efd0e0000000000000000, Handshake
+2021/03/28 15:42:17 client -> Sending packet 3 (90 bytes) for connection ccf19cf3b95efd0e0000000000000000, Handshake
+2021/03/28 15:42:17 client 	Long Header{Type: Handshake, DestConnectionID: 2bee850a08cbd7fd, SrcConnectionID: ccf19cf3b95efd0e0000000000000000, PacketNumber: 3, PacketNumberLen: 2, Length: 57, Version: draft-29}
+2021/03/28 15:42:17 client 	-> &wire.CryptoFrame{Offset: 0, Data length: 36, Offset + Data length: 36}
+2021/03/28 15:42:17 client 	Long Header{Type: Handshake, DestConnectionID: 2bee850a08cbd7fd, SrcConnectionID: ccf19cf3b95efd0e0000000000000000, PacketNumber: 3, PacketNumberLen: 2, Length: 57, Version: draft-29}
+2021/03/28 15:42:17 client 	-> &wire.CryptoFrame{Offset: 0, Data length: 36, Offset + Data length: 36}
+2021/03/28 15:42:18 client Parsed a coalesced packet. Part 1: 55 bytes. Remaining: 37 bytes.
+2021/03/28 15:42:18 client Parsed a coalesced packet. Part 1: 55 bytes. Remaining: 37 bytes.
+2021/03/28 15:42:18 client <- Reading packet 5 (55 bytes) for connection ccf19cf3b95efd0e0000000000000000, Handshake
+2021/03/28 15:42:18 client 	Long Header{Type: Handshake, DestConnectionID: ccf19cf3b95efd0e0000000000000000, SrcConnectionID: 2bee850a08cbd7fd, PacketNumber: 5, PacketNumberLen: 1, Length: 22, Version: draft-29}
+2021/03/28 15:42:18 client 	<- &wire.AckFrame{LargestAcked: 3, LowestAcked: 1, DelayTime: 16µs}
+2021/03/28 15:42:18 client <- Reading packet 5 (55 bytes) for connection ccf19cf3b95efd0e0000000000000000, Handshake
+2021/03/28 15:42:18 client 	Long Header{Type: Handshake, DestConnectionID: ccf19cf3b95efd0e0000000000000000, SrcConnectionID: 2bee850a08cbd7fd, PacketNumber: 5, PacketNumberLen: 1, Length: 22, Version: draft-29}
+2021/03/28 15:42:18 client 	<- &wire.AckFrame{LargestAcked: 3, LowestAcked: 1, DelayTime: 16µs}
+2021/03/28 15:42:18 client 	newly acked packets (2): [2 3]
+2021/03/28 15:42:18 client 	updated RTT: 56.029ms (σ: 45.487ms)
+2021/03/28 15:42:18 client Canceling loss detection timer. No packets in flight.
+2021/03/28 15:42:18 client 	newly acked packets (2): [2 3]
+2021/03/28 15:42:18 client 	updated RTT: 56.029ms (σ: 45.487ms)
+2021/03/28 15:42:18 client Canceling loss detection timer. No packets in flight.
+2021/03/28 15:42:18 client Parsed a coalesced packet. Part 2: 37 bytes. Remaining: 0 bytes.
+2021/03/28 15:42:18 client <- Reading packet 6 (37 bytes) for connection ccf19cf3b95efd0e0000000000000000, 1-RTT
+2021/03/28 15:42:18 client Parsed a coalesced packet. Part 2: 37 bytes. Remaining: 0 bytes.
+2021/03/28 15:42:18 client <- Reading packet 6 (37 bytes) for connection ccf19cf3b95efd0e0000000000000000, 1-RTT
+2021/03/28 15:42:18 client 	Short Header{DestConnectionID: ccf19cf3b95efd0e0000000000000000, PacketNumber: 6, PacketNumberLen: 1, KeyPhase: 0}
+2021/03/28 15:42:18 client 	<- &wire.HandshakeDoneFrame{}
+2021/03/28 15:42:18 client Dropping Handshake keys.
+2021/03/28 15:42:18 client 	Queueing ACK because the first packet should be acknowledged.
+2021/03/28 15:42:18 client 	Short Header{DestConnectionID: ccf19cf3b95efd0e0000000000000000, PacketNumber: 6, PacketNumberLen: 1, KeyPhase: 0}
+2021/03/28 15:42:18 client 	<- &wire.HandshakeDoneFrame{}
+2021/03/28 15:42:18 client Dropping Handshake keys.
+2021/03/28 15:42:18 client 	Queueing ACK because the first packet should be acknowledged.
+2021/03/28 15:42:18 client Loss detection alarm for 1-RTT fired in PTO mode. PTO count: 1
+2021/03/28 15:42:18 client Loss detection alarm for 1-RTT fired in PTO mode. PTO count: 1
+2021/03/28 15:42:18 client -> Sending packet 2 (213 bytes) for connection ccf19cf3b95efd0e0000000000000000, 1-RTT
+2021/03/28 15:42:18 client -> Sending packet 2 (213 bytes) for connection ccf19cf3b95efd0e0000000000000000, 1-RTT
+2021/03/28 15:42:18 client 	Short Header{DestConnectionID: 2bee850a08cbd7fd, PacketNumber: 2, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:18 client 	-> &wire.AckFrame{LargestAcked: 6, LowestAcked: 6, DelayTime: 497.27µs}
+2021/03/28 15:42:18 client 	Short Header{DestConnectionID: 2bee850a08cbd7fd, PacketNumber: 2, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:18 client 	-> &wire.AckFrame{LargestAcked: 6, LowestAcked: 6, DelayTime: 497.27µs}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: f3cf7902f288c44b945887b931893568, StatelessResetToken: 0xb2a07ffb0dd8bc8919cdfd09e7335a85}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: f3cf7902f288c44b945887b931893568, StatelessResetToken: 0xb2a07ffb0dd8bc8919cdfd09e7335a85}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 45a649bf986b74502ab24a9337fa7fc9, StatelessResetToken: 0xd542342cf35fce13bea9a473d2abfd90}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 9f5f93cfb4049fb6b24469b87c8cfd33, StatelessResetToken: 0xa91b4c1846137aab6ed1e8cecd63978c}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: c783afa14096ff3f09133dc883ec6037, StatelessResetToken: 0x56df92768c2355112499a3be37975a4b}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 45a649bf986b74502ab24a9337fa7fc9, StatelessResetToken: 0xd542342cf35fce13bea9a473d2abfd90}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 9f5f93cfb4049fb6b24469b87c8cfd33, StatelessResetToken: 0xa91b4c1846137aab6ed1e8cecd63978c}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: c783afa14096ff3f09133dc883ec6037, StatelessResetToken: 0x56df92768c2355112499a3be37975a4b}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: eb40e1be64f4e211ffdff0293ec22d35, StatelessResetToken: 0x7b8d3879e8171aa5843dc06955b12147}
+2021/03/28 15:42:18 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: eb40e1be64f4e211ffdff0293ec22d35, StatelessResetToken: 0x7b8d3879e8171aa5843dc06955b12147}
+2021/03/28 15:42:18 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:18 client -> Sending packet 3 (208 bytes) for connection ccf19cf3b95efd0e0000000000000000, 1-RTT
+2021/03/28 15:42:18 client -> Sending packet 3 (208 bytes) for connection ccf19cf3b95efd0e0000000000000000, 1-RTT
+2021/03/28 15:42:18 client 	Short Header{DestConnectionID: 2bee850a08cbd7fd, PacketNumber: 3, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: f3cf7902f288c44b945887b931893568, StatelessResetToken: 0xb2a07ffb0dd8bc8919cdfd09e7335a85}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 45a649bf986b74502ab24a9337fa7fc9, StatelessResetToken: 0xd542342cf35fce13bea9a473d2abfd90}
+2021/03/28 15:42:18 client 	Short Header{DestConnectionID: 2bee850a08cbd7fd, PacketNumber: 3, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: f3cf7902f288c44b945887b931893568, StatelessResetToken: 0xb2a07ffb0dd8bc8919cdfd09e7335a85}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 45a649bf986b74502ab24a9337fa7fc9, StatelessResetToken: 0xd542342cf35fce13bea9a473d2abfd90}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 9f5f93cfb4049fb6b24469b87c8cfd33, StatelessResetToken: 0xa91b4c1846137aab6ed1e8cecd63978c}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: c783afa14096ff3f09133dc883ec6037, StatelessResetToken: 0x56df92768c2355112499a3be37975a4b}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: eb40e1be64f4e211ffdff0293ec22d35, StatelessResetToken: 0x7b8d3879e8171aa5843dc06955b12147}
+2021/03/28 15:42:18 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 9f5f93cfb4049fb6b24469b87c8cfd33, StatelessResetToken: 0xa91b4c1846137aab6ed1e8cecd63978c}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: c783afa14096ff3f09133dc883ec6037, StatelessResetToken: 0x56df92768c2355112499a3be37975a4b}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: eb40e1be64f4e211ffdff0293ec22d35, StatelessResetToken: 0x7b8d3879e8171aa5843dc06955b12147}
+2021/03/28 15:42:18 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:18 client Loss detection alarm for 1-RTT fired in PTO mode. PTO count: 2
+2021/03/28 15:42:18 client Loss detection alarm for 1-RTT fired in PTO mode. PTO count: 2
+2021/03/28 15:42:18 client -> Sending packet 5 (208 bytes) for connection ccf19cf3b95efd0e0000000000000000, 1-RTT
+2021/03/28 15:42:18 client 	Short Header{DestConnectionID: 2bee850a08cbd7fd, PacketNumber: 5, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:18 client -> Sending packet 5 (208 bytes) for connection ccf19cf3b95efd0e0000000000000000, 1-RTT
+2021/03/28 15:42:18 client 	Short Header{DestConnectionID: 2bee850a08cbd7fd, PacketNumber: 5, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: f3cf7902f288c44b945887b931893568, StatelessResetToken: 0xb2a07ffb0dd8bc8919cdfd09e7335a85}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 45a649bf986b74502ab24a9337fa7fc9, StatelessResetToken: 0xd542342cf35fce13bea9a473d2abfd90}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: f3cf7902f288c44b945887b931893568, StatelessResetToken: 0xb2a07ffb0dd8bc8919cdfd09e7335a85}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 45a649bf986b74502ab24a9337fa7fc9, StatelessResetToken: 0xd542342cf35fce13bea9a473d2abfd90}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 9f5f93cfb4049fb6b24469b87c8cfd33, StatelessResetToken: 0xa91b4c1846137aab6ed1e8cecd63978c}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: c783afa14096ff3f09133dc883ec6037, StatelessResetToken: 0x56df92768c2355112499a3be37975a4b}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 9f5f93cfb4049fb6b24469b87c8cfd33, StatelessResetToken: 0xa91b4c1846137aab6ed1e8cecd63978c}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: c783afa14096ff3f09133dc883ec6037, StatelessResetToken: 0x56df92768c2355112499a3be37975a4b}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: eb40e1be64f4e211ffdff0293ec22d35, StatelessResetToken: 0x7b8d3879e8171aa5843dc06955b12147}
+2021/03/28 15:42:18 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: eb40e1be64f4e211ffdff0293ec22d35, StatelessResetToken: 0x7b8d3879e8171aa5843dc06955b12147}
+2021/03/28 15:42:18 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:18 client -> Sending packet 6 (208 bytes) for connection ccf19cf3b95efd0e0000000000000000, 1-RTT
+2021/03/28 15:42:18 client 	Short Header{DestConnectionID: 2bee850a08cbd7fd, PacketNumber: 6, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:18 client -> Sending packet 6 (208 bytes) for connection ccf19cf3b95efd0e0000000000000000, 1-RTT
+2021/03/28 15:42:18 client 	Short Header{DestConnectionID: 2bee850a08cbd7fd, PacketNumber: 6, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: f3cf7902f288c44b945887b931893568, StatelessResetToken: 0xb2a07ffb0dd8bc8919cdfd09e7335a85}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 45a649bf986b74502ab24a9337fa7fc9, StatelessResetToken: 0xd542342cf35fce13bea9a473d2abfd90}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: f3cf7902f288c44b945887b931893568, StatelessResetToken: 0xb2a07ffb0dd8bc8919cdfd09e7335a85}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 45a649bf986b74502ab24a9337fa7fc9, StatelessResetToken: 0xd542342cf35fce13bea9a473d2abfd90}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 9f5f93cfb4049fb6b24469b87c8cfd33, StatelessResetToken: 0xa91b4c1846137aab6ed1e8cecd63978c}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: c783afa14096ff3f09133dc883ec6037, StatelessResetToken: 0x56df92768c2355112499a3be37975a4b}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 9f5f93cfb4049fb6b24469b87c8cfd33, StatelessResetToken: 0xa91b4c1846137aab6ed1e8cecd63978c}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: c783afa14096ff3f09133dc883ec6037, StatelessResetToken: 0x56df92768c2355112499a3be37975a4b}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: eb40e1be64f4e211ffdff0293ec22d35, StatelessResetToken: 0x7b8d3879e8171aa5843dc06955b12147}
+2021/03/28 15:42:18 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:18 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: eb40e1be64f4e211ffdff0293ec22d35, StatelessResetToken: 0x7b8d3879e8171aa5843dc06955b12147}
+2021/03/28 15:42:18 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:19 client Loss detection alarm for 1-RTT fired in PTO mode. PTO count: 3
+2021/03/28 15:42:19 client Loss detection alarm for 1-RTT fired in PTO mode. PTO count: 3
+2021/03/28 15:42:19 client -> Sending packet 8 (208 bytes) for connection ccf19cf3b95efd0e0000000000000000, 1-RTT
+2021/03/28 15:42:19 client 	Short Header{DestConnectionID: 2bee850a08cbd7fd, PacketNumber: 8, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: f3cf7902f288c44b945887b931893568, StatelessResetToken: 0xb2a07ffb0dd8bc8919cdfd09e7335a85}
+2021/03/28 15:42:19 client -> Sending packet 8 (208 bytes) for connection ccf19cf3b95efd0e0000000000000000, 1-RTT
+2021/03/28 15:42:19 client 	Short Header{DestConnectionID: 2bee850a08cbd7fd, PacketNumber: 8, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: f3cf7902f288c44b945887b931893568, StatelessResetToken: 0xb2a07ffb0dd8bc8919cdfd09e7335a85}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 45a649bf986b74502ab24a9337fa7fc9, StatelessResetToken: 0xd542342cf35fce13bea9a473d2abfd90}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 45a649bf986b74502ab24a9337fa7fc9, StatelessResetToken: 0xd542342cf35fce13bea9a473d2abfd90}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 9f5f93cfb4049fb6b24469b87c8cfd33, StatelessResetToken: 0xa91b4c1846137aab6ed1e8cecd63978c}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: c783afa14096ff3f09133dc883ec6037, StatelessResetToken: 0x56df92768c2355112499a3be37975a4b}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: eb40e1be64f4e211ffdff0293ec22d35, StatelessResetToken: 0x7b8d3879e8171aa5843dc06955b12147}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 9f5f93cfb4049fb6b24469b87c8cfd33, StatelessResetToken: 0xa91b4c1846137aab6ed1e8cecd63978c}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: c783afa14096ff3f09133dc883ec6037, StatelessResetToken: 0x56df92768c2355112499a3be37975a4b}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: eb40e1be64f4e211ffdff0293ec22d35, StatelessResetToken: 0x7b8d3879e8171aa5843dc06955b12147}
+2021/03/28 15:42:19 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:19 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:19 client -> Sending packet 9 (208 bytes) for connection ccf19cf3b95efd0e0000000000000000, 1-RTT
+2021/03/28 15:42:19 client -> Sending packet 9 (208 bytes) for connection ccf19cf3b95efd0e0000000000000000, 1-RTT
+2021/03/28 15:42:19 client 	Short Header{DestConnectionID: 2bee850a08cbd7fd, PacketNumber: 9, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: f3cf7902f288c44b945887b931893568, StatelessResetToken: 0xb2a07ffb0dd8bc8919cdfd09e7335a85}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 45a649bf986b74502ab24a9337fa7fc9, StatelessResetToken: 0xd542342cf35fce13bea9a473d2abfd90}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 9f5f93cfb4049fb6b24469b87c8cfd33, StatelessResetToken: 0xa91b4c1846137aab6ed1e8cecd63978c}
+2021/03/28 15:42:19 client 	Short Header{DestConnectionID: 2bee850a08cbd7fd, PacketNumber: 9, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: f3cf7902f288c44b945887b931893568, StatelessResetToken: 0xb2a07ffb0dd8bc8919cdfd09e7335a85}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 45a649bf986b74502ab24a9337fa7fc9, StatelessResetToken: 0xd542342cf35fce13bea9a473d2abfd90}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 9f5f93cfb4049fb6b24469b87c8cfd33, StatelessResetToken: 0xa91b4c1846137aab6ed1e8cecd63978c}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: c783afa14096ff3f09133dc883ec6037, StatelessResetToken: 0x56df92768c2355112499a3be37975a4b}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: eb40e1be64f4e211ffdff0293ec22d35, StatelessResetToken: 0x7b8d3879e8171aa5843dc06955b12147}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: c783afa14096ff3f09133dc883ec6037, StatelessResetToken: 0x56df92768c2355112499a3be37975a4b}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: eb40e1be64f4e211ffdff0293ec22d35, StatelessResetToken: 0x7b8d3879e8171aa5843dc06955b12147}
+2021/03/28 15:42:19 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:19 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:19 client Loss detection alarm for 1-RTT fired in PTO mode. PTO count: 5
+2021/03/28 15:42:19 client Loss detection alarm for 1-RTT fired in PTO mode. PTO count: 5
+2021/03/28 15:42:19 client -> Sending packet 15 (209 bytes) for connection bff18a4236ca15990000000000000000, 1-RTT
+2021/03/28 15:42:19 client 	Short Header{DestConnectionID: d885d558435b6dc7, PacketNumber: 15, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: 152964f79403ae5b96659e42e079d43e, StatelessResetToken: 0x1c3386a4dafdbd6664b2a420e66cc1e6}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 5ce774f5980691c787d8652cf1e08f7c, StatelessResetToken: 0x7bca52f07d2752189788609ec0fca6ef}
+2021/03/28 15:42:19 client -> Sending packet 15 (209 bytes) for connection bff18a4236ca15990000000000000000, 1-RTT
+2021/03/28 15:42:19 client 	Short Header{DestConnectionID: d885d558435b6dc7, PacketNumber: 15, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: 152964f79403ae5b96659e42e079d43e, StatelessResetToken: 0x1c3386a4dafdbd6664b2a420e66cc1e6}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 5ce774f5980691c787d8652cf1e08f7c, StatelessResetToken: 0x7bca52f07d2752189788609ec0fca6ef}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 7ad88f5e6cdf724e1d0cdc25df5e9652, StatelessResetToken: 0x4f8aadfbcf5c8aab874d8d03273cc6eb}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: 3bbbf1bd8624a54183f7b8d855037484, StatelessResetToken: 0x69f624447306e38ed1cd9c389214a246}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: 2d7c1c552c589c91d208811b0e8400f7, StatelessResetToken: 0x4e37ec7d24c82b39a666049895f00ede}
+2021/03/28 15:42:19 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:19 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 7ad88f5e6cdf724e1d0cdc25df5e9652, StatelessResetToken: 0x4f8aadfbcf5c8aab874d8d03273cc6eb}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: 3bbbf1bd8624a54183f7b8d855037484, StatelessResetToken: 0x69f624447306e38ed1cd9c389214a246}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: 2d7c1c552c589c91d208811b0e8400f7, StatelessResetToken: 0x4e37ec7d24c82b39a666049895f00ede}
+2021/03/28 15:42:19 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:19 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:19 client -> Sending packet 16 (209 bytes) for connection bff18a4236ca15990000000000000000, 1-RTT
+2021/03/28 15:42:19 client -> Sending packet 16 (209 bytes) for connection bff18a4236ca15990000000000000000, 1-RTT
+2021/03/28 15:42:19 client 	Short Header{DestConnectionID: d885d558435b6dc7, PacketNumber: 16, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: 152964f79403ae5b96659e42e079d43e, StatelessResetToken: 0x1c3386a4dafdbd6664b2a420e66cc1e6}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 5ce774f5980691c787d8652cf1e08f7c, StatelessResetToken: 0x7bca52f07d2752189788609ec0fca6ef}
+2021/03/28 15:42:19 client 	Short Header{DestConnectionID: d885d558435b6dc7, PacketNumber: 16, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: 152964f79403ae5b96659e42e079d43e, StatelessResetToken: 0x1c3386a4dafdbd6664b2a420e66cc1e6}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 5ce774f5980691c787d8652cf1e08f7c, StatelessResetToken: 0x7bca52f07d2752189788609ec0fca6ef}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 7ad88f5e6cdf724e1d0cdc25df5e9652, StatelessResetToken: 0x4f8aadfbcf5c8aab874d8d03273cc6eb}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 7ad88f5e6cdf724e1d0cdc25df5e9652, StatelessResetToken: 0x4f8aadfbcf5c8aab874d8d03273cc6eb}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: 3bbbf1bd8624a54183f7b8d855037484, StatelessResetToken: 0x69f624447306e38ed1cd9c389214a246}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: 2d7c1c552c589c91d208811b0e8400f7, StatelessResetToken: 0x4e37ec7d24c82b39a666049895f00ede}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: 3bbbf1bd8624a54183f7b8d855037484, StatelessResetToken: 0x69f624447306e38ed1cd9c389214a246}
+2021/03/28 15:42:19 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: 2d7c1c552c589c91d208811b0e8400f7, StatelessResetToken: 0x4e37ec7d24c82b39a666049895f00ede}
+2021/03/28 15:42:19 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:19 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:19 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:19 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:19 muxer Tracking 6 connection IDs and 1 reset tokens.
+2021/03/28 15:42:19 muxer Tracking 6 connection IDs and 1 reset tokens.
+2021/03/28 15:42:19 muxer Tracking 6 connection IDs and 1 reset tokens.
+2021/03/28 15:42:19 muxer Tracking 6 connection IDs and 1 reset tokens.
+2021/03/28 15:42:21 muxer Tracking 6 connection IDs and 1 reset tokens.
+2021/03/28 15:42:21 muxer Tracking 6 connection IDs and 1 reset tokens.
+2021/03/28 15:42:21 muxer Tracking 6 connection IDs and 1 reset tokens.
+2021/03/28 15:42:21 muxer Tracking 6 connection IDs and 1 reset tokens.
+2021/03/28 15:42:21 client Loss detection alarm for 1-RTT fired in PTO mode. PTO count: 4
+2021/03/28 15:42:21 client Loss detection alarm for 1-RTT fired in PTO mode. PTO count: 4
+2021/03/28 15:42:21 client -> Sending packet 11 (208 bytes) for connection ccf19cf3b95efd0e0000000000000000, 1-RTT
+2021/03/28 15:42:21 client 	Short Header{DestConnectionID: 2bee850a08cbd7fd, PacketNumber: 11, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:21 client -> Sending packet 11 (208 bytes) for connection ccf19cf3b95efd0e0000000000000000, 1-RTT
+2021/03/28 15:42:21 client 	Short Header{DestConnectionID: 2bee850a08cbd7fd, PacketNumber: 11, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:21 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: f3cf7902f288c44b945887b931893568, StatelessResetToken: 0xb2a07ffb0dd8bc8919cdfd09e7335a85}
+2021/03/28 15:42:21 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: f3cf7902f288c44b945887b931893568, StatelessResetToken: 0xb2a07ffb0dd8bc8919cdfd09e7335a85}
+2021/03/28 15:42:21 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 45a649bf986b74502ab24a9337fa7fc9, StatelessResetToken: 0xd542342cf35fce13bea9a473d2abfd90}
+2021/03/28 15:42:21 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 45a649bf986b74502ab24a9337fa7fc9, StatelessResetToken: 0xd542342cf35fce13bea9a473d2abfd90}
+2021/03/28 15:42:21 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 9f5f93cfb4049fb6b24469b87c8cfd33, StatelessResetToken: 0xa91b4c1846137aab6ed1e8cecd63978c}
+2021/03/28 15:42:21 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: c783afa14096ff3f09133dc883ec6037, StatelessResetToken: 0x56df92768c2355112499a3be37975a4b}
+2021/03/28 15:42:21 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 9f5f93cfb4049fb6b24469b87c8cfd33, StatelessResetToken: 0xa91b4c1846137aab6ed1e8cecd63978c}
+2021/03/28 15:42:21 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: c783afa14096ff3f09133dc883ec6037, StatelessResetToken: 0x56df92768c2355112499a3be37975a4b}
+2021/03/28 15:42:21 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: eb40e1be64f4e211ffdff0293ec22d35, StatelessResetToken: 0x7b8d3879e8171aa5843dc06955b12147}
+2021/03/28 15:42:21 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: eb40e1be64f4e211ffdff0293ec22d35, StatelessResetToken: 0x7b8d3879e8171aa5843dc06955b12147}
+2021/03/28 15:42:21 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:21 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:21 client -> Sending packet 12 (208 bytes) for connection ccf19cf3b95efd0e0000000000000000, 1-RTT
+2021/03/28 15:42:21 client -> Sending packet 12 (208 bytes) for connection ccf19cf3b95efd0e0000000000000000, 1-RTT
+2021/03/28 15:42:21 client 	Short Header{DestConnectionID: 2bee850a08cbd7fd, PacketNumber: 12, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:21 client 	Short Header{DestConnectionID: 2bee850a08cbd7fd, PacketNumber: 12, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:21 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: f3cf7902f288c44b945887b931893568, StatelessResetToken: 0xb2a07ffb0dd8bc8919cdfd09e7335a85}
+2021/03/28 15:42:21 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 45a649bf986b74502ab24a9337fa7fc9, StatelessResetToken: 0xd542342cf35fce13bea9a473d2abfd90}
+2021/03/28 15:42:21 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 9f5f93cfb4049fb6b24469b87c8cfd33, StatelessResetToken: 0xa91b4c1846137aab6ed1e8cecd63978c}
+2021/03/28 15:42:21 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: c783afa14096ff3f09133dc883ec6037, StatelessResetToken: 0x56df92768c2355112499a3be37975a4b}
+2021/03/28 15:42:21 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: f3cf7902f288c44b945887b931893568, StatelessResetToken: 0xb2a07ffb0dd8bc8919cdfd09e7335a85}
+2021/03/28 15:42:21 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 45a649bf986b74502ab24a9337fa7fc9, StatelessResetToken: 0xd542342cf35fce13bea9a473d2abfd90}
+2021/03/28 15:42:21 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 9f5f93cfb4049fb6b24469b87c8cfd33, StatelessResetToken: 0xa91b4c1846137aab6ed1e8cecd63978c}
+2021/03/28 15:42:21 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: c783afa14096ff3f09133dc883ec6037, StatelessResetToken: 0x56df92768c2355112499a3be37975a4b}
+2021/03/28 15:42:21 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: eb40e1be64f4e211ffdff0293ec22d35, StatelessResetToken: 0x7b8d3879e8171aa5843dc06955b12147}
+2021/03/28 15:42:21 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:21 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: eb40e1be64f4e211ffdff0293ec22d35, StatelessResetToken: 0x7b8d3879e8171aa5843dc06955b12147}
+2021/03/28 15:42:21 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:23 client Loss detection alarm for 1-RTT fired in PTO mode. PTO count: 6
+2021/03/28 15:42:23 client Loss detection alarm for 1-RTT fired in PTO mode. PTO count: 6
+2021/03/28 15:42:23 client -> Sending packet 18 (209 bytes) for connection bff18a4236ca15990000000000000000, 1-RTT
+2021/03/28 15:42:23 client 	Short Header{DestConnectionID: d885d558435b6dc7, PacketNumber: 18, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:23 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: 152964f79403ae5b96659e42e079d43e, StatelessResetToken: 0x1c3386a4dafdbd6664b2a420e66cc1e6}
+2021/03/28 15:42:23 client -> Sending packet 18 (209 bytes) for connection bff18a4236ca15990000000000000000, 1-RTT
+2021/03/28 15:42:23 client 	Short Header{DestConnectionID: d885d558435b6dc7, PacketNumber: 18, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:23 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: 152964f79403ae5b96659e42e079d43e, StatelessResetToken: 0x1c3386a4dafdbd6664b2a420e66cc1e6}
+2021/03/28 15:42:23 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 5ce774f5980691c787d8652cf1e08f7c, StatelessResetToken: 0x7bca52f07d2752189788609ec0fca6ef}
+2021/03/28 15:42:23 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 5ce774f5980691c787d8652cf1e08f7c, StatelessResetToken: 0x7bca52f07d2752189788609ec0fca6ef}
+2021/03/28 15:42:23 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 7ad88f5e6cdf724e1d0cdc25df5e9652, StatelessResetToken: 0x4f8aadfbcf5c8aab874d8d03273cc6eb}
+2021/03/28 15:42:23 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 7ad88f5e6cdf724e1d0cdc25df5e9652, StatelessResetToken: 0x4f8aadfbcf5c8aab874d8d03273cc6eb}
+2021/03/28 15:42:23 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: 3bbbf1bd8624a54183f7b8d855037484, StatelessResetToken: 0x69f624447306e38ed1cd9c389214a246}
+2021/03/28 15:42:23 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: 3bbbf1bd8624a54183f7b8d855037484, StatelessResetToken: 0x69f624447306e38ed1cd9c389214a246}
+2021/03/28 15:42:23 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: 2d7c1c552c589c91d208811b0e8400f7, StatelessResetToken: 0x4e37ec7d24c82b39a666049895f00ede}
+2021/03/28 15:42:23 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:23 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: 2d7c1c552c589c91d208811b0e8400f7, StatelessResetToken: 0x4e37ec7d24c82b39a666049895f00ede}
+2021/03/28 15:42:23 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:23 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:23 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:23 client -> Sending packet 19 (209 bytes) for connection bff18a4236ca15990000000000000000, 1-RTT
+2021/03/28 15:42:23 client -> Sending packet 19 (209 bytes) for connection bff18a4236ca15990000000000000000, 1-RTT
+2021/03/28 15:42:23 client 	Short Header{DestConnectionID: d885d558435b6dc7, PacketNumber: 19, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:23 client 	Short Header{DestConnectionID: d885d558435b6dc7, PacketNumber: 19, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:23 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: 152964f79403ae5b96659e42e079d43e, StatelessResetToken: 0x1c3386a4dafdbd6664b2a420e66cc1e6}
+2021/03/28 15:42:23 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 5ce774f5980691c787d8652cf1e08f7c, StatelessResetToken: 0x7bca52f07d2752189788609ec0fca6ef}
+2021/03/28 15:42:23 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: 152964f79403ae5b96659e42e079d43e, StatelessResetToken: 0x1c3386a4dafdbd6664b2a420e66cc1e6}
+2021/03/28 15:42:23 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 5ce774f5980691c787d8652cf1e08f7c, StatelessResetToken: 0x7bca52f07d2752189788609ec0fca6ef}
+2021/03/28 15:42:23 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 7ad88f5e6cdf724e1d0cdc25df5e9652, StatelessResetToken: 0x4f8aadfbcf5c8aab874d8d03273cc6eb}
+2021/03/28 15:42:23 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: 3bbbf1bd8624a54183f7b8d855037484, StatelessResetToken: 0x69f624447306e38ed1cd9c389214a246}
+2021/03/28 15:42:23 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 7ad88f5e6cdf724e1d0cdc25df5e9652, StatelessResetToken: 0x4f8aadfbcf5c8aab874d8d03273cc6eb}
+2021/03/28 15:42:23 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: 3bbbf1bd8624a54183f7b8d855037484, StatelessResetToken: 0x69f624447306e38ed1cd9c389214a246}
+2021/03/28 15:42:23 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: 2d7c1c552c589c91d208811b0e8400f7, StatelessResetToken: 0x4e37ec7d24c82b39a666049895f00ede}
+2021/03/28 15:42:23 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:23 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: 2d7c1c552c589c91d208811b0e8400f7, StatelessResetToken: 0x4e37ec7d24c82b39a666049895f00ede}
+2021/03/28 15:42:23 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:23 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:23 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:23 muxer Tracking 6 connection IDs and 1 reset tokens.
+2021/03/28 15:42:23 muxer Tracking 6 connection IDs and 1 reset tokens.
+2021/03/28 15:42:23 muxer Tracking 6 connection IDs and 1 reset tokens.
+2021/03/28 15:42:23 muxer Tracking 6 connection IDs and 1 reset tokens.
+2021/03/28 15:42:25 muxer Tracking 6 connection IDs and 1 reset tokens.
+2021/03/28 15:42:25 muxer Tracking 6 connection IDs and 1 reset tokens.
+2021/03/28 15:42:25 muxer Tracking 6 connection IDs and 1 reset tokens.
+2021/03/28 15:42:25 muxer Tracking 6 connection IDs and 1 reset tokens.
+2021/03/28 15:42:26 client Loss detection alarm for 1-RTT fired in PTO mode. PTO count: 5
+2021/03/28 15:42:26 client Loss detection alarm for 1-RTT fired in PTO mode. PTO count: 5
+2021/03/28 15:42:26 client -> Sending packet 14 (208 bytes) for connection ccf19cf3b95efd0e0000000000000000, 1-RTT
+2021/03/28 15:42:26 client -> Sending packet 14 (208 bytes) for connection ccf19cf3b95efd0e0000000000000000, 1-RTT
+2021/03/28 15:42:26 client 	Short Header{DestConnectionID: 2bee850a08cbd7fd, PacketNumber: 14, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:26 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: f3cf7902f288c44b945887b931893568, StatelessResetToken: 0xb2a07ffb0dd8bc8919cdfd09e7335a85}
+2021/03/28 15:42:26 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 45a649bf986b74502ab24a9337fa7fc9, StatelessResetToken: 0xd542342cf35fce13bea9a473d2abfd90}
+2021/03/28 15:42:26 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 9f5f93cfb4049fb6b24469b87c8cfd33, StatelessResetToken: 0xa91b4c1846137aab6ed1e8cecd63978c}
+2021/03/28 15:42:26 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: c783afa14096ff3f09133dc883ec6037, StatelessResetToken: 0x56df92768c2355112499a3be37975a4b}
+2021/03/28 15:42:26 client 	Short Header{DestConnectionID: 2bee850a08cbd7fd, PacketNumber: 14, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:26 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: f3cf7902f288c44b945887b931893568, StatelessResetToken: 0xb2a07ffb0dd8bc8919cdfd09e7335a85}
+2021/03/28 15:42:26 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 45a649bf986b74502ab24a9337fa7fc9, StatelessResetToken: 0xd542342cf35fce13bea9a473d2abfd90}
+2021/03/28 15:42:26 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 9f5f93cfb4049fb6b24469b87c8cfd33, StatelessResetToken: 0xa91b4c1846137aab6ed1e8cecd63978c}
+2021/03/28 15:42:26 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: c783afa14096ff3f09133dc883ec6037, StatelessResetToken: 0x56df92768c2355112499a3be37975a4b}
+2021/03/28 15:42:26 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: eb40e1be64f4e211ffdff0293ec22d35, StatelessResetToken: 0x7b8d3879e8171aa5843dc06955b12147}
+2021/03/28 15:42:26 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: eb40e1be64f4e211ffdff0293ec22d35, StatelessResetToken: 0x7b8d3879e8171aa5843dc06955b12147}
+2021/03/28 15:42:26 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:26 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:26 client -> Sending packet 15 (208 bytes) for connection ccf19cf3b95efd0e0000000000000000, 1-RTT
+2021/03/28 15:42:26 client -> Sending packet 15 (208 bytes) for connection ccf19cf3b95efd0e0000000000000000, 1-RTT
+2021/03/28 15:42:26 client 	Short Header{DestConnectionID: 2bee850a08cbd7fd, PacketNumber: 15, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:26 client 	Short Header{DestConnectionID: 2bee850a08cbd7fd, PacketNumber: 15, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:26 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: f3cf7902f288c44b945887b931893568, StatelessResetToken: 0xb2a07ffb0dd8bc8919cdfd09e7335a85}
+2021/03/28 15:42:26 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: f3cf7902f288c44b945887b931893568, StatelessResetToken: 0xb2a07ffb0dd8bc8919cdfd09e7335a85}
+2021/03/28 15:42:26 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 45a649bf986b74502ab24a9337fa7fc9, StatelessResetToken: 0xd542342cf35fce13bea9a473d2abfd90}
+2021/03/28 15:42:26 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 9f5f93cfb4049fb6b24469b87c8cfd33, StatelessResetToken: 0xa91b4c1846137aab6ed1e8cecd63978c}
+2021/03/28 15:42:26 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 45a649bf986b74502ab24a9337fa7fc9, StatelessResetToken: 0xd542342cf35fce13bea9a473d2abfd90}
+2021/03/28 15:42:26 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 9f5f93cfb4049fb6b24469b87c8cfd33, StatelessResetToken: 0xa91b4c1846137aab6ed1e8cecd63978c}
+2021/03/28 15:42:26 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: c783afa14096ff3f09133dc883ec6037, StatelessResetToken: 0x56df92768c2355112499a3be37975a4b}
+2021/03/28 15:42:26 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: eb40e1be64f4e211ffdff0293ec22d35, StatelessResetToken: 0x7b8d3879e8171aa5843dc06955b12147}
+2021/03/28 15:42:26 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: c783afa14096ff3f09133dc883ec6037, StatelessResetToken: 0x56df92768c2355112499a3be37975a4b}
+2021/03/28 15:42:26 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: eb40e1be64f4e211ffdff0293ec22d35, StatelessResetToken: 0x7b8d3879e8171aa5843dc06955b12147}
+2021/03/28 15:42:26 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:26 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:27 muxer Tracking 6 connection IDs and 1 reset tokens.
+2021/03/28 15:42:27 muxer Tracking 6 connection IDs and 1 reset tokens.
+2021/03/28 15:42:27 muxer Tracking 6 connection IDs and 1 reset tokens.
+2021/03/28 15:42:27 muxer Tracking 6 connection IDs and 1 reset tokens.
+2021/03/28 15:42:27 Activating reading of ECN bits for IPv4 and IPv6.
+2021/03/28 15:42:27 Activating reading of ECN bits for IPv4 and IPv6.
+
+
+
+
+
+
+
+
+
+
+2021/03/28 15:42:27 client Starting new connection to 192.168.0.2 ([::]:48788 -> 192.168.0.2:12344), source connection ID ccf19cf3b95efd0e0000000000000000, destination connection ID ccf19cf3b95efd0e0000000000000000, version draft-29
+2021/03/28 15:42:27 client Starting new connection to 192.168.0.2 ([::]:48788 -> 192.168.0.2:12344), source connection ID ccf19cf3b95efd0e0000000000000000, destination connection ID ccf19cf3b95efd0e0000000000000000, version draft-29
+2021/03/28 15:42:27 muxer Adding connection ID ccf19cf3b95efd0e0000000000000000.
+2021/03/28 15:42:27 muxer Adding connection ID ccf19cf3b95efd0e0000000000000000.
+2021/03/28 15:42:27 client Not doing 0-RTT.
+2021/03/28 15:42:27 client Not doing 0-RTT.
+2021/03/28 15:42:27 client Sending a keep-alive PING to keep the connection alive.
+2021/03/28 15:42:27 client Sending a keep-alive PING to keep the connection alive.
+2021/03/28 15:42:27 client -> Sending packet 0 (1252 bytes) for connection ccf19cf3b95efd0e0000000000000000, Initial
+2021/03/28 15:42:27 client -> Sending packet 0 (1252 bytes) for connection ccf19cf3b95efd0e0000000000000000, Initial
+2021/03/28 15:42:27 client 	Long Header{Type: Initial, DestConnectionID: ccf19cf3b95efd0e0000000000000000, SrcConnectionID: ccf19cf3b95efd0e0000000000000000, Token: (empty), PacketNumber: 0, PacketNumberLen: 2, Length: 1210, Version: draft-29}
+2021/03/28 15:42:27 client 	Long Header{Type: Initial, DestConnectionID: ccf19cf3b95efd0e0000000000000000, SrcConnectionID: ccf19cf3b95efd0e0000000000000000, Token: (empty), PacketNumber: 0, PacketNumberLen: 2, Length: 1210, Version: draft-29}
+2021/03/28 15:42:27 client 	-> &wire.CryptoFrame{Offset: 0, Data length: 300, Offset + Data length: 300}
+2021/03/28 15:42:27 client 	-> &wire.CryptoFrame{Offset: 0, Data length: 300, Offset + Data length: 300}
+2021/03/28 15:42:27 client <- Reading packet 0 (1252 bytes) for connection ccf19cf3b95efd0e0000000000000000, Initial
+2021/03/28 15:42:27 client <- Reading packet 0 (1252 bytes) for connection ccf19cf3b95efd0e0000000000000000, Initial
+2021/03/28 15:42:27 client 	Long Header{Type: Initial, DestConnectionID: ccf19cf3b95efd0e0000000000000000, SrcConnectionID: 5f714bda4add0e63, Token: (empty), PacketNumber: 0, PacketNumberLen: 1, Length: 1218, Version: draft-29}
+2021/03/28 15:42:27 client Received first packet. Switching destination connection ID to: 5f714bda4add0e63
+2021/03/28 15:42:27 client 	<- &wire.CryptoFrame{Offset: 0, Data length: 90, Offset + Data length: 90}
+2021/03/28 15:42:27 client 	Long Header{Type: Initial, DestConnectionID: ccf19cf3b95efd0e0000000000000000, SrcConnectionID: 5f714bda4add0e63, Token: (empty), PacketNumber: 0, PacketNumberLen: 1, Length: 1218, Version: draft-29}
+2021/03/28 15:42:27 client Received first packet. Switching destination connection ID to: 5f714bda4add0e63
+2021/03/28 15:42:27 client 	<- &wire.CryptoFrame{Offset: 0, Data length: 90, Offset + Data length: 90}
+2021/03/28 15:42:27 client Received ServerHello message (90 bytes, encryption level: Initial)
+2021/03/28 15:42:27 client Received ServerHello message (90 bytes, encryption level: Initial)
+2021/03/28 15:42:27 client Installed Handshake Write keys (using TLS_AES_128_GCM_SHA256)
+2021/03/28 15:42:27 client Installed Handshake Write keys (using TLS_AES_128_GCM_SHA256)
+2021/03/28 15:42:27 client Installed Handshake Read keys (using TLS_AES_128_GCM_SHA256)
+2021/03/28 15:42:27 client Installed Handshake Read keys (using TLS_AES_128_GCM_SHA256)
+2021/03/28 15:42:27 client 	Queueing ACK because the first packet should be acknowledged.
+2021/03/28 15:42:27 client 	Queueing ACK because the first packet should be acknowledged.
+2021/03/28 15:42:27 client <- Reading packet 1 (1252 bytes) for connection ccf19cf3b95efd0e0000000000000000, Handshake
+2021/03/28 15:42:27 client <- Reading packet 1 (1252 bytes) for connection ccf19cf3b95efd0e0000000000000000, Handshake
+2021/03/28 15:42:27 client 	Long Header{Type: Handshake, DestConnectionID: ccf19cf3b95efd0e0000000000000000, SrcConnectionID: 5f714bda4add0e63, PacketNumber: 1, PacketNumberLen: 1, Length: 1219, Version: draft-29}
+2021/03/28 15:42:27 client 	Long Header{Type: Handshake, DestConnectionID: ccf19cf3b95efd0e0000000000000000, SrcConnectionID: 5f714bda4add0e63, PacketNumber: 1, PacketNumberLen: 1, Length: 1219, Version: draft-29}
+2021/03/28 15:42:27 client 	<- &wire.CryptoFrame{Offset: 0, Data length: 1198, Offset + Data length: 1198}
+2021/03/28 15:42:27 client Received EncryptedExtensions message (127 bytes, encryption level: Handshake)
+2021/03/28 15:42:27 client 	<- &wire.CryptoFrame{Offset: 0, Data length: 1198, Offset + Data length: 1198}
+2021/03/28 15:42:27 client Received EncryptedExtensions message (127 bytes, encryption level: Handshake)
+2021/03/28 15:42:27 client Processed Transport Parameters: &wire.TransportParameters{OriginalDestinationConnectionID: ccf19cf3b95efd0e0000000000000000, InitialSourceConnectionID: 5f714bda4add0e63, InitialMaxStreamDataBidiLocal: 0, InitialMaxStreamDataBidiRemote: 1048576, InitialMaxStreamDataUni: 12288, InitialMaxData: 1572864, MaxBidiStreamNum: 100, MaxUniStreamNum: 3, MaxIdleTimeout: 30s, AckDelayExponent: 3, MaxAckDelay: 25ms, ActiveConnectionIDLimit: 8, StatelessResetToken: 0x705f589cf43237c8ff35dff93560a860}
+2021/03/28 15:42:27 muxer Adding connection ID d72c55867bb5ca7a1a14618286a44705.
+2021/03/28 15:42:27 muxer Adding connection ID ecac18ec3bf87d9164655c0bf1846a13.
+2021/03/28 15:42:27 client Processed Transport Parameters: &wire.TransportParameters{OriginalDestinationConnectionID: ccf19cf3b95efd0e0000000000000000, InitialSourceConnectionID: 5f714bda4add0e63, InitialMaxStreamDataBidiLocal: 0, InitialMaxStreamDataBidiRemote: 1048576, InitialMaxStreamDataUni: 12288, InitialMaxData: 1572864, MaxBidiStreamNum: 100, MaxUniStreamNum: 3, MaxIdleTimeout: 30s, AckDelayExponent: 3, MaxAckDelay: 25ms, ActiveConnectionIDLimit: 8, StatelessResetToken: 0x705f589cf43237c8ff35dff93560a860}
+2021/03/28 15:42:27 muxer Adding connection ID d72c55867bb5ca7a1a14618286a44705.
+2021/03/28 15:42:27 muxer Adding connection ID ecac18ec3bf87d9164655c0bf1846a13.
+2021/03/28 15:42:27 muxer Adding connection ID 16173e21c96a740e6c32d02bdb78cd7f.
+2021/03/28 15:42:27 muxer Adding connection ID 7225bbde1259cc369df4a2f0e2ebcc78.
+2021/03/28 15:42:27 muxer Adding connection ID 6593bfeb2005ce5332bf71e9c02e7969.
+2021/03/28 15:42:27 muxer Adding connection ID 16173e21c96a740e6c32d02bdb78cd7f.
+2021/03/28 15:42:27 muxer Adding connection ID 7225bbde1259cc369df4a2f0e2ebcc78.
+2021/03/28 15:42:27 muxer Adding connection ID 6593bfeb2005ce5332bf71e9c02e7969.
+2021/03/28 15:42:27 client Received Certificate message (843 bytes, encryption level: Handshake)
+2021/03/28 15:42:27 client Received Certificate message (843 bytes, encryption level: Handshake)
+2021/03/28 15:42:27 client 	Queueing ACK because the first packet should be acknowledged.
+2021/03/28 15:42:27 client Parsed a coalesced packet. Part 1: 127 bytes. Remaining: 57 bytes.
+2021/03/28 15:42:27 client <- Reading packet 2 (127 bytes) for connection ccf19cf3b95efd0e0000000000000000, Handshake
+2021/03/28 15:42:27 client 	Queueing ACK because the first packet should be acknowledged.
+2021/03/28 15:42:27 client Parsed a coalesced packet. Part 1: 127 bytes. Remaining: 57 bytes.
+2021/03/28 15:42:27 client <- Reading packet 2 (127 bytes) for connection ccf19cf3b95efd0e0000000000000000, Handshake
+2021/03/28 15:42:27 client 	Long Header{Type: Handshake, DestConnectionID: ccf19cf3b95efd0e0000000000000000, SrcConnectionID: 5f714bda4add0e63, PacketNumber: 2, PacketNumberLen: 1, Length: 94, Version: draft-29}
+2021/03/28 15:42:27 client 	<- &wire.CryptoFrame{Offset: 1198, Data length: 72, Offset + Data length: 1270}
+2021/03/28 15:42:27 client Received CertificateVerify message (264 bytes, encryption level: Handshake)
+2021/03/28 15:42:27 client 	Long Header{Type: Handshake, DestConnectionID: ccf19cf3b95efd0e0000000000000000, SrcConnectionID: 5f714bda4add0e63, PacketNumber: 2, PacketNumberLen: 1, Length: 94, Version: draft-29}
+2021/03/28 15:42:27 client 	<- &wire.CryptoFrame{Offset: 1198, Data length: 72, Offset + Data length: 1270}
+2021/03/28 15:42:27 client Received CertificateVerify message (264 bytes, encryption level: Handshake)
+2021/03/28 15:42:27 client Received Finished message (36 bytes, encryption level: Handshake)
+2021/03/28 15:42:27 client Received Finished message (36 bytes, encryption level: Handshake)
+2021/03/28 15:42:27 client Installed 1-RTT Read keys (using TLS_AES_128_GCM_SHA256)
+2021/03/28 15:42:27 client Installed 1-RTT Read keys (using TLS_AES_128_GCM_SHA256)
+2021/03/28 15:42:27 client Installed 1-RTT Write keys (using TLS_AES_128_GCM_SHA256)
+2021/03/28 15:42:27 client Installed 1-RTT Write keys (using TLS_AES_128_GCM_SHA256)
+2021/03/28 15:42:27 client Parsed a coalesced packet. Part 2: 57 bytes. Remaining: 0 bytes.
+2021/03/28 15:42:27 client <- Reading packet 3 (57 bytes) for connection ccf19cf3b95efd0e0000000000000000, Initial
+2021/03/28 15:42:27 client Parsed a coalesced packet. Part 2: 57 bytes. Remaining: 0 bytes.
+2021/03/28 15:42:27 client <- Reading packet 3 (57 bytes) for connection ccf19cf3b95efd0e0000000000000000, Initial
+2021/03/28 15:42:27 client 	Long Header{Type: Initial, DestConnectionID: ccf19cf3b95efd0e0000000000000000, SrcConnectionID: 5f714bda4add0e63, Token: (empty), PacketNumber: 3, PacketNumberLen: 1, Length: 23, Version: draft-29}
+2021/03/28 15:42:27 client 	<- &wire.AckFrame{LargestAcked: 0, LowestAcked: 0, DelayTime: 36.208ms}
+2021/03/28 15:42:27 client 	Long Header{Type: Initial, DestConnectionID: ccf19cf3b95efd0e0000000000000000, SrcConnectionID: 5f714bda4add0e63, Token: (empty), PacketNumber: 3, PacketNumberLen: 1, Length: 23, Version: draft-29}
+2021/03/28 15:42:27 client 	<- &wire.AckFrame{LargestAcked: 0, LowestAcked: 0, DelayTime: 36.208ms}
+2021/03/28 15:42:27 client 	newly acked packets (1): [0]
+2021/03/28 15:42:27 client 	updated RTT: 41.959292ms (σ: 20.979646ms)
+2021/03/28 15:42:27 client 	newly acked packets (1): [0]
+2021/03/28 15:42:27 client 	updated RTT: 41.959292ms (σ: 20.979646ms)
+2021/03/28 15:42:27 client Dropping Initial keys.
+2021/03/28 15:42:27 client -> Sending coalesced packet (3 parts, 1252 bytes) for connection ccf19cf3b95efd0e0000000000000000
+2021/03/28 15:42:27 client Dropping Initial keys.
+2021/03/28 15:42:27 client -> Sending coalesced packet (3 parts, 1252 bytes) for connection ccf19cf3b95efd0e0000000000000000
+2021/03/28 15:42:27 client 	Long Header{Type: Initial, DestConnectionID: 5f714bda4add0e63, SrcConnectionID: ccf19cf3b95efd0e0000000000000000, Token: (empty), PacketNumber: 1, PacketNumberLen: 2, Length: 920, Version: draft-29}
+2021/03/28 15:42:27 client 	-> &wire.AckFrame{LargestAcked: 3, LowestAcked: 0, AckRanges: {{Largest: 3, Smallest: 3}, {Largest: 0, Smallest: 0}}, DelayTime: 0s}
+2021/03/28 15:42:27 client 	Long Header{Type: Handshake, DestConnectionID: 5f714bda4add0e63, SrcConnectionID: ccf19cf3b95efd0e0000000000000000, PacketNumber: 0, PacketNumberLen: 2, Length: 57, Version: draft-29}
+2021/03/28 15:42:27 client 	-> &wire.CryptoFrame{Offset: 0, Data length: 36, Offset + Data length: 36}
+2021/03/28 15:42:27 client 	Long Header{Type: Initial, DestConnectionID: 5f714bda4add0e63, SrcConnectionID: ccf19cf3b95efd0e0000000000000000, Token: (empty), PacketNumber: 1, PacketNumberLen: 2, Length: 920, Version: draft-29}
+2021/03/28 15:42:27 client 	-> &wire.AckFrame{LargestAcked: 3, LowestAcked: 0, AckRanges: {{Largest: 3, Smallest: 3}, {Largest: 0, Smallest: 0}}, DelayTime: 0s}
+2021/03/28 15:42:27 client 	Long Header{Type: Handshake, DestConnectionID: 5f714bda4add0e63, SrcConnectionID: ccf19cf3b95efd0e0000000000000000, PacketNumber: 0, PacketNumberLen: 2, Length: 57, Version: draft-29}
+2021/03/28 15:42:27 client 	-> &wire.CryptoFrame{Offset: 0, Data length: 36, Offset + Data length: 36}
+2021/03/28 15:42:27 client 	Short Header{DestConnectionID: 5f714bda4add0e63, PacketNumber: 0, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:27 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: 6593bfeb2005ce5332bf71e9c02e7969, StatelessResetToken: 0x8a59e62a2123b9e8f1348e17e6c5af32}
+2021/03/28 15:42:27 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 7225bbde1259cc369df4a2f0e2ebcc78, StatelessResetToken: 0x9e21fe4373ca4cc332aa0c55ba421a1d}
+2021/03/28 15:42:27 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 16173e21c96a740e6c32d02bdb78cd7f, StatelessResetToken: 0xf7a78fcdb9133b2ef4ed0dca85fd331e}
+2021/03/28 15:42:27 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: ecac18ec3bf87d9164655c0bf1846a13, StatelessResetToken: 0x4a3f725f1e0c30d70dd1d66680f5e41d}
+2021/03/28 15:42:27 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: d72c55867bb5ca7a1a14618286a44705, StatelessResetToken: 0x26c61be5135e4f66b0cb48dadd847c71}
+2021/03/28 15:42:27 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:27 client 	Short Header{DestConnectionID: 5f714bda4add0e63, PacketNumber: 0, PacketNumberLen: 2, KeyPhase: 0}
+2021/03/28 15:42:27 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 5, ConnectionID: 6593bfeb2005ce5332bf71e9c02e7969, StatelessResetToken: 0x8a59e62a2123b9e8f1348e17e6c5af32}
+2021/03/28 15:42:27 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 4, ConnectionID: 7225bbde1259cc369df4a2f0e2ebcc78, StatelessResetToken: 0x9e21fe4373ca4cc332aa0c55ba421a1d}
+2021/03/28 15:42:27 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 3, ConnectionID: 16173e21c96a740e6c32d02bdb78cd7f, StatelessResetToken: 0xf7a78fcdb9133b2ef4ed0dca85fd331e}
+2021/03/28 15:42:27 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 2, ConnectionID: ecac18ec3bf87d9164655c0bf1846a13, StatelessResetToken: 0x4a3f725f1e0c30d70dd1d66680f5e41d}
+2021/03/28 15:42:27 client 	-> &wire.NewConnectionIDFrame{SequenceNumber: 1, ConnectionID: d72c55867bb5ca7a1a14618286a44705, StatelessResetToken: 0x26c61be5135e4f66b0cb48dadd847c71}
+2021/03/28 15:42:27 client 	-> &wire.PingFrame{}
+2021/03/28 15:42:27 client -> Sending packet 1 (56 bytes) for connection ccf19cf3b95efd0e0000000000000000, Handshake
+2021/03/28 15:42:27 client -> Sending packet 1 (56 bytes) for connection ccf19cf3b95efd0e0000000000000000, Handshake
+2021/03/28 15:42:27 client 	Long Header{Type: Handshake, DestConnectionID: 5f714bda4add0e63, SrcConnectionID: ccf19cf3b95efd0e0000000000000000, PacketNumber: 1, PacketNumberLen: 2, Length: 23, Version: draft-29}
+2021/03/28 15:42:27 client 	-> &wire.AckFrame{LargestAcked: 2, LowestAcked: 1, DelayTime: 0s}
+2021/03/28 15:42:27 client 	Long Header{Type: Handshake, DestConnectionID: 5f714bda4add0e63, SrcConnectionID: ccf19cf3b95efd0e0000000000000000, PacketNumber: 1, PacketNumberLen: 2, Length: 23, Version: draft-29}
+2021/03/28 15:42:27 client 	-> &wire.AckFrame{LargestAcked: 2, LowestAcked: 1, DelayTime: 0s}

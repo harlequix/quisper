@@ -2,13 +2,12 @@ package backends
 
 import (
     // "fmt"
-    // "time"
+    "time"
     "crypto/tls"
     quic "github.com/lucas-clemente/quic-go"
     log "github.com/harlequix/quisper/log"
     // "github.com/sirupsen/logrus"
     )
-    const  addr = "127.0.0.1:4433"
 var logger *log.Logger
 func init() {
     logger = log.NewLogger("BackendNative")
@@ -20,11 +19,23 @@ type NativeBackend struct {
     config *quic.Config
 }
 
+func defaultConfig() *quic.Config{
+    return &quic.Config{
+        HandshakeIdleTimeout: time.Second * 2,
+        KeepAlive: true,
+        MaxIdleTimeout: time.Second * 60,
+    }
+}
+
 func NewNativeBackend(addr string, config *quic.Config) *NativeBackend {
     tlsConf := &tls.Config{
 		InsecureSkipVerify: true,
-		NextProtos:         []string{},
+		NextProtos:         []string{"echo"},
+        // NextProtos:         []string{},
 	}
+    if config == nil {
+        config = defaultConfig()
+    }
     return &NativeBackend {
         addr: addr,
         config: config,
@@ -32,12 +43,12 @@ func NewNativeBackend(addr string, config *quic.Config) *NativeBackend {
     }
 }
 
-func (self *NativeBackend) Dial (cid []byte) error {
+func (self *NativeBackend) Dial (cid []byte) (quic.Session, error) {
     // fmt.Println("foobar2")
     newGen := quic.GenConnectionID(cid)
     // fmt.Println("foobar")
     session, err := quic.DialAddr(self.addr, self.tlsconfig, self.config, newGen)
-    // fmt.Println("foobar3")
-    _ = session
-    return err
+    // fmt.Println(err)
+    // _ = session
+    return session, err
 }

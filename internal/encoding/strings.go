@@ -4,7 +4,7 @@ import (
     "fmt"
     "strconv"
     "bytes"
-
+    "encoding/binary"
 )
 
 type DialResult struct {
@@ -16,6 +16,12 @@ const ONE byte = 49
 const ZERO byte = 48
 
 
+func ByteToBit(input byte) []byte {
+    var buffer bytes.Buffer
+    fmt.Fprintf(&buffer, "%.8b", input)
+    byteStr := fmt.Sprintf("%s", buffer.Bytes())
+    return []byte(byteStr)
+}
 
 func StrToBinary(s string) []byte {
 
@@ -29,6 +35,17 @@ func StrToBinary(s string) []byte {
     }
 
     return b
+}
+
+func Uint64ToByte(num uint64) []byte {
+    prefix := make([]byte, 8)
+    binary.LittleEndian.PutUint64(prefix, num)
+    return prefix
+}
+
+func ByteToUint64(block []byte) uint64 {
+    num := binary.LittleEndian.Uint64(block)
+    return num
 }
 
 func ToBinaryBytes(s string) string {
