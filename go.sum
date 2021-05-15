@@ -111,6 +111,10 @@ github.com/harlequix/quic-go v0.7.1-0.20210304113511-989c16203466 h1:TBFTTLyYkbq
 github.com/harlequix/quic-go v0.7.1-0.20210304113511-989c16203466/go.mod h1:lGERPcRUEiaKVzv0Bk2u8/cVW2w7Bp3VJ7Knu/oQMHI=
 github.com/harlequix/quic-go v0.7.1-0.20210309095737-56573e04b15e h1:YnDH9Ogb69mj0b0cUDuia5jYyFtNdKL3BBgzgKE14d4=
 github.com/harlequix/quic-go v0.7.1-0.20210309095737-56573e04b15e/go.mod h1:lGERPcRUEiaKVzv0Bk2u8/cVW2w7Bp3VJ7Knu/oQMHI=
+github.com/harlequix/quic-go v0.7.1-0.20210404152617-2377252de3cf h1:uLDEe3q2qtSQSNv7KMq8+X/BnwzGVXTzkLGdoyJ+ncM=
+github.com/harlequix/quic-go v0.7.1-0.20210404152617-2377252de3cf/go.mod h1:lGERPcRUEiaKVzv0Bk2u8/cVW2w7Bp3VJ7Knu/oQMHI=
+github.com/harlequix/quic-go v0.19.3 h1:Lqjm4YrT77RqC7lsYjkQ3JOUT+wKQM1X2zWVA1u3IJ8=
+github.com/harlequix/quic-go v0.19.3/go.mod h1:ADXpNbTQjq1hIzCpB+y/k5iz4n4z4IwqoLb94Kh5Hu8=
 github.com/hashicorp/consul/api v1.1.0/go.mod h1:VmuI/Lkw1nC05EYQWNKwWGbkg+FbDBtguAZLlVdkD9Q=
 github.com/hashicorp/consul/sdk v0.1.1/go.mod h1:VKf9jXwCTEY1QZP2MOLRhb5i/I/ssyNV1vwHyQBF0x8=
 github.com/hashicorp/errwrap v1.0.0/go.mod h1:YH+1FKiLXxHSkmPseP+kNlulaMuP3n2brvKWEqk/Jc4=

@@ -12,4 +12,4 @@ require (
 	github.com/stretchr/objx v0.1.1 // indirect
 )
 
-replace github.com/lucas-clemente/quic-go => github.com/harlequix/quic-go v0.7.1-0.20210309095737-56573e04b15e
+replace github.com/lucas-clemente/quic-go => github.com/harlequix/quic-go v0.7.1-0.20210404152617-2377252de3cf
