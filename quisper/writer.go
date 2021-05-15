@@ -157,7 +157,6 @@ func (self *Writer)runEncoder(ctx context.Context)  {
 func (self *Writer)  MainLoop(ctx context.Context, pipeline chan(byte)){
     logger := self.logger.WithField("component", "MainLoop")
     logger.Trace("Mainloop started")
-    fmt.Println("HelloWorld")
     timeslotChn := make(chan uint64)
     timeslotStatusChn := make(chan bool)
     reportChn := make(chan uint64, 1)
@@ -292,7 +291,6 @@ func (self *Writer) evalDial(cid *prot.CID, session quic.Session, err error) *Di
         // self.logger.WithField("cid", cid).Trace("Counting a connection success")
         result = 0
     } else {
-        fmt.Println(err)
         result = 1
     }
     return &DialResult{
