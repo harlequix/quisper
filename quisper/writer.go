@@ -46,6 +46,8 @@ type DialResult struct {
 type QuisperConfig struct {
     TimeslotLength time.Duration
     Backend string
+    Logfile string
+    Role string
 }
 
 func init() {
@@ -70,13 +72,13 @@ type Writer struct {
     config QuisperConfig
 }
 
-func NewWriter(addr string, secret string) *Writer {
-    var config QuisperConfig
-    err := viper.Unmarshal(&config)
-    _ = err
+func newInstance(addr string, secret string, config QuisperConfig) *Writer{
     backend := backends.NewNativeBackend(addr, nil) // TODO select backend
     timeslot := timeslots.NewTimeslotScheduler(config.TimeslotLength*time.Second) // TODO make duration configurable
     logger.Trace("Create new backend ", addr)
+    if config.Role != RoleTX || config.Role != RoleRX {
+        panic("please configure a proper role")
+    }
     return &Writer{
         addr: addr,
         secret: secret,
@@ -84,7 +86,7 @@ func NewWriter(addr string, secret string) *Writer {
         TimeslotScheduler: timeslot,
         timeslot: nil,
         cid_length: 16,
-        logger: log.NewLogger(RoleTX + "-" + secret),
+        logger: log.NewLogger(config.Role + "-" + secret),
         role: RoleTX,
         offset: TXOffset,
         dispatchChan: make(chan *prot.CID, 10),
@@ -95,28 +97,25 @@ func NewWriter(addr string, secret string) *Writer {
     }
 }
 
+func NewWriter(addr string, secret string) *Writer {
+    var config QuisperConfig
+    err := viper.Unmarshal(&config)
+    if err != nil {
+        fmt.Println(err)
+    }
+    config.Role = RoleTX
+    return newInstance(addr, secret, config)
+}
+
+
 func NewReader(addr string, secret string) *Writer {
     var config QuisperConfig
     err := viper.Unmarshal(&config)
-    _ = err
-    backend := backends.NewNativeBackend(addr, nil) // TODO select backend
-    timeslot := timeslots.NewTimeslotScheduler(config.TimeslotLength*time.Second) // TODO make duration configurable
-    logger.Trace("Create new backend ", addr)
-    return &Writer{
-        addr: addr,
-        secret: secret,
-        backend: backend,
-        TimeslotScheduler: timeslot,
-        timeslot: nil,
-        cid_length: 16,
-        logger: log.NewLogger(RoleRX + "-" + secret),
-        role: RoleRX,
-        offset: RXOffset,
-        dispatchChan: make(chan *prot.CID, 10),
-        resultChan: make(chan *DialResult, 10),
-        timeslotChan: make(chan *timeslots.Timeslot),
-        ioChan: make(chan byte, 64),
+    if err != nil {
+        fmt.Println(err)
     }
+    config.Role = RoleRX
+    return newInstance(addr, secret, config)
 }
 
 func (self *Writer)Write(p []byte) (int, error){
