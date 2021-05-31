@@ -17,7 +17,7 @@ func AddTracer (logger *log.Logger, path string){
     hook := lfshook.NewHook(
         pathMap,
         &log.JSONFormatter{
-            TimestampFormat: "Jan _2 15:04:05.000000",
+            TimestampFormat: "Jan _2 2006 15:04:05.000000",
             // DisableTimestamp: true,
         },
     )

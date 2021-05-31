@@ -18,6 +18,7 @@ import
     prot "github.com/harlequix/quisper/protocol"
     quic "github.com/lucas-clemente/quic-go"
     "math/rand"
+    "github.com/spf13/viper"
 )
 
 type Backend interface {
@@ -42,6 +43,16 @@ type DialResult struct {
     Session quic.Session
 }
 
+type QuisperConfig struct {
+    TimeslotLength time.Duration
+    Backend string
+}
+
+func init() {
+    viper.SetDefault("TimeslotLength", 3)
+    viper.SetDefault("Backend", "native")
+}
+
 type Writer struct {
     addr string
     secret string
@@ -55,11 +66,16 @@ type Writer struct {
     dispatchChan chan(*prot.CID)
     resultChan chan(*DialResult)
     timeslotChan chan *timeslots.Timeslot
+    ioChan chan byte
+    config QuisperConfig
 }
 
 func NewWriter(addr string, secret string) *Writer {
+    var config QuisperConfig
+    err := viper.Unmarshal(&config)
+    _ = err
     backend := backends.NewNativeBackend(addr, nil) // TODO select backend
-    timeslot := timeslots.NewTimeslotScheduler(10*time.Second) // TODO make duration configurable
+    timeslot := timeslots.NewTimeslotScheduler(config.TimeslotLength*time.Second) // TODO make duration configurable
     logger.Trace("Create new backend ", addr)
     return &Writer{
         addr: addr,
@@ -74,12 +90,17 @@ func NewWriter(addr string, secret string) *Writer {
         dispatchChan: make(chan *prot.CID, 10),
         resultChan: make(chan *DialResult, 10),
         timeslotChan: make(chan *timeslots.Timeslot),
+        ioChan: make(chan byte, 64),
+        config: config,
     }
 }
 
 func NewReader(addr string, secret string) *Writer {
+    var config QuisperConfig
+    err := viper.Unmarshal(&config)
+    _ = err
     backend := backends.NewNativeBackend(addr, nil) // TODO select backend
-    timeslot := timeslots.NewTimeslotScheduler(10*time.Second) // TODO make duration configurable
+    timeslot := timeslots.NewTimeslotScheduler(config.TimeslotLength*time.Second) // TODO make duration configurable
     logger.Trace("Create new backend ", addr)
     return &Writer{
         addr: addr,
@@ -94,11 +115,37 @@ func NewReader(addr string, secret string) *Writer {
         dispatchChan: make(chan *prot.CID, 10),
         resultChan: make(chan *DialResult, 10),
         timeslotChan: make(chan *timeslots.Timeslot),
+        ioChan: make(chan byte, 64),
     }
 }
 
+func (self *Writer)Write(p []byte) (int, error){
+    cnt := 0
+    for _, b := range p {
+        self.ioChan <- b
+        cnt++
+    }
+    return cnt, nil
+}
+
+func (self *Writer)Read(p []byte) (int, error){
+    cnt := 0
+    for i := range p {
+        p[i] = <- self.ioChan
+        cnt++
+    }
+    return cnt, nil
+}
+
+func (self *Writer)Connect() (context.Context, error) {
+    ctx := context.Background()
+    go self.MainLoop(ctx, self.ioChan)
+    return ctx, nil
+
+}
+
 func (self *Writer)runDispatcher(ctx context.Context)  {
-    cap := 100
+    cap := 150
     bucketQueue := make(chan bool, cap)
     for it := 0; it < cap; it++ {
         bucketQueue <- true
@@ -110,20 +157,13 @@ func (self *Writer)runDispatcher(ctx context.Context)  {
             case <- ctx.Done():
                     return
             case entry := <- self.dispatchChan:
-                overflow = append(overflow, entry)
-            case _ = <- bucketQueue:
-                if len(overflow) > 0 {
-                    var cid *prot.CID
-                    cid, overflow = overflow[0], overflow[1:]
-                    go self.dispatchWrapper(cid, self.resultChan, bucketQueue)
-                } else {
-                    bucketQueue <- true // return bucket
-                }
+                go self.dispatchWrapper(entry, self.resultChan, bucketQueue)
         }
     }
 }
 
 func (self *Writer) dispatchWrapper(cid *prot.CID, feedback chan *DialResult, tokenBucket chan bool){
+    <- tokenBucket
     self.dispatch(cid, feedback)
     tokenBucket <- true
 }
@@ -131,7 +171,7 @@ func (self *Writer) dispatchWrapper(cid *prot.CID, feedback chan *DialResult, to
 func (self *Writer)runEncoder(ctx context.Context)  {
     log := self.logger.WithField("func", "encoder")
     _ = log
-    decoder := decoding.NewDecoder()
+    decoder := decoding.NewDecoder(self.ioChan)
     for {
         select {
             case <- ctx.Done():
@@ -259,7 +299,7 @@ func (self *Writer) work(ctx context.Context, timeslot *timeslots.Timeslot, pipe
                     for index := range bits {
                         self.logger.WithField("CID", cids[index].String()).WithField("Bit", bits[index]).Trace("Sending bit")
                         if bits[index] == encoding.ONE {
-                            go self.dispatch(cids[index], nil)
+                            self.dispatch(cids[index], nil)
                         }
                     }
             }

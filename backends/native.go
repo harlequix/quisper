@@ -30,8 +30,8 @@ func defaultConfig() *quic.Config{
 func NewNativeBackend(addr string, config *quic.Config) *NativeBackend {
     tlsConf := &tls.Config{
 		InsecureSkipVerify: true,
-		NextProtos:         []string{"echo"},
-        // NextProtos:         []string{},
+		// NextProtos:         []string{"echo"},
+        NextProtos:         []string{"echo", "h3-29"},
 	}
     if config == nil {
         config = defaultConfig()

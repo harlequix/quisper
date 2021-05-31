@@ -2,3 +2,6 @@ bin
 vendor
 *.trace
 *.warn
+eval/*
+runs/*
+.remote-sync.json

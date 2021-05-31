@@ -2,8 +2,8 @@ package cmd
 
  import (
      "github.com/harlequix/quisper/quisper"
-     "context"
      "github.com/spf13/cobra"
+     "fmt"
  )
 
  var readCmd = &cobra.Command{
@@ -28,9 +28,13 @@ package cmd
 
 func read(cmd *cobra.Command, args []string) {
     Reader := quisper.NewReader(args[0], args[1])
-    waitFor := context.Background()
-    go Reader.MainLoop(waitFor, nil)
+    Reader.Connect()
+    msg := []byte{}
+    resp := make([]byte, 1)
     for {
-
+        Reader.Read(resp)
+        fmt.Println(resp)
+        msg = append(msg, resp...)
+        fmt.Println(string(msg))
     }
 }

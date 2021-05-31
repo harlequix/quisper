@@ -2,7 +2,6 @@ package decoding
 
 import (
     _ "io"
-    "fmt"
     "github.com/harlequix/quisper/timeslots"
     _ "strconv"
     log "github.com/harlequix/quisper/log"
@@ -15,13 +14,17 @@ type Decoder struct {
     field []*format.Block
     timeslotMap map[uint64]map[uint64]*format.Block
     log *log.Logger
+    maxRead int
+    feedback chan(byte)
 }
 
-func NewDecoder() *Decoder {
+func NewDecoder(feedback chan(byte)) *Decoder {
     return &Decoder{
         field : []*format.Block{},
         timeslotMap : make(map[uint64]map[uint64]*format.Block),
         log: log.NewLogger("Decoder"),
+        maxRead: 0,
+        feedback: feedback,
     }
 }
 
@@ -45,14 +48,14 @@ func (self *Decoder) SetCID (cid *prot.CID, value byte)  {
 }
 
 func (self *Decoder) yield() {
-    str := ""
-    for  index , block := range self.field{
-        fmt.Println("%d, s", index, block.String(), block.Ready())
+    for index := self.maxRead; index < len(self.field); index++ {
+        block := self.field[index]
+        self.log.Debugf("%d, s", index, block.String(), block.Ready())
         if block.Ready() {
-            str += string(block.GetValue())
+            self.feedback <- block.GetValue()
+            self.maxRead = index  + 1
         } else {
-            str += "_"
+            break
         }
     }
-    fmt.Println(str)
 }

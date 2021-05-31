@@ -48,16 +48,12 @@ package cmd
 
 func write(cmd *cobra.Command, args []string) {
     Writer := quisper.NewWriter(args[0], args[1])
-    pipeline := make(chan byte, 64)
-    waitFor := context.Background()
-    go Writer.MainLoop(waitFor, pipeline)
+    Writer.Connect()
     reader := bufio.NewReader(os.Stdin)
     for {
         text, _ := reader.ReadString('\n')
         messagebits := []byte(text)
-        for i := range messagebits {
-            pipeline <- messagebits[i]
-        }
+        Writer.Write(messagebits)
     }
 }
 func Heavywrite(cmd *cobra.Command, args []string) {
