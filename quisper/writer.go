@@ -234,7 +234,6 @@ func (self *Writer)  MainLoop(ctx context.Context, pipeline chan(byte)){
                 reportChn = make(chan uint64, 1)
                 if self.timeslot != nil {
                     if self.role == RoleTX {
-                        fmt.Println("WTF")
                         self.writeSentBits(self.timeslot, bitsSent)
                     }
                     sync = self.timeslot.Status
