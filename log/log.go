@@ -4,7 +4,7 @@ import
 (
     log "github.com/sirupsen/logrus"
     _ "io"
-    "io/ioutil"
+    // "io/ioutil"
     "os"
     _ "time"
 )
@@ -19,15 +19,22 @@ func NewLogger(module string) *Logger {
 
     base := log.New()
 
-    base.SetFormatter(&log.TextFormatter{
-		DisableColors: false,
-		DisableTimestamp: true,
-	})
+    base.SetFormatter(&log.JSONFormatter{
+        TimestampFormat: "Jan _2 2006 15:04:05.000000",
+        // DisableTimestamp: true,
+    })
     // AddTracer(base)
-    base.SetOutput(os.Stdout)
-    base.SetOutput(ioutil.Discard)
+    output := os.Stdout
+    logfile := os.Getenv("LOG")
+    if logfile != "" {
+        file, err := os.OpenFile(logfile, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+        if err == nil {
+            output = file
+        }
+    }
+    base.SetOutput(output)
     base.SetLevel(log.TraceLevel)
-    AddTracer(base, module)
+    // AddTracer(base, module)
     baselogger := base.WithFields(
         log.Fields{
             "name": module,
