@@ -75,9 +75,15 @@ type Writer struct {
 func newInstance(addr string, secret string, config QuisperConfig) *Writer{
     backend := backends.NewNativeBackend(addr, nil) // TODO select backend
     timeslot := timeslots.NewTimeslotScheduler(config.TimeslotLength*time.Second) // TODO make duration configurable
-    logger.Trace("Create new backend ", addr)
-    if config.Role != RoleTX || config.Role != RoleRX {
+    logger.Trace("Create new instance ", config)
+    if config.Role != RoleTX && config.Role != RoleRX {
         panic("please configure a proper role")
+    }
+    var offset uint64
+    if config.Role == RoleRX {
+        offset = RXOffset
+    } else {
+        offset = TXOffset
     }
     return &Writer{
         addr: addr,
@@ -86,9 +92,9 @@ func newInstance(addr string, secret string, config QuisperConfig) *Writer{
         TimeslotScheduler: timeslot,
         timeslot: nil,
         cid_length: 16,
-        logger: log.NewLogger(config.Role + "-" + secret),
-        role: RoleTX,
-        offset: TXOffset,
+        logger: log.NewLoggerWithLogfile(config.Role + "-" + secret, config.Role + "-" + secret +".log"),
+        role: config.Role,
+        offset: offset,
         dispatchChan: make(chan *prot.CID, 10),
         resultChan: make(chan *DialResult, 10),
         timeslotChan: make(chan *timeslots.Timeslot),
@@ -136,10 +142,11 @@ func (self *Writer)Read(p []byte) (int, error){
     return cnt, nil
 }
 
-func (self *Writer)Connect() (context.Context, error) {
-    ctx := context.Background()
+func (self *Writer)Connect() (context.CancelFunc, error) {
+    parent := context.Background()
+    ctx, cancel := context.WithCancel(parent)
     go self.MainLoop(ctx, self.ioChan)
-    return ctx, nil
+    return cancel, nil
 
 }
 
@@ -154,6 +161,7 @@ func (self *Writer)runDispatcher(ctx context.Context)  {
     for {
         select {
             case <- ctx.Done():
+                    self.logger.Info("shutting down dispatcher")
                     return
             case entry := <- self.dispatchChan:
                 go self.dispatchWrapper(entry, self.resultChan, bucketQueue)
@@ -174,6 +182,7 @@ func (self *Writer)runEncoder(ctx context.Context)  {
     for {
         select {
             case <- ctx.Done():
+                self.logger.Info("shutting down encoder")
                 return
             case result := <- self.resultChan:
                 self.logger.WithField("cid", result.CID).WithField("result", result.Result).Trace("received message")
@@ -225,6 +234,7 @@ func (self *Writer)  MainLoop(ctx context.Context, pipeline chan(byte)){
                 reportChn = make(chan uint64, 1)
                 if self.timeslot != nil {
                     if self.role == RoleTX {
+                        fmt.Println("WTF")
                         self.writeSentBits(self.timeslot, bitsSent)
                     }
                     sync = self.timeslot.Status
@@ -270,6 +280,9 @@ func (self *Writer)  MainLoop(ctx context.Context, pipeline chan(byte)){
                         //TODO go Back N
                 }
                 self.timeslot.Status = status
+            case <- ctx.Done():
+                self.logger.Info("Shutting down manager")
+                return
         }
     }
 }

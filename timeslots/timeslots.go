@@ -151,6 +151,7 @@ func (self *TimeslotScheduler) RunScheduler(ctx context.Context, feedback chan(u
             }
             feedback <- uint64(timeslot)
         case <- ctx.Done():
+            self.Logger.Info("shutting down")
             return
         }
     }
