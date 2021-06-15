@@ -20,6 +20,7 @@ import
     quic "github.com/lucas-clemente/quic-go"
     "math/rand"
     "github.com/spf13/viper"
+    "github.com/harlequix/quisper/rtt"
 )
 
 type Backend interface {
@@ -55,6 +56,7 @@ type QuisperConfig struct {
     AdaptiveRelease bool
     ConcurrentReads int
     ProbingStrategy string
+
 }
 
 func init() {
@@ -66,6 +68,7 @@ func init() {
     viper.SetDefault("AdaptiveRelease", false)
     viper.SetDefault("ConcurrentReads", 240)
     viper.SetDefault("ProbingStrategy", "double")
+    viper.SetDefault("AdaptiveRelease", true)
 }
 
 type Writer struct {
@@ -84,6 +87,7 @@ type Writer struct {
     ioChan chan byte
     config QuisperConfig
     stratProbing probing.Strategy
+    RTTManager rtt.Manager
 }
 
 func newInstance(addr string, secret string, config QuisperConfig) *Writer{
@@ -182,6 +186,7 @@ func (self *Writer)Read(p []byte) (int, error){
 func (self *Writer)Connect() (context.CancelFunc, error) {
     parent := context.Background()
     ctx, cancel := context.WithCancel(parent)
+    self.RTTManager = rtt.NewRTTManager(ctx)
     go self.MainLoop(ctx, self.ioChan)
     return cancel, nil
 
@@ -201,15 +206,30 @@ func (self *Writer)runDispatcher(ctx context.Context)  {
                     self.logger.Info("shutting down dispatcher")
                     return
             case entry := <- self.dispatchChan:
-                go self.dispatchWrapper(entry, self.resultChan, bucketQueue)
+                go self.dispatchWrapper(entry, []chan*DialResult{self.resultChan}, bucketQueue)
         }
     }
 }
 
-func (self *Writer) dispatchWrapper(cid *prot.CID, feedback chan *DialResult, tokenBucket chan bool){
+func (self *Writer) dispatchWrapper(cid *prot.CID, feedback []chan *DialResult, tokenBucket chan bool){
     <- tokenBucket
-    self.dispatch(cid, feedback)
-    tokenBucket <- true
+    if self.config.AdaptiveRelease {
+        adapChan := make(chan *DialResult, 1)
+        adaptiveTimeout := time.NewTimer(self.RTTManager.GetMeasurement())
+        feedback = append(feedback, adapChan)
+        go self.dispatch(cid, feedback)
+        select {
+        case <- adapChan:
+            self.logger.WithField("cid", cid.String()).Trace("Request finished, releasing token")
+            <- tokenBucket
+        case <- adaptiveTimeout.C:
+            self.logger.WithField("cid", cid.String()).Trace("Request timed out softly, releasing token early")
+            <- tokenBucket
+        }
+    } else {
+        self.dispatch(cid, feedback)
+        tokenBucket <- true
+    }
 }
 
 func (self *Writer)runEncoder(ctx context.Context)  {
@@ -386,13 +406,17 @@ func (self *Writer) evalDial(cid *prot.CID, session quic.Session, err error) *Di
     }
 }
 
-func (self *Writer)dispatch(cid *prot.CID, feedback chan(*DialResult))  {
+func (self *Writer)dispatch(cid *prot.CID, feedback []chan(*DialResult))  {
     self.logger.WithField("cid", cid.String()).Trace("Start Request")
+    self.RTTManager.PlaceMeasurement(rtt.MeasureStart(cid))
     session, err := self.backend.Dial(cid.Bytes())
     ret := self.evalDial(cid, session, err)
+    self.RTTManager.PlaceMeasurement(rtt.MeasureEnd(cid, ret.Result))
     self.logger.WithField("cid", cid.String()).WithField("result", ret.Result).Trace("Finished Request")
     if feedback != nil {
-        feedback <- ret
+        for _,fchan := range feedback {
+            fchan <- ret
+        }
     }
 }
 
@@ -420,7 +444,7 @@ func (self *Writer) getBitsSent (slot *timeslots.Timeslot) uint64{
     hdrCids, _ := slot.GetHeader("BitsSent")
     feedback := make(chan *DialResult, len(hdrCids))
     for _, cid := range hdrCids {
-        go self.dispatch(cid, feedback)
+        go self.dispatch(cid, []chan*DialResult{feedback})
     }
     for _ = range hdrCids {
         result := <- feedback
@@ -483,7 +507,7 @@ func (self *Writer) checkReadiness(slot *timeslots.Timeslot, resp chan(bool)) {
     self.logger.WithField("timeslot", slot.Num).Debug("checking readiness on Timeslot")
     for _, bit := range admin_bits {
         cid := slot.GetGenCID(bit)
-        go self.dispatch(cid, feedback)
+        go self.dispatch(cid, []chan*DialResult{feedback})
     }
     for range admin_bits {
         rdy := <- feedback
@@ -527,7 +551,7 @@ func (self *Writer) TestServer(){
     }
     for _, bit := range test_bits {
         cid := timeslot.GetGenCID(bit)
-        go self.dispatch(cid, feedback)
+        go self.dispatch(cid, []chan*DialResult{feedback})
     }
     var resultNum int = 0
     for _ = range test_bits {
@@ -551,7 +575,7 @@ func (self *Writer) TestLongServer() {
     timeslot := timeslots.NewTimeslot(timeslotNum)
     for _, bit := range test_bits {
         cid := timeslot.GetGenCID(bit)
-        self.dispatch(cid, hold)
+        self.dispatch(cid, []chan*DialResult{hold})
     }
     holder := NewConnectionManager()
     for _ = range test_bits {
@@ -568,7 +592,7 @@ func (self *Writer) TestLongServer() {
     var resultNum int = 0
     for _, bit := range test_bits {
         cid := timeslot.GetGenCID(bit)
-        go self.dispatch(cid, feedback)
+        go self.dispatch(cid, []chan*DialResult{feedback})
     }
     for _ = range test_bits {
         result := <- feedback
