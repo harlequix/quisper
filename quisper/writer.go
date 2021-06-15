@@ -15,6 +15,7 @@ import
     "github.com/harlequix/quisper/internal/encoding"
     "github.com/harlequix/quisper/internal/format"
     "github.com/harlequix/quisper/internal/decoding"
+    "github.com/harlequix/quisper/probing"
     prot "github.com/harlequix/quisper/protocol"
     quic "github.com/lucas-clemente/quic-go"
     "math/rand"
@@ -48,11 +49,23 @@ type QuisperConfig struct {
     Backend string
     Logfile string
     Role string
+    OptimisticSync bool
+    TimeslotOffset uint64
+    Blocksize int
+    AdaptiveRelease bool
+    ConcurrentReads int
+    ProbingStrategy string
 }
 
 func init() {
-    viper.SetDefault("TimeslotLength", 3)
+    viper.SetDefault("TimeslotLength", "5s")
     viper.SetDefault("Backend", "native")
+    viper.SetDefault("OptimisticSync", false)
+    viper.SetDefault("TimeslotOffset", 2)
+    viper.SetDefault("Blocksize", 1)
+    viper.SetDefault("AdaptiveRelease", false)
+    viper.SetDefault("ConcurrentReads", 240)
+    viper.SetDefault("ProbingStrategy", "double")
 }
 
 type Writer struct {
@@ -70,12 +83,22 @@ type Writer struct {
     timeslotChan chan *timeslots.Timeslot
     ioChan chan byte
     config QuisperConfig
+    stratProbing probing.Strategy
 }
 
 func newInstance(addr string, secret string, config QuisperConfig) *Writer{
     backend := backends.NewNativeBackend(addr, nil) // TODO select backend
-    timeslot := timeslots.NewTimeslotScheduler(config.TimeslotLength*time.Second) // TODO make duration configurable
-    logger.Trace("Create new instance ", config)
+    timeslot := timeslots.NewTimeslotScheduler(config.TimeslotLength)
+    var stratProbing probing.Strategy
+    if config.ProbingStrategy == "single" {
+        stratProbing = probing.NewSingleProbing()
+    } else if config.ProbingStrategy == "double" {
+        stratProbing = probing.NewDoubleProbing()
+    } else {
+        logger.WithField("InvalidValue", config.ProbingStrategy).Error("Do not know strategy for probing. Falling back to single strategy")
+        stratProbing = probing.NewSingleProbing()
+    }
+    logger.Debug("Create new instance ", config)
     if config.Role != RoleTX && config.Role != RoleRX {
         panic("please configure a proper role")
     }
@@ -83,7 +106,7 @@ func newInstance(addr string, secret string, config QuisperConfig) *Writer{
     if config.Role == RoleRX {
         offset = RXOffset
     } else {
-        offset = TXOffset
+        offset = config.TimeslotOffset
     }
     return &Writer{
         addr: addr,
@@ -92,7 +115,7 @@ func newInstance(addr string, secret string, config QuisperConfig) *Writer{
         TimeslotScheduler: timeslot,
         timeslot: nil,
         cid_length: 16,
-        logger: log.NewLoggerWithLogfile(config.Role + "-" + secret, config.Role + "-" + secret +".log"),
+        logger: log.NewLogger(config.Role + "-" + secret),
         role: config.Role,
         offset: offset,
         dispatchChan: make(chan *prot.CID, 10),
@@ -100,6 +123,20 @@ func newInstance(addr string, secret string, config QuisperConfig) *Writer{
         timeslotChan: make(chan *timeslots.Timeslot),
         ioChan: make(chan byte, 64),
         config: config,
+        stratProbing: stratProbing,
+    }
+}
+
+func SetConfig(configFile string){
+    if configFile != "" {
+        fmt.Println(viper.AllSettings())
+        viper.SetConfigFile(configFile)
+        // viper.ReadInConfig()
+        err := viper.ReadInConfig() // Find and read the config file
+        if err != nil { // Handle errors reading the config file
+        	panic(fmt.Errorf("Fatal error config file: %s \n", err))
+        }
+        fmt.Println(viper.AllSettings())
     }
 }
 
@@ -151,7 +188,7 @@ func (self *Writer)Connect() (context.CancelFunc, error) {
 }
 
 func (self *Writer)runDispatcher(ctx context.Context)  {
-    cap := 150
+    cap := self.config.ConcurrentReads
     bucketQueue := make(chan bool, cap)
     for it := 0; it < cap; it++ {
         bucketQueue <- true
@@ -178,7 +215,7 @@ func (self *Writer) dispatchWrapper(cid *prot.CID, feedback chan *DialResult, to
 func (self *Writer)runEncoder(ctx context.Context)  {
     log := self.logger.WithField("func", "encoder")
     _ = log
-    decoder := decoding.NewDecoder(self.ioChan)
+    decoder := decoding.NewDecoder(self.ioChan, self.stratProbing)
     for {
         select {
             case <- ctx.Done():
@@ -204,7 +241,7 @@ func (self *Writer)runEncoder(ctx context.Context)  {
 
 func (self *Writer)  MainLoop(ctx context.Context, pipeline chan(byte)){
     logger := self.logger.WithField("component", "MainLoop")
-    logger.Trace("Mainloop started")
+    logger.Warn("Mainloop started")
     timeslotChn := make(chan uint64)
     timeslotStatusChn := make(chan bool)
     reportChn := make(chan uint64, 1)
@@ -300,18 +337,16 @@ func (self *Writer) work(ctx context.Context, timeslot *timeslots.Timeslot, pipe
                     self.logger.WithField("timeslot", timeslot.Num).Trace("Cancelling work")
                     report <- sent
                     return
-                case Byte := <- pipeline:
+                case Byte := <- pipeline: //TODO change pipeline type to block
                     block := format.NewBlock()
                     block.SetByte(Byte)
-                    cids := block.GetCIDs(timeslot, sent)
-                    bits := block.GetBits()
+                    pattern := self.stratProbing.GenPattern(block)
+                    cids := pattern.GetSenderCids (timeslot, sent)
+                    // bits := block.GetBits()
                     sent++
-                    self.logger.WithField("Byte", Byte).WithField("bits", bits).Trace("Convert")
-                    for index := range bits {
-                        self.logger.WithField("CID", cids[index].String()).WithField("Bit", bits[index]).Trace("Sending bit")
-                        if bits[index] == encoding.ONE {
-                            self.dispatch(cids[index], nil)
-                        }
+                    for index, val := range cids {
+                        self.logger.WithField("CID", cids[index].String()).Trace("Sending bit")
+                        self.dispatch(val, nil)
                     }
             }
         }
@@ -329,7 +364,7 @@ func (self *Writer) handleTimeslot(num uint64, slot *timeslots.Timeslot){
     slotCopy := timeslots.NewTimeslot(slot.Num)
     slotCopy.Cnt = num
     self.timeslotChan <- slotCopy
-    for it := uint64(0); it < num*uint64(prot.BlockLen); it++ {
+    for it := uint64(0); it < num*uint64(self.stratProbing.PatternLen()); it++ {
         self.dispatchChan <- slot.GetCID()
     }
 }
@@ -410,7 +445,7 @@ func (self *Writer) signalReadiness(slot *timeslots.Timeslot) {
     if self.role == RoleTX {
         cids, _ = slot.GetHeader("WriterRDY")
     } else {
-        readyTimeSlot := timeslots.NewTimeslot(slot.Num + RXReadyOffset)
+        readyTimeSlot := timeslots.NewTimeslot(slot.Num + self.config.TimeslotOffset + 1)
         cids, _ = readyTimeSlot.GetHeader("ReaderRDY")
     }
     for _, cid := range cids {
