@@ -5,3 +5,4 @@ vendor
 eval/*
 runs/*
 .remote-sync.json
+*.log

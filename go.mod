@@ -12,6 +12,7 @@ require (
 	github.com/spf13/cobra v1.1.3
 	github.com/spf13/viper v1.7.1 // indirect
 	github.com/stretchr/objx v0.1.1 // indirect
+	golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9 // indirect
 )
 
 replace github.com/lucas-clemente/quic-go => github.com/harlequix/quic-go v0.7.1-0.20210404152617-2377252de3cf

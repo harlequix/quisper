@@ -7,6 +7,7 @@ import shutil
 RUNBASE = pathlib.Path("./runs/")
 LOGS = "logs"
 STATS = "stats"
+RESULTS = "results"
 
 
 @task
@@ -24,12 +25,21 @@ def init(ctx, name):
 
 @task
 def stats(ctx, name):
+    init(ctx, name)
     pairs = pair_up(RUNBASE/name/LOGS)
+    print(pairs)
     for pair in pairs:
-        splits = pair[0].name.split("-")
-        runname = "-".join([splits[1], splits[2]])
-        cmd = f"python eval/stats.py --traces {pair[0]} {pair[1]} --out {RUNBASE/name/STATS/runname}.csv"
+        data = pairs[pair]
+        cmd = f"python eval/stats.py --traces {data[0]} {data[1]} --out {RUNBASE/name/STATS/pair}.csv"
         print(cmd)
+        run(cmd)
+
+
+@task
+def throughput(ctx, name):
+    stats = (RUNBASE/name/STATS).glob("*.csv")
+    for stat in stats:
+        cmd = f"python eval/throughput.py  {stat} {RUNBASE/name/RESULTS/(f'throughput-{stat.name}')}"
         run(cmd)
 
 
@@ -39,11 +49,12 @@ def pair_up(path):
     for file in files:
         print(file)
         name = file.name
-        key = name[1:]
+        print(name)
+        key = name.rsplit("-", 1)[0]
         if key not in pairs:
             pairs[key] = []
         pairs[key].append(file)
-    return pairs.values()
+    return pairs
 
 
 def gather(name):

@@ -1,0 +1,10 @@
+TimeslotLength: 10s
+Backend: native
+OptimisticSync: false
+TimeslotOffset: 2
+ConcurrentReads: 100
+QuicVersion: q50
+NativeTimeout: 1s
+BlockSize: 1
+AdaptiveRelease: false
+ProbingStrategy: double

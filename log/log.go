@@ -7,6 +7,7 @@ import
     // "io/ioutil"
     "os"
     _ "time"
+    // "fmt"
 )
 
 type Logger struct {
@@ -15,7 +16,7 @@ type Logger struct {
 
 func NewLogger(module string) *Logger {
 
-    log.SetLevel(log.WarnLevel)
+    log.SetLevel(log.TraceLevel)
 
     base := log.New()
 
@@ -24,15 +25,15 @@ func NewLogger(module string) *Logger {
         // DisableTimestamp: true,
     })
     // AddTracer(base)
-    output := os.Stdout
-    logfile := os.Getenv("LOG")
-    if logfile != "" {
-        file, err := os.OpenFile(logfile, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
-        if err == nil {
-            output = file
-        }
-    }
-    base.SetOutput(output)
+    // output := os.Stdout
+    // logfile := os.Getenv("LOG")
+    // if logfile != "" {
+    //     file, err := os.OpenFile(logfile, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+    //     if err == nil {
+    //         output = file
+    //     }
+    // }
+    // base.SetOutput(output)
     base.SetLevel(log.TraceLevel)
     // AddTracer(base, module)
     baselogger := base.WithFields(
