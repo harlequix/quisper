@@ -126,7 +126,7 @@ func newInstance(addr string, secret string, config QuisperConfig) *Writer{
         dispatchChan: make(chan *prot.CID, 1024),
         resultChan: make(chan *DialResult, 1024),
         timeslotChan: make(chan *timeslots.Timeslot),
-        ioChan: make(chan byte, 64),
+        ioChan: make(chan byte, 1024),
         config: config,
         stratProbing: stratProbing,
         Debug: NewDebugger(),
