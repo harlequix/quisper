@@ -88,6 +88,7 @@ type Writer struct {
     config QuisperConfig
     stratProbing probing.Strategy
     RTTManager rtt.Manager
+    Debug DebugInterface
 }
 
 func newInstance(addr string, secret string, config QuisperConfig) *Writer{
@@ -122,12 +123,13 @@ func newInstance(addr string, secret string, config QuisperConfig) *Writer{
         logger: log.NewLogger(config.Role + "-" + secret),
         role: config.Role,
         offset: offset,
-        dispatchChan: make(chan *prot.CID, 10),
-        resultChan: make(chan *DialResult, 10),
+        dispatchChan: make(chan *prot.CID, 1024),
+        resultChan: make(chan *DialResult, 1024),
         timeslotChan: make(chan *timeslots.Timeslot),
         ioChan: make(chan byte, 64),
         config: config,
         stratProbing: stratProbing,
+        Debug: NewDebugger(),
     }
 }
 
@@ -200,13 +202,17 @@ func (self *Writer)runDispatcher(ctx context.Context)  {
     }
     var overflow []*prot.CID
     _ = overflow // fuck you go
+    stuckTimer := time.NewTimer(2*time.Minute)
     for {
         select {
             case <- ctx.Done():
                     self.logger.Info("shutting down dispatcher")
                     return
             case entry := <- self.dispatchChan:
+                stuckTimer.Reset(2*time.Minute)
                 go self.dispatchWrapper(entry, []chan*DialResult{self.resultChan}, bucketQueue)
+            case <- stuckTimer.C:
+                self.Debug.Emit("STUCK", "nothing to read for two minutes")
         }
     }
 }
