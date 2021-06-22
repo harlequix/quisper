@@ -1,0 +1,12 @@
+
+
+FROM golang:1.16
+WORKDIR /go/build
+ADD . .
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o write tests/cmds/write.go
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o read_expect tests/cmds/read_expect.go
+
+FROM alpine:latest
+WORKDIR /usr/local/bin
+COPY --from=0 /go/build/write .
+COPY --from=0 /go/build/read_expect .
