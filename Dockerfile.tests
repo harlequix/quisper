@@ -8,5 +8,6 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o read_expect tests
 
 FROM alpine:latest
 WORKDIR /usr/local/bin
+COPY /etc/hosts /etc/hosts
 COPY --from=0 /go/build/write .
 COPY --from=0 /go/build/read_expect .
