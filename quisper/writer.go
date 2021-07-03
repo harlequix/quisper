@@ -56,6 +56,7 @@ type QuisperConfig struct {
     AdaptiveRelease bool
     ConcurrentReads int
     ProbingStrategy string
+    CCEnabled bool
 
 }
 
@@ -68,7 +69,8 @@ func init() {
     viper.SetDefault("AdaptiveRelease", false)
     viper.SetDefault("ConcurrentReads", 240)
     viper.SetDefault("ProbingStrategy", "double")
-    viper.SetDefault("AdaptiveRelease", true)
+    viper.SetDefault("AdaptiveRelease", false)
+    viper.SetDefault("CCEnabled", false)
 }
 
 type Writer struct {
@@ -89,6 +91,7 @@ type Writer struct {
     stratProbing probing.Strategy
     RTTManager rtt.Manager
     Debug DebugInterface
+    CCManager CongestionController
 }
 
 func newInstance(addr string, secret string, config QuisperConfig) *Writer{
@@ -189,6 +192,8 @@ func (self *Writer)Connect() (context.CancelFunc, error) {
     parent := context.Background()
     ctx, cancel := context.WithCancel(parent)
     self.RTTManager = rtt.NewRTTManager(ctx)
+    self.CCManager = NewVegasCC(1, self.RTTManager)
+
     go self.MainLoop(ctx, self.ioChan)
     return cancel, nil
 
@@ -270,6 +275,8 @@ func (self *Writer)  MainLoop(ctx context.Context, pipeline chan(byte)){
     logger.Warn("Mainloop started")
     timeslotChn := make(chan uint64)
     timeslotStatusChn := make(chan bool)
+    startWork := make(chan bool, 1)
+    _ = startWork
     reportChn := make(chan uint64, 1)
     logger.Trace("about to place something into the reportChn")
     reportChn <- uint64(0)
@@ -300,15 +307,17 @@ func (self *Writer)  MainLoop(ctx context.Context, pipeline chan(byte)){
                         self.writeSentBits(self.timeslot, bitsSent)
                     }
                     sync = self.timeslot.Status
-                    // if bitsSent != self.timeslot.Cnt {
-                    //     // fmt.Println("RACERACERACE")
-                    // }
                 }
 
 
 
                 self.timeslot = timeslots.NewTimeslot(timeslotNum + self.offset)
-                // self.initTimeslot()
+                if self.role == RoleRX {
+                    leftover := len(self.dispatchChan)
+                    if leftover  > 0 {
+                        self.logger.WithField("Timeslot", self.timeslot.Num).WithField("leftover", leftover).Debug("Requests leftover, consider stopping TX")
+                    }
+                }
                 self.signalReadiness(self.timeslot)
                 timeslotStatusChn = make(chan bool)
                 go self.checkReadiness(self.timeslot, timeslotStatusChn)
@@ -318,6 +327,8 @@ func (self *Writer)  MainLoop(ctx context.Context, pipeline chan(byte)){
                     "BitSent": bitsSent,
                     }).Trace("Switch to new timeslot")
                 logger.WithField("Timeslot", self.timeslot.Num).WithField("Status", self.timeslot.Status).Trace("Timeslot ready?")
+                startWork = make(chan bool)
+
                 if sync == true {
                     logger.Trace("Start Working")
                     go self.work(controlWork, self.timeslot, pipeline, reportChn)
@@ -356,6 +367,7 @@ func (self *Writer) initTimeslot() {
 
 func (self *Writer) work(ctx context.Context, timeslot *timeslots.Timeslot, pipeline chan(byte), report chan(uint64)) {
     var sent uint64 = 0
+    var ccqueue chan(*DialResult)
     if self.role == RoleTX {
         for {
             select {
@@ -364,15 +376,23 @@ func (self *Writer) work(ctx context.Context, timeslot *timeslots.Timeslot, pipe
                     report <- sent
                     return
                 case Byte := <- pipeline: //TODO change pipeline type to block
+                    if ccqueue == nil {
+                        ccqueue = self.CCManager.GetWindowBucket(timeslot.Num)
+                    }
                     block := format.NewBlock()
                     block.SetByte(Byte)
                     pattern := self.stratProbing.GenPattern(block)
                     cids := pattern.GetSenderCids (timeslot, sent)
                     // bits := block.GetBits()
                     sent++
+                    self.logger.WithField("timeslot", timeslot.Num).WithField("SentBlocks", sent).Trace("Sending Block")
                     for index, val := range cids {
                         self.logger.WithField("CID", cids[index].String()).Trace("Sending bit")
-                        self.dispatch(val, nil)
+                        if self.config.CCEnabled {
+                            self.dispatchControlled(val, ccqueue)
+                        } else {
+                            self.dispatch(val, nil)
+                        }
                     }
             }
         }

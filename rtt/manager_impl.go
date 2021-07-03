@@ -18,6 +18,9 @@ type RTTManager struct {
     measMap map[*prot.CID] *RTT
     adjustment int64
     logger *log.Logger
+    signalMin chan bool
+    giveMin chan int64
+    minRTT int64
 
 }
 
@@ -31,8 +34,11 @@ func NewRTTManager(con context.Context)*RTTManager{
         rttChan: make(chan int64, 1),
         measurementChan: make(chan *RTT, 128),
         measMap: make(map[*prot.CID]*RTT),
-        adjustment: 2,
+        adjustment: 200,
         logger: log.NewLogger("RTT"),
+        signalMin: make(chan bool, 0),
+        giveMin: make(chan int64, 1),
+        minRTT: 1<<63 - 1,
     }
     go manager.Start(con)
     return manager
@@ -50,7 +56,10 @@ func movingAverage(old int64, new int64) int64 {
 }
 
 func (self *RTTManager)average(rtt *RTT){
-    dur := (rtt.End.Sub(rtt.Start)).Microseconds()
+    dur := (rtt.End.Sub(rtt.Start)).Nanoseconds()
+    if dur < self.minRTT {
+        self.minRTT = dur
+    }
     if rtt.Result == 0 {
         saved := self.measurements_succ
         self.measurements_succ = movingAverage(self.measurements_succ, dur)
@@ -77,17 +86,30 @@ func (self *RTTManager)Start(ctx context.Context){
                 self.measMap[measurement.Cid] = measurement
             }
         case <- self.signalChan:
+            self.logger.Trace("dispatching new measurement")
             self.rttChan <- self.measurements_succ * self.adjustment
+        case <- self.signalMin:
+            self.logger.Trace("Dispatch minimum")
+            self.giveMin <- self.minRTT
     }
     }
 }
 
 func (self *RTTManager) GetMeasurement() time.Duration{
+    self.logger.Trace("Requesting new measurement")
     self.signalChan <- true
+    self.logger.Trace("Waiting for measurement")
     val := <- self.rttChan
-    return time.Duration(val)
+    ret := time.Duration(val) * time.Nanosecond
+    return ret
 }
 
 func (self *RTTManager)PlaceMeasurement(point *RTT){
     self.measurementChan <- point
+}
+
+func (self *RTTManager)GetMinRTT() time.Duration {
+    self.signalMin <- true
+    val := <- self.giveMin
+    return time.Duration(val) * time.Nanosecond
 }
