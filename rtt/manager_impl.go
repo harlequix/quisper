@@ -87,7 +87,7 @@ func (self *RTTManager)Start(ctx context.Context){
             }
         case <- self.signalChan:
             self.logger.Trace("dispatching new measurement")
-            self.rttChan <- self.measurements_succ * self.adjustment
+            self.rttChan <- self.measurements_succ
         case <- self.signalMin:
             self.logger.Trace("Dispatch minimum")
             self.giveMin <- self.minRTT
