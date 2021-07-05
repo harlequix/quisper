@@ -207,14 +207,14 @@ func (self *Writer)runDispatcher(ctx context.Context)  {
     }
     var overflow []*prot.CID
     _ = overflow // fuck you go
-    stuckTimer := time.NewTimer(2*time.Minute)
+    stuckTimer := time.NewTimer(5*time.Minute)
     for {
         select {
             case <- ctx.Done():
                     self.logger.Info("shutting down dispatcher")
                     return
             case entry := <- self.dispatchChan:
-                stuckTimer.Reset(2*time.Minute)
+                    stuckTimer.Reset(2*time.Minute)
                 go self.dispatchWrapper(entry, []chan*DialResult{self.resultChan}, bucketQueue)
             case <- stuckTimer.C:
                 self.Debug.Emit("STUCK", "nothing to read for two minutes")
