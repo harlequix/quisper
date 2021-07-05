@@ -275,7 +275,7 @@ func (self *Writer)  MainLoop(ctx context.Context, pipeline chan(byte)){
     logger.Warn("Mainloop started")
     timeslotChn := make(chan uint64)
     timeslotStatusChn := make(chan bool)
-    startWork := make(chan bool, 1)
+    startWork := make(chan bool, 5)
     _ = startWork
     reportChn := make(chan uint64, 1)
     logger.Trace("about to place something into the reportChn")
@@ -327,30 +327,27 @@ func (self *Writer)  MainLoop(ctx context.Context, pipeline chan(byte)){
                     "BitSent": bitsSent,
                     }).Trace("Switch to new timeslot")
                 logger.WithField("Timeslot", self.timeslot.Num).WithField("Status", self.timeslot.Status).Trace("Timeslot ready?")
-                startWork = make(chan bool)
-
+                startWork = make(chan bool, 5)
+                go func(){
+                    logger.Trace("Wait for RDY")
+                    select {
+                    case <- startWork:
+                        logger.Trace("Start Working")
+                        self.work(controlWork, self.timeslot, pipeline, reportChn)
+                    case <- controlWork.Done():
+                        reportChn <- 0
+                    }
+                }()
                 if sync == true {
-                    logger.Trace("Start Working")
-                    go self.work(controlWork, self.timeslot, pipeline, reportChn)
-                } else {
-                    reportChn <- 0
+                    startWork <- true
                 }
-                // if sync == false && self.timeslot.Status == true {
-                //     fmt.Println("Clients synchronized")
-                //     logger.Trace("Client in Sync")
-                // }
-                // if sync == true && self.timeslot.Status == false {
-                //     fmt.Println("Synchronization lost")
-                //     logger.Trace("Synchronization lost")
-                // }
-                // sync = self.timeslot.Status
-                // if self.timeslot.Status == true {
-                //     go self.work(controlWork, self.timeslot, pipeline)
-                // }
+
             case status := <- timeslotStatusChn:
                 if status == false {
                         cancel()
                         //TODO go Back N
+                } else {
+                    startWork <- true
                 }
                 self.timeslot.Status = status
             case <- ctx.Done():
