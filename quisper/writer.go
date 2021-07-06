@@ -496,7 +496,7 @@ func (self *Writer) signalReadiness(slot *timeslots.Timeslot) {
         cids, _ = readyTimeSlot.GetHeader("ReaderRDY")
     }
     for _, cid := range cids {
-        self.dispatch(cid, nil)
+        go self.dispatch(cid, nil)
     }
     // feedback := make(chan *DialResult, 4)
     // var admin_bits [4]uint64
