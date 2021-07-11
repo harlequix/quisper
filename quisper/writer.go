@@ -27,6 +27,7 @@ type Backend interface {
     Dial (cid []byte) (quic.Session,error)
 }
 
+var firstTX = true
 
 var logger *log.Logger
 const RoleTX string = "tx"
@@ -61,14 +62,14 @@ type QuisperConfig struct {
 }
 
 func init() {
-    viper.SetDefault("TimeslotLength", "5s")
+    viper.SetDefault("TimeslotLength", "10s")
     viper.SetDefault("Backend", "native")
     viper.SetDefault("OptimisticSync", false)
     viper.SetDefault("TimeslotOffset", 2)
     viper.SetDefault("Blocksize", 1)
     viper.SetDefault("AdaptiveRelease", false)
     viper.SetDefault("ConcurrentReads", 240)
-    viper.SetDefault("ProbingStrategy", "double")
+    viper.SetDefault("ProbingStrategy", "single")
     viper.SetDefault("AdaptiveRelease", false)
     viper.SetDefault("CCEnabled", false)
 }
@@ -373,6 +374,10 @@ func (self *Writer) work(ctx context.Context, timeslot *timeslots.Timeslot, pipe
                     report <- sent
                     return
                 case Byte := <- pipeline: //TODO change pipeline type to block
+                    if firstTX {
+                        firstTX = false
+                        self.Debug.Emit("START_TRANSMISSION", "Start to transmit blocks")
+                    }
                     if ccqueue == nil {
                         ccqueue = self.CCManager.GetWindowBucket(timeslot.Num)
                     }
@@ -391,6 +396,14 @@ func (self *Writer) work(ctx context.Context, timeslot *timeslots.Timeslot, pipe
                             self.dispatch(val, nil)
                         }
                     }
+                    select {
+                        case <- ctx.Done():
+                            self.logger.WithField("timeslot", timeslot.Num).Trace("Cancelling work")
+                            report <- sent
+                            return
+                        default:
+                            // nothing to do
+                    }
             }
         }
     } else if self.role == RoleRX {
@@ -404,6 +417,9 @@ func (self *Writer) work(ctx context.Context, timeslot *timeslots.Timeslot, pipe
 }
 
 func (self *Writer) handleTimeslot(num uint64, slot *timeslots.Timeslot){
+    if num > 0 {
+        self.Debug.Emit("RECEIVE", "receive bytes")
+    }
     slotCopy := timeslots.NewTimeslot(slot.Num)
     slotCopy.Cnt = num
     self.timeslotChan <- slotCopy
