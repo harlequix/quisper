@@ -202,23 +202,38 @@ func (self *Writer)Connect() (context.CancelFunc, error) {
 
 func (self *Writer)runDispatcher(ctx context.Context)  {
     cap := self.config.ConcurrentReads
-    bucketQueue := make(chan bool, cap)
+    // bucketQueue := make(chan bool, cap)
     for it := 0; it < cap; it++ {
-        bucketQueue <- true
+        // bucketQueue <- true
+        go self.dispatchWorker(ctx, it)
     }
-    var overflow []*prot.CID
-    _ = overflow // fuck you go
-    stuckTimer := time.NewTimer(5*time.Minute)
+    // var overflow []*prot.CID
+    // _ = overflow // fuck you go
+    // stuckTimer := time.NewTimer(5*time.Minute)
+    // for {
+    //     select {
+    //         case <- ctx.Done():
+    //                 self.logger.Info("shutting down dispatcher")
+    //                 return
+    //         case entry := <- self.dispatchChan:
+    //                 stuckTimer.Reset(2*time.Minute)
+    //             go self.dispatchWrapper(entry, []chan*DialResult{self.resultChan}, bucketQueue)
+    //         case <- stuckTimer.C:
+    //             self.Debug.Emit("STUCK", "nothing to read for two minutes")
+    //     }
+    // }
+}
+
+func (self *Writer) dispatchWorker(ctx context.Context, num int) {
+    logger := self.logger.WithField("workerID", num)
+    logger.Trace("Added worker")
     for {
         select {
-            case <- ctx.Done():
-                    self.logger.Info("shutting down dispatcher")
-                    return
-            case entry := <- self.dispatchChan:
-                    stuckTimer.Reset(2*time.Minute)
-                go self.dispatchWrapper(entry, []chan*DialResult{self.resultChan}, bucketQueue)
-            case <- stuckTimer.C:
-                self.Debug.Emit("STUCK", "nothing to read for two minutes")
+        case <-ctx.Done():
+            return
+        case entry := <- self.dispatchChan:
+            logger.WithField("CID", entry).Trace("Dispatching CID")
+            self.dispatch(entry, []chan*DialResult{self.resultChan})
         }
     }
 }
