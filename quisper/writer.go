@@ -58,6 +58,7 @@ type QuisperConfig struct {
     ConcurrentReads int
     ProbingStrategy string
     CCEnabled bool
+    FCEnabled bool
 
 }
 
@@ -72,6 +73,7 @@ func init() {
     viper.SetDefault("ProbingStrategy", "single")
     viper.SetDefault("AdaptiveRelease", false)
     viper.SetDefault("CCEnabled", false)
+    viper.SetDefault("FCEnabled", false)
 }
 
 type Writer struct {
@@ -232,7 +234,7 @@ func (self *Writer) dispatchWorker(ctx context.Context, num int) {
         case <-ctx.Done():
             return
         case entry := <- self.dispatchChan:
-            logger.WithField("CID", entry).Trace("Dispatching CID")
+            logger.WithField("CID", entry.String()).Trace("Dispatching CID")
             self.dispatch(entry, []chan*DialResult{self.resultChan})
         }
     }
@@ -326,15 +328,21 @@ func (self *Writer)  MainLoop(ctx context.Context, pipeline chan(byte)){
                 }
 
 
-
+                desync := false
+                desync_thresh := 0
                 self.timeslot = timeslots.NewTimeslot(timeslotNum + self.offset)
                 if self.role == RoleRX {
                     leftover := len(self.dispatchChan)
-                    if leftover  > 0 {
+                    if leftover  > desync_thresh {
                         self.logger.WithField("Timeslot", self.timeslot.Num).WithField("leftover", leftover).Debug("Requests leftover, consider stopping TX")
+                        if self.config.FCEnabled == true {
+                            self.logger.WithField("Timeslot", self.timeslot.Num).Warning("Too many cids are unread, desyncing to catch up")
+                        }
                     }
                 }
-                self.signalReadiness(self.timeslot)
+                if desync == false {
+                    self.signalReadiness(self.timeslot)
+                }
                 timeslotStatusChn = make(chan bool)
                 go self.checkReadiness(self.timeslot, timeslotStatusChn)
                 logger.WithFields(logrus.Fields{
