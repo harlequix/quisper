@@ -59,6 +59,7 @@ type QuisperConfig struct {
     ProbingStrategy string
     CCEnabled bool
     FCEnabled bool
+    BlockWindowSize uint64
 
 }
 
@@ -74,6 +75,7 @@ func init() {
     viper.SetDefault("AdaptiveRelease", false)
     viper.SetDefault("CCEnabled", false)
     viper.SetDefault("FCEnabled", true)
+    viper.SetDefault("BlockWindowSize", 128)
 }
 
 type Writer struct {
@@ -343,6 +345,8 @@ func (self *Writer)  MainLoop(ctx context.Context, pipeline chan(byte)){
                 }
                 if desync == false {
                     self.signalReadiness(self.timeslot)
+                } else {
+                    self.logger.WithField("Timeslot", self.timeslot.Num).Debug("Skipping synchronization")
                 }
                 timeslotStatusChn = make(chan bool)
                 go self.checkReadiness(self.timeslot, timeslotStatusChn)
@@ -358,7 +362,7 @@ func (self *Writer)  MainLoop(ctx context.Context, pipeline chan(byte)){
                     select {
                     case <- startWork:
                         logger.Trace("Start Working")
-                        self.work(controlWork, self.timeslot, pipeline, reportChn)
+                        self.work(controlWork, self.timeslot, pipeline, reportChn, self.config.BlockWindowSize)
                     case <- controlWork.Done():
                         reportChn <- 0
                     }
@@ -385,11 +389,11 @@ func (self *Writer)  MainLoop(ctx context.Context, pipeline chan(byte)){
 }
 
 
-func (self *Writer) work(ctx context.Context, timeslot *timeslots.Timeslot, pipeline chan(byte), report chan(uint64)) {
+func (self *Writer) work(ctx context.Context, timeslot *timeslots.Timeslot, pipeline chan(byte), report chan(uint64), maxBlocks uint64) {
     var sent uint64 = 0
     var ccqueue chan(*DialResult)
     if self.role == RoleTX {
-        for {
+        for (maxBlocks > 0){
             select {
                 case <- ctx.Done():
                     self.logger.WithField("timeslot", timeslot.Num).Trace("Cancelling work")
@@ -409,6 +413,7 @@ func (self *Writer) work(ctx context.Context, timeslot *timeslots.Timeslot, pipe
                     cids := pattern.GetSenderCids (timeslot, sent)
                     // bits := block.GetBits()
                     sent++
+                    maxBlocks--
                     self.logger.WithField("timeslot", timeslot.Num).WithField("SentBlocks", sent).Trace("Sending Block")
                     for index, val := range cids {
                         self.logger.WithField("CID", cids[index].String()).Trace("Sending bit")
@@ -433,9 +438,9 @@ func (self *Writer) work(ctx context.Context, timeslot *timeslots.Timeslot, pipe
         // timeslot.Cnt = num
         self.logger.WithField("num", num).Trace("Bits to probe")
         go self.handleTimeslot(num, timeslot)
-        report <- 0
-
     }
+    self.logger.WithField("timeslot", timeslot.Num)
+    report <- sent
 }
 
 func (self *Writer) handleTimeslot(num uint64, slot *timeslots.Timeslot){
