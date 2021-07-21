@@ -73,7 +73,7 @@ func init() {
     viper.SetDefault("ProbingStrategy", "single")
     viper.SetDefault("AdaptiveRelease", false)
     viper.SetDefault("CCEnabled", false)
-    viper.SetDefault("FCEnabled", false)
+    viper.SetDefault("FCEnabled", true)
 }
 
 type Writer struct {
@@ -324,7 +324,7 @@ func (self *Writer)  MainLoop(ctx context.Context, pipeline chan(byte)){
                     if self.role == RoleTX {
                         self.writeSentBits(self.timeslot, bitsSent)
                     }
-                    sync = self.timeslot.Status
+                    // sync = self.timeslot.Status
                 }
 
 
@@ -336,6 +336,7 @@ func (self *Writer)  MainLoop(ctx context.Context, pipeline chan(byte)){
                     if leftover  > desync_thresh {
                         self.logger.WithField("Timeslot", self.timeslot.Num).WithField("leftover", leftover).Debug("Requests leftover, consider stopping TX")
                         if self.config.FCEnabled == true {
+                            desync = true
                             self.logger.WithField("Timeslot", self.timeslot.Num).Warning("Too many cids are unread, desyncing to catch up")
                         }
                     }
@@ -381,10 +382,6 @@ func (self *Writer)  MainLoop(ctx context.Context, pipeline chan(byte)){
     }
 }
 
-func (self *Writer) initTimeslot() {
-    self.signalReadiness(self.timeslot)
-    // self.timeslot.Status = self.checkReadiness(self.timeslot)
-}
 
 func (self *Writer) work(ctx context.Context, timeslot *timeslots.Timeslot, pipeline chan(byte), report chan(uint64)) {
     var sent uint64 = 0
@@ -537,25 +534,7 @@ func (self *Writer) signalReadiness(slot *timeslots.Timeslot) {
     for _, cid := range cids {
         go self.dispatch(cid, nil)
     }
-    // feedback := make(chan *DialResult, 4)
-    // var admin_bits [4]uint64
-    // var readyTimeSlot *timeslots.Timeslot
-    // if self.role == RoleTX {
-    //     admin_bits = [4] uint64{0,1,2,3}
-    //     readyTimeSlot = slot
-    //
-    // } else {
-    //     admin_bits = [4] uint64{4,5,6,7}
-    //     readyTimeSlot = timeslots.NewTimeslot(slot.Num + RXReadyOffset)
-    // }
-    // self.logger.WithField("timeslot", readyTimeSlot.Num).Debug("Setting readiness on Timeslot")
-    // for _, bit := range admin_bits {
-    //     cid := readyTimeSlot.GetGenCID(bit)
-    //     go self.dispatch(cid, feedback)
-    // }
-    // for range admin_bits {
-    //     _ = <- feedback // wait for request to finish
-    // }
+
 }
 
 func (self *Writer) checkReadiness(slot *timeslots.Timeslot, resp chan(bool)) {
@@ -583,25 +562,7 @@ func (self *Writer) checkReadiness(slot *timeslots.Timeslot, resp chan(bool)) {
     resp <- true
 }
 
-// func (self *Writer) Read(from uint64, to uint64) []byte {
-//     //timeslot:= make([]byte, 8)
-//     message := make([]byte, to+1)
-//     for i := from; i <= to; i++ {
-//         cid := make([]byte, self.cid_length)
-//         binary.LittleEndian.PutUint64(cid, i)
-//         result := self.backend.Dial(cid)
-//         if result != nil {
-//             if strings.HasPrefix(result.Error(), "CRYPTO_ERROR") {
-//                 logger.Trace("Counting a connection success")
-//                 message[i] = 0
-//             } else {
-//                 logger.Trace("Counting a connection failure")
-//                 message[i] = 1
-//             }
-//         }
-//     }
-//     return message
-// }
+
 func (self *Writer) TestServer(){
     var timeslotNum uint64 = uint64(rand.Uint32())<<32 + uint64(rand.Uint32())
     test_bits := []uint64{0}
