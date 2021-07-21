@@ -363,15 +363,17 @@ func (self *Writer)  MainLoop(ctx context.Context, pipeline chan(byte)){
                         reportChn <- 0
                     }
                 }()
-                if sync == true {
-                    startWork <- true
-                }
+                // if sync == true {
+                //     startWork <- true
+                // }
 
             case status := <- timeslotStatusChn:
                 if status == false {
+                        logger.Trace("Desync detected, stop worker")
                         cancel()
                         //TODO go Back N
                 } else {
+                    logger.Trace("Starting work")
                     startWork <- true
                 }
                 self.timeslot.Status = status
