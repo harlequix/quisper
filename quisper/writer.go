@@ -204,7 +204,7 @@ func (self *Writer)Connect() (context.CancelFunc, error) {
 
 }
 
-func (self *Writer)runDispatcher(ctx context.Context, cap uint64)  {
+func (self *Writer)addDispatcher(ctx context.Context, cap int)  {
     for it := 0; it < cap; it++ {
         go self.dispatchWorker(ctx, it)
     }
