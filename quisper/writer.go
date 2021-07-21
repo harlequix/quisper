@@ -309,7 +309,7 @@ func (self *Writer)  MainLoop(ctx context.Context, pipeline chan(byte)){
                     if self.role == RoleTX {
                         self.writeSentBits(self.timeslot, bitsSent)
                     }
-                    // sync = self.timeslot.Status
+                    sync = self.timeslot.Status
                 }
 
 
@@ -358,7 +358,9 @@ func (self *Writer)  MainLoop(ctx context.Context, pipeline chan(byte)){
 
             case status := <- timeslotStatusChn:
                 if status == false {
-                        logger.Trace("Desync detected, stop worker")
+                        if sync == true {
+                            logger.Trace("Desync detected, stop worker")
+                        }
                         cancel()
                         //TODO go Back N
                 } else {

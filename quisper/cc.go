@@ -51,8 +51,8 @@ func (self *CCVegas) adjust (lastTimeSlot uint64) int{
     } else {
         minRTTi := self.rtts.GetMinRTT().Nanoseconds()
         currentRTTi := self.rtts.GetMeasurement().Nanoseconds()
-        alpha := 0.1
-        beta := 0.3
+        alpha := 0.3
+        beta := 0.6
         minRTT := float64(minRTTi)
         currentRTT := float64(currentRTTi)
         lower_limit := minRTT + minRTT * alpha
