@@ -77,7 +77,7 @@ func init() {
     viper.SetDefault("CCEnabled", false)
     viper.SetDefault("FCEnabled", true)
     viper.SetDefault("BlockWindowSize", 128)
-    viper.SetDefault("Testing", false)
+    viper.SetDefault("Testing", true)
 }
 
 type Writer struct {
