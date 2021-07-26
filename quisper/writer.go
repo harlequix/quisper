@@ -11,6 +11,7 @@ import
     "strings"
     "time"
     "context"
+    "golang.org/x/crypto/sha3"
     "github.com/sirupsen/logrus"
     "github.com/harlequix/quisper/internal/encoding"
     "github.com/harlequix/quisper/internal/format"
@@ -60,7 +61,7 @@ type QuisperConfig struct {
     CCEnabled bool
     FCEnabled bool
     BlockWindowSize uint64
-
+    Testing bool
 }
 
 func init() {
@@ -76,6 +77,7 @@ func init() {
     viper.SetDefault("CCEnabled", false)
     viper.SetDefault("FCEnabled", true)
     viper.SetDefault("BlockWindowSize", 128)
+    viper.SetDefault("Testing", false)
 }
 
 type Writer struct {
@@ -97,6 +99,7 @@ type Writer struct {
     RTTManager rtt.Manager
     Debug DebugInterface
     CCManager CongestionController
+    hashTemplate sha3.ShakeHash
 }
 
 func newInstance(addr string, secret string, config QuisperConfig) *Writer{
@@ -138,6 +141,7 @@ func newInstance(addr string, secret string, config QuisperConfig) *Writer{
         config: config,
         stratProbing: stratProbing,
         Debug: NewDebugger(),
+        hashTemplate: sha3.NewCShake256(nil, []byte(secret)),
     }
 }
 
@@ -459,13 +463,19 @@ func (self *Writer) evalDial(cid *prot.CID, session quic.Session, err error) *Di
     }
 }
 
-func (self *Writer)dispatch(cid *prot.CID, feedback []chan(*DialResult))  {
-    self.logger.WithField("cid", cid.String()).Trace("Start Request")
+func (self *Writer)dispatch(logcid *prot.CID, feedback []chan(*DialResult))  {
+    var cid *prot.CID
+    if self.config.Testing == false {
+        cid = self.hashCID(logcid)
+    } else {
+        cid = logcid
+    }
+    self.logger.WithField("cid", logcid.String()).WithField("actualcid", cid.String()).Trace("Start Request")
     self.RTTManager.PlaceMeasurement(rtt.MeasureStart(cid))
     session, err := self.backend.Dial(cid.Bytes())
-    ret := self.evalDial(cid, session, err)
+    ret := self.evalDial(logcid, session, err)
     self.RTTManager.PlaceMeasurement(rtt.MeasureEnd(cid, ret.Result))
-    self.logger.WithField("cid", cid.String()).WithField("result", ret.Result).Trace("Finished Request")
+    self.logger.WithField("cid", logcid.String()).WithField("result", ret.Result).WithField("actualcid", cid.String()).Trace("Finished Request")
     if feedback != nil {
         for _,fchan := range feedback {
             fchan <- ret
