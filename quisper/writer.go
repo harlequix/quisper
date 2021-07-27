@@ -317,6 +317,14 @@ func (self *Writer)  MainLoop(ctx context.Context, pipeline chan(byte)){
                     }
                     sync = self.timeslot.Status
                 }
+                if self.role == RoleTX && self.config.FCEnabled == true{
+                    cwnd := self.WindowManager.GetSendingWindow()
+                    if cwnd == bitsSent {
+                        newCwnd := self.WindowManager.AdjustWindowSize()
+                        self.logger.WithField("Timeslot", self.timeslot.Num).WithField("new window", newCwnd).WithField("old window", cwnd).Debug("expanding flow control window")
+                    }
+
+                }
 
 
                 desync := false
@@ -348,8 +356,8 @@ func (self *Writer)  MainLoop(ctx context.Context, pipeline chan(byte)){
                     self.signalReadiness(self.timeslot)
                 } else {
                     self.logger.WithField("Timeslot", self.timeslot.Num).Debug("Skipping synchronization")
-                    self.logger.WithField("Timeslot", self.timeslot.Num).Debug("expanding workers to catch up")
-                    self.addDispatcher(ctx, self.config.ConcurrentReads)
+                    // self.logger.WithField("Timeslot", self.timeslot.Num).Debug("expanding workers to catch up")
+                    // self.addDispatcher(ctx, self.config.ConcurrentReads)
                 }
                 timeslotStatusChn = make(chan bool)
                 go self.checkReadiness(self.timeslot, timeslotStatusChn)
