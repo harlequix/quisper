@@ -62,6 +62,7 @@ type QuisperConfig struct {
     FCEnabled bool
     BlockWindowSize uint64
     Testing bool
+    FCWindow string
 }
 
 func init() {
@@ -78,6 +79,7 @@ func init() {
     viper.SetDefault("FCEnabled", true)
     viper.SetDefault("BlockWindowSize", 128)
     viper.SetDefault("Testing", true)
+    viper.SetDefault("FCWindow", "cubic")
 }
 
 type Writer struct {
@@ -203,7 +205,13 @@ func (self *Writer)Connect() (context.CancelFunc, error) {
     ctx, cancel := context.WithCancel(parent)
     self.RTTManager = rtt.NewRTTManager(ctx)
     self.CCManager = NewVegasCC(1, self.RTTManager)
-    self.WindowManager = NewStaticWindowManager(self.config.BlockWindowSize)
+    if self.config.FCWindow == "static"{
+        self.WindowManager = NewStaticWindowManager(self.config.BlockWindowSize)
+    } else if self.config.FCWindow == "cubic" {
+        self.WindowManager = NewCubicWindowManager(self.config.BlockWindowSize)
+    } else {
+        self.logger.Fatal("Unknown FC Window manager")
+    }
 
     go self.MainLoop(ctx, self.ioChan)
     return cancel, nil
