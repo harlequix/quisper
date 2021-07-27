@@ -10,6 +10,7 @@ import
 
 type CongestionController interface {
     GetWindowBucket(uint64) chan(*DialResult)
+    CanExpand()bool
 }
 
 type CCVegas struct {
@@ -88,4 +89,14 @@ func (self *CCVegas) adjust (lastTimeSlot uint64) int{
         }
         return self.bucketSize
     }
+}
+
+func (self *CCVegas)CanExpand()bool{
+    minRTTi := self.rtts.GetMinRTT().Nanoseconds()
+    currentRTTi := self.rtts.GetMeasurement().Nanoseconds()
+    alpha := 0.3
+    minRTT := float64(minRTTi)
+    currentRTT := float64(currentRTTi)
+    lower_limit := minRTT + minRTT * alpha
+    return currentRTT < lower_limit
 }

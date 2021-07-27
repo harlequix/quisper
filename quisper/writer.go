@@ -100,6 +100,7 @@ type Writer struct {
     Debug DebugInterface
     CCManager CongestionController
     hashTemplate sha3.ShakeHash
+    WindowManager WindowManagerInterface
 }
 
 func newInstance(addr string, secret string, config QuisperConfig) *Writer{
@@ -202,6 +203,7 @@ func (self *Writer)Connect() (context.CancelFunc, error) {
     ctx, cancel := context.WithCancel(parent)
     self.RTTManager = rtt.NewRTTManager(ctx)
     self.CCManager = NewVegasCC(1, self.RTTManager)
+    self.WindowManager = NewStaticWindowManager(self.config.BlockWindowSize)
 
     go self.MainLoop(ctx, self.ioChan)
     return cancel, nil
@@ -318,15 +320,27 @@ func (self *Writer)  MainLoop(ctx context.Context, pipeline chan(byte)){
 
 
                 desync := false
-                desync_thresh := 0
+                // desync_thresh := 0
                 self.timeslot = timeslots.NewTimeslot(timeslotNum + self.offset)
                 if self.role == RoleRX {
                     leftover := len(self.dispatchChan)
-                    if leftover  > desync_thresh {
+                    if leftover  > 0 {
                         self.logger.WithField("Timeslot", self.timeslot.Num).WithField("leftover", leftover).Debug("Requests leftover, consider stopping TX")
                         if self.config.FCEnabled == true {
-                            desync = true
-                            self.logger.WithField("Timeslot", self.timeslot.Num).Warning("Too many cids are unread, desyncing to catch up")
+                            if self.CCManager.CanExpand(){
+                                if leftover > self.config.ConcurrentReads{
+                                    self.addDispatcher(ctx, self.config.ConcurrentReads)
+                                    self.logger.WithField("Timeslot", self.timeslot.Num).WithField("addedWorker", self.config.ConcurrentReads).Trace("Adding Workers")
+                                } else {
+                                    self.addDispatcher(ctx, leftover)
+                                    self.logger.WithField("Timeslot", self.timeslot.Num).WithField("addedWorker", leftover).Trace("Adding Workers")
+
+                                }
+                            }
+                            if leftover > self.config.ConcurrentReads{
+                                desync = true
+                                self.logger.WithField("Timeslot", self.timeslot.Num).Warning("Too many cids are unread, desyncing to catch up")
+                            }
                         }
                     }
                 }
@@ -351,7 +365,7 @@ func (self *Writer)  MainLoop(ctx context.Context, pipeline chan(byte)){
                     select {
                     case <- startWork:
                         logger.Trace("Start Working")
-                        self.work(controlWork, self.timeslot, pipeline, reportChn, self.config.BlockWindowSize)
+                        self.work(controlWork, self.timeslot, pipeline, reportChn)
                     case <- controlWork.Done():
                         reportChn <- 0
                     }
@@ -361,6 +375,7 @@ func (self *Writer)  MainLoop(ctx context.Context, pipeline chan(byte)){
                 // }
 
             case status := <- timeslotStatusChn:
+                self.WindowManager.PlaceSyncStatus(self.timeslot.Num, status)
                 if status == false {
                         if sync == true {
                             logger.Trace("Desync detected, stop worker")
@@ -380,8 +395,10 @@ func (self *Writer)  MainLoop(ctx context.Context, pipeline chan(byte)){
 }
 
 
-func (self *Writer) work(ctx context.Context, timeslot *timeslots.Timeslot, pipeline chan(byte), report chan(uint64), maxBlocks uint64) {
+func (self *Writer) work(ctx context.Context, timeslot *timeslots.Timeslot, pipeline chan(byte), report chan(uint64)) {
     var sent uint64 = 0
+    maxBlocks := self.WindowManager.GetSendingWindow()
+    self.logger.WithField("timeslot",timeslot.Num).WithField("maxBlocks", maxBlocks).Trace("current window size")
     var ccqueue chan(*DialResult)
     if self.role == RoleTX {
         for (maxBlocks > 0){
