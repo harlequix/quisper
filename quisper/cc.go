@@ -64,6 +64,7 @@ func (self *CCVegas) adjust (lastTimeSlot uint64) int{
             "upper_limit": upper_limit,
             "lower_limit": lower_limit,
             "bucketSize": self.bucketSize,
+            "increase": float64(currentRTT)/float64(minRTT),
         }).Trace("Adjusting bucketSize")
         if currentRTT < lower_limit {
             self.bucketSize++
