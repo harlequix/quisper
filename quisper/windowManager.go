@@ -2,6 +2,7 @@ package quisper
 
 import(
     "math"
+    log "github.com/sirupsen/logrus"
 )
 
 type WindowManagerInterface interface {
@@ -69,8 +70,10 @@ func (self *CubicWindowManager)GetSendingWindow()uint64{
 func (self* CubicWindowManager)AdjustWindowSize()uint64{
     c := 0.4
     beta := 0.7
+    log.WithField("status", self.lastStatus).WithField("duration", self.statusDuration).Trace("Adjusting Windowsize")
     if self.lastStatus == true {
         if self.statusDuration > 4 {
+            log.Trace("increasing window")
             K := math.Cbrt((float64(self.lastBase)*(1.0 - beta))/c)
             cwnd := math.Pow(float64(self.statusDuration - 4) - K, 3)
             cwnd = c * cwnd
