@@ -98,5 +98,10 @@ func (self *CCVegas)CanExpand()bool{
     minRTT := float64(minRTTi)
     currentRTT := float64(currentRTTi)
     lower_limit := minRTT + minRTT * alpha
+    self.logger.WithFields(logrus.Fields{
+        "minRTT": minRTT,
+        "currentRTT": currentRTT,
+        "lower_limit": lower_limit,
+    }).Trace("Check if buckets can be expanded")
     return currentRTT < lower_limit
 }

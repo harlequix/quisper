@@ -343,7 +343,9 @@ func (self *Writer)  MainLoop(ctx context.Context, pipeline chan(byte)){
                     if leftover  > 0 {
                         self.logger.WithField("Timeslot", self.timeslot.Num).WithField("leftover", leftover).Debug("Requests leftover, consider stopping TX")
                         if self.config.FCEnabled == true {
-                            if self.CCManager.CanExpand(){
+                            canexpand := self.CCManager.CanExpand()
+                            self.logger.WithField("Timeslot", self.timeslot.Num).WithField("canExpand", canexpand).Debug("canexpand")
+                            if canexpand {
                                 if leftover > self.config.ConcurrentReads{
                                     self.addDispatcher(ctx, self.config.ConcurrentReads)
                                     self.logger.WithField("Timeslot", self.timeslot.Num).WithField("addedWorker", self.config.ConcurrentReads).Trace("Adding Workers")

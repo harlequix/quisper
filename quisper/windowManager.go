@@ -53,6 +53,7 @@ func (self *CubicWindowManager) PlaceSyncStatus(timeslotnum uint64, status bool)
     if timeslotnum < self.lastTimeslot{
         // this should not happen
     }
+    log.WithField("timeslot", timeslotnum).WithField("status", status).WithField("current status", self.lastStatus).Trace("placing new sync status")
     self.lastTimeslot = timeslotnum
     if self.lastStatus == status {
         self.statusDuration++
