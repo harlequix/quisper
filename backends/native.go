@@ -8,6 +8,12 @@ import (
     log "github.com/harlequix/quisper/log"
     // "github.com/sirupsen/logrus"
     "github.com/spf13/viper"
+    "github.com/lucas-clemente/quic-go/qlog"
+    // "github.com/lucas-clemente/quic-go/logging"
+    // "github.com/lucas-clemente/quic-go/internal/utils"
+    "github.com/lucas-clemente/quic-go/interop/utils"
+    "os"
+    "fmt"
     )
 var logger *log.Logger
 func init() {
@@ -57,6 +63,16 @@ func NewNativeBackend(addr string, config *quic.Config) *NativeBackend {
             KeepAlive: true,
             MaxIdleTimeout: time.Second * 60,
         }
+    }
+	qlogDir := os.Getenv("QLOGDIR")
+    if qlogDir != ""{
+        getLogWriter, err := utils.GetQLOGWriter()
+
+        if err != nil {
+        	fmt.Println(err.Error())
+        	os.Exit(1)
+        }
+        config.Tracer = qlog.NewTracer(getLogWriter)
     }
     logger.WithField("config", cfg).Info("creating new Backend")
     return &NativeBackend {
