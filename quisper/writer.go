@@ -508,6 +508,7 @@ func (self *Writer)dispatch(logcid *prot.CID, feedback []chan(*DialResult))  {
     self.logger.WithField("cid", logcid.String()).WithField("actualcid", cid.String()).Trace("Start Request")
     self.RTTManager.PlaceMeasurement(rtt.MeasureStart(cid))
     session, err := self.backend.Dial(cid.Bytes())
+
     ret := self.evalDial(logcid, session, err)
     self.RTTManager.PlaceMeasurement(rtt.MeasureEnd(cid, ret.Result))
     self.logger.WithField("cid", logcid.String()).WithField("result", ret.Result).WithField("actualcid", cid.String()).Trace("Finished Request")
