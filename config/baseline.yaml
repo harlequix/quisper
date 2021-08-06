@@ -7,4 +7,5 @@ QuicVersion: q50
 NativeTimeout: 1s
 BlockSize: 1
 AdaptiveRelease: false
-ProbingStrategy: double
+ProbingStrategy: single
+CCEnabled: true
