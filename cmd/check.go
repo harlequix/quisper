@@ -26,6 +26,7 @@ func init() {
 
 func check(cmd *cobra.Command, args []string) {
     Writer := quisper.NewWriter(args[0], args[1])
+    Writer.Connect()
     Writer.TestServer()
     Writer.TestLongServer()
 }
