@@ -331,7 +331,12 @@ func (self *Writer)  MainLoop(ctx context.Context, pipeline chan(byte)){
                     }
                 }
                 if desync == false {
-                    self.signalReadiness(self.timeslot)
+                    canSet := self.signalReadiness(self.timeslot)
+                    if !canSet {
+                        self.logger.WithField("Timeslot", self.timeslot.Num).Warning("cannot set my readyness flag. Skip this timeslot")
+                        reportChn <- 0
+                        break
+                    }
                 } else {
                     self.logger.WithField("Timeslot", self.timeslot.Num).Debug("Skipping synchronization")
                     self.logger.WithField("Timeslot", self.timeslot.Num).Debug("expanding workers to catch up")
@@ -527,7 +532,7 @@ func (self *Writer) getBitsSent (slot *timeslots.Timeslot) uint64{
 
 }
 
-func (self *Writer) signalReadiness(slot *timeslots.Timeslot) {
+func (self *Writer) signalReadiness(slot *timeslots.Timeslot) bool {
     var cids []*prot.CID
     if self.role == RoleTX {
         cids, _ = slot.GetHeader("WriterRDY")
@@ -535,9 +540,17 @@ func (self *Writer) signalReadiness(slot *timeslots.Timeslot) {
         readyTimeSlot := timeslots.NewTimeslot(slot.Num + self.config.TimeslotOffset + 1)
         cids, _ = readyTimeSlot.GetHeader("ReaderRDY")
     }
+    feedback := make(chan *DialResult, len(cids))
     for _, cid := range cids {
-        go self.dispatch(cid, nil)
+        go self.dispatch(cid, []chan*DialResult{feedback})
     }
+    for range cids{
+        res := <- feedback
+        if res.Result == 1 {
+            return false
+        }
+    }
+    return true
 
 }
 
