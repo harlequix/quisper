@@ -62,6 +62,7 @@ type QuisperConfig struct {
     FCEnabled bool
     BlockWindowSize uint64
     Testing bool
+    HeaderSec string
 }
 
 func init() {
@@ -78,6 +79,7 @@ func init() {
     viper.SetDefault("FCEnabled", true)
     viper.SetDefault("BlockWindowSize", 128)
     viper.SetDefault("Testing", true)
+    viper.SetDefault("HeaderSec", encoding.Plain)
 }
 
 type Writer struct {
@@ -493,7 +495,10 @@ func (self *Writer) writeSentBits (slot *timeslots.Timeslot, sentBits uint64) {
     if sentBits == 0 {
         return
     }
-    bs := encoding.EncodeSentHeader(sentBits)
+    bs, err := encoding.EncodeSentHeader(sentBits, self.config.HeaderSec)
+    if err != nil {
+        self.logger.Warning("cannot encode Sent header")
+    }
     bs = bs[:16]
     self.logger.WithField("sendBuf", bs).WithField("Num", sentBits).WithField("Slot", slot.Num).Debug("Bitarray to write")
     hdrCids, _ := slot.GetHeader("BitsSent")
@@ -526,7 +531,11 @@ func (self *Writer) getBitsSent (slot *timeslots.Timeslot) uint64{
     }
     _ = log
     headerBits := slot.GetHeaderValue("BitsSent")
-    numberReceived := encoding.DecodeSentHeader(headerBits)
+    numberReceived, err := encoding.DecodeSentHeader(headerBits, self.config.HeaderSec)
+    if err != nil {
+        self.logger.WithError(err).Error("cannot decode Sent header, skipping this")
+        return 0
+    }
     log.WithField("BitsSent", numberReceived).WithField("Bits", headerBits).Debug("Received sentBits")
     return numberReceived
 

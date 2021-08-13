@@ -5,6 +5,7 @@ import (
     "strconv"
     "bytes"
     "encoding/binary"
+    "errors"
 )
 
 type DialResult struct {
@@ -14,6 +15,8 @@ type DialResult struct {
 
 const ONE byte = 49
 const ZERO byte = 48
+const Plain string = "plain"
+const H11 string = "H11"
 
 
 func ByteToBit(input byte) []byte {
@@ -65,7 +68,16 @@ func Reverse(s string) string {
     return string(runes)
 }
 
-func EncodeSentHeader (num uint64) []byte {
+func EncodeSentHeader(numberReceived uint64, strategy string) ([]byte, error){
+    switch strategy {
+    case Plain:
+        return EncodeSentHeaderPlain(numberReceived), nil
+    default:
+        return nil, errors.New("unknown strategy")
+    }
+}
+
+func EncodeSentHeaderPlain (num uint64) []byte {
     bitString := strconv.FormatUint(num, 2)
     bitString = Reverse(bitString) //change endianess
     bs := []byte(string(bitString))
@@ -79,7 +91,17 @@ func EncodeSentHeader (num uint64) []byte {
     return bs
 }
 
-func DecodeSentHeader(received []byte) uint64 {
+func DecodeSentHeader(received []byte, strategy string) (uint64, error) {
+    switch strategy {
+    case Plain:
+        return DecodeSentHeaderPlain(received), nil
+    default:
+        return 0, errors.New("unknown strategy")
+    }
+
+}
+
+func DecodeSentHeaderPlain(received []byte) uint64 {
 
     numberReceived, _ := strconv.ParseUint(Reverse(string(received)), 2, 16)
     return numberReceived
