@@ -16,7 +16,7 @@ type DialResult struct {
 const ONE byte = 49
 const ZERO byte = 48
 const Plain string = "plain"
-const H11 string = "H11"
+const H4 string = "H4"
 
 
 func ByteToBit(input byte) []byte {
@@ -72,9 +72,34 @@ func EncodeSentHeader(numberReceived uint64, strategy string) ([]byte, error){
     switch strategy {
     case Plain:
         return EncodeSentHeaderPlain(numberReceived), nil
+    case H4:
+        return EncodeSentHeaderHamming4(numberReceived)
     default:
         return nil, errors.New("unknown strategy")
     }
+}
+
+func DecodeSentHeaderHamming4(received []byte) (uint64, error) {
+    decodes, err := DecodeHamming4(received)
+    numberReceived, _ := strconv.ParseUint(Reverse(string(decodes)), 2, 12)
+    return numberReceived, err
+}
+
+func EncodeSentHeaderHamming4(num uint64) ([]byte, error){
+    bitString := strconv.FormatUint(num, 2)
+    bitString = Reverse(bitString) //change endianess
+    bs := []byte(string(bitString))
+    if len(bs) < 11 {
+        tmp := make([]byte, 11)
+        for i := 0; i < len(bs); i++ {
+            tmp[i] = bs[i]
+        }
+        for i := len(bs); i < len(tmp); i++ {
+            tmp[i] = ZERO
+        }
+        bs = tmp
+    }
+    return EncodeHamming4(bs)
 }
 
 func EncodeSentHeaderPlain (num uint64) []byte {
@@ -95,6 +120,8 @@ func DecodeSentHeader(received []byte, strategy string) (uint64, error) {
     switch strategy {
     case Plain:
         return DecodeSentHeaderPlain(received), nil
+    case H4:
+        return DecodeSentHeaderHamming4(received)
     default:
         return 0, errors.New("unknown strategy")
     }
