@@ -63,6 +63,7 @@ type QuisperConfig struct {
     BlockWindowSize uint64
     Testing bool
     HeaderSec string
+    AdjustWindow bool
 }
 
 func init() {
@@ -320,15 +321,24 @@ func (self *Writer)  MainLoop(ctx context.Context, pipeline chan(byte)){
 
 
                 desync := false
-                desync_thresh := 0
+                desync_thresh := self.config.ConcurrentReads
                 self.timeslot = timeslots.NewTimeslot(timeslotNum + self.offset)
                 if self.role == RoleRX {
                     leftover := len(self.dispatchChan)
-                    if leftover  > desync_thresh {
-                        self.logger.WithField("Timeslot", self.timeslot.Num).WithField("leftover", leftover).Debug("Requests leftover, consider stopping TX")
-                        if self.config.FCEnabled == true {
-                            desync = true
-                            self.logger.WithField("Timeslot", self.timeslot.Num).Warning("Too many cids are unread, desyncing to catch up")
+                    if leftover > 0 {
+                        if leftover  > desync_thresh {
+                            self.logger.WithField("Timeslot", self.timeslot.Num).WithField("leftover", leftover).Debug("Requests leftover, consider stopping TX")
+                            if self.config.FCEnabled == true {
+                                desync = true
+                                self.logger.WithField("Timeslot", self.timeslot.Num).Warning("Too many cids are unread, desyncing to catch up")
+                            }
+                        }
+                        if self.config.AdjustWindow == true && self.config.CCEnabled == true {
+                            if self.CCManager.CanExpand() == true {
+                                self.logger.WithField("Timeslot", self.timeslot.Num).WithField("numWorkers", leftover).Debug("expanding workers to catch up")
+                                self.addDispatcher(ctx, leftover)
+                                self.config.ConcurrentReads += leftover
+                            }
                         }
                     }
                 }
@@ -341,8 +351,8 @@ func (self *Writer)  MainLoop(ctx context.Context, pipeline chan(byte)){
                     }
                 } else {
                     self.logger.WithField("Timeslot", self.timeslot.Num).Debug("Skipping synchronization")
-                    self.logger.WithField("Timeslot", self.timeslot.Num).Debug("expanding workers to catch up")
-                    self.addDispatcher(ctx, self.config.ConcurrentReads)
+                    // self.logger.WithField("Timeslot", self.timeslot.Num).Debug("expanding workers to catch up")
+                    // self.addDispatcher(ctx, self.config.ConcurrentReads)
                 }
                 timeslotStatusChn = make(chan bool)
                 go self.checkReadiness(self.timeslot, timeslotStatusChn)
