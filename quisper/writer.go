@@ -81,6 +81,7 @@ func init() {
     viper.SetDefault("BlockWindowSize", 128)
     viper.SetDefault("Testing", true)
     viper.SetDefault("HeaderSec", encoding.Plain)
+    viper.SetDefault("AdjustWindow", false)
 }
 
 type Writer struct {

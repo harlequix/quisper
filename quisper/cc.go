@@ -67,8 +67,8 @@ func (self *CCVegas) CanExpand() bool {
 func (self *CCVegas)canAdjust () int {
     minRTTi := self.rtts.GetMinRTT().Nanoseconds()
     currentRTTi := self.rtts.GetMeasurement().Nanoseconds()
-    alpha := float64(1)
-    beta := float64(3)
+    alpha := float64(10)
+    beta := float64(30)
     minRTT := float64(minRTTi)
     currentRTT := float64(currentRTTi)
     cwnd := float64(self.bucketSize)
