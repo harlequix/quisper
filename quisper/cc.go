@@ -52,7 +52,8 @@ func (self *CCVegas) adjust (lastTimeSlot uint64) int{
     if lastTimeSlot - last > 1 {
         return self.bucketSize
     } else {
-        return self.bucketSize + self.stepSize * self.canAdjust()
+        self.bucketSize = self.bucketSize + self.stepSize * self.canAdjust()
+        return self.bucketSize
     }
 }
 
