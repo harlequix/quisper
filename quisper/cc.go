@@ -84,6 +84,8 @@ func (self *CCVegas)canAdjust () int {
         "expected": expected,
         "actual": actual,
         "diff": diff,
+        "alpha": alpha,
+        "beta": beta,
         "bucketSize": self.bucketSize,
     }).Trace("Adjusting bucketSize")
     if diff < alpha {
