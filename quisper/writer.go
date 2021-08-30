@@ -83,7 +83,7 @@ func init() {
     viper.SetDefault("Testing", true)
     viper.SetDefault("HeaderSec", encoding.Plain)
     viper.SetDefault("AdjustWindow", false)
-    viper.SetDefault("UseHeartBeat", true)
+    viper.SetDefault("UseHeartBeat", false)
 }
 
 type Writer struct {
@@ -211,7 +211,7 @@ func (self *Writer)Connect() (context.CancelFunc, error) {
     self.CCManager = NewVegasCC(1, self.RTTManager)
     if self.config.UseHeartBeat == true {
         self.HeartBeat = NewHeartBeatMonitor()
-        self.HeartBeat.Start(self, 0.01)
+        self.HeartBeat.Start(parent, self, 0.01)
     }
     go self.MainLoop(ctx, self.ioChan)
     return cancel, nil
@@ -556,7 +556,7 @@ func (self *Writer) getBitsSent (slot *timeslots.Timeslot) uint64{
     }
     _ = log
     headerBits := slot.GetHeaderValue("BitsSent")
-    numberReceived, err := encoding.DecodeSentHeader(headerBits, self.config.HeaderSec)
+    numberReceived, _ := encoding.DecodeSentHeader(headerBits, self.config.HeaderSec)
     // if err != nil {
     //     self.logger.WithError(err).Error("cannot decode Sent header, skipping this")
     //     return 0
