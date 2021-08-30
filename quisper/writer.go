@@ -78,7 +78,7 @@ func init() {
     viper.SetDefault("ProbingStrategy", "single")
     viper.SetDefault("AdaptiveRelease", false)
     viper.SetDefault("CCEnabled", false)
-    viper.SetDefault("FCEnabled", true)
+    viper.SetDefault("FCEnabled", false)
     viper.SetDefault("BlockWindowSize", 128)
     viper.SetDefault("Testing", true)
     viper.SetDefault("HeaderSec", encoding.Plain)
