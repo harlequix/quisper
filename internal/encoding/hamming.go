@@ -46,6 +46,19 @@ func EncodeHamming4 (b []byte) ([]byte,error) {
 }
 
 func DecodeHamming4(b []byte) ([]byte, error){
+    checkNull := true
+    for place := range b {
+        if b[place] == ONE {
+            checkNull = false
+        }
+    }
+    if checkNull == true{
+        out := make(byte, 12)
+        for place := range out {
+            out[place] = ZERO
+        }
+        return out
+    }
     errorPlace := 0
     foundError := false
     for par := range places{
