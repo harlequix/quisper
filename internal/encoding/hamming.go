@@ -53,11 +53,11 @@ func DecodeHamming4(b []byte) ([]byte, error){
         }
     }
     if checkNull == true{
-        out := make(byte, 12)
+        out := make([]byte, 12)
         for place := range out {
             out[place] = ZERO
         }
-        return out
+        return out, nil
     }
     errorPlace := 0
     foundError := false
