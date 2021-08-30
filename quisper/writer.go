@@ -64,6 +64,7 @@ type QuisperConfig struct {
     Testing bool
     HeaderSec string
     AdjustWindow bool
+    UseHeartBeat bool
 }
 
 func init() {
@@ -82,6 +83,7 @@ func init() {
     viper.SetDefault("Testing", true)
     viper.SetDefault("HeaderSec", encoding.Plain)
     viper.SetDefault("AdjustWindow", false)
+    viper.SetDefault("UseHeartBeat", true)
 }
 
 type Writer struct {
@@ -104,6 +106,7 @@ type Writer struct {
     Debug DebugInterface
     CCManager CongestionController
     hashTemplate sha3.ShakeHash
+    HeartBeat HeartBeatMonitor
 }
 
 func newInstance(addr string, secret string, config QuisperConfig) *Writer{
@@ -206,7 +209,10 @@ func (self *Writer)Connect() (context.CancelFunc, error) {
     ctx, cancel := context.WithCancel(parent)
     self.RTTManager = rtt.NewRTTManager(ctx)
     self.CCManager = NewVegasCC(1, self.RTTManager)
-
+    if self.config.UseHeartBeat == true {
+        self.HeartBeat = NewHeartBeatMonitor()
+        self.HeartBeat.Start(self, 0.01)
+    }
     go self.MainLoop(ctx, self.ioChan)
     return cancel, nil
 
@@ -416,6 +422,9 @@ func (self *Writer) work(ctx context.Context, timeslot *timeslots.Timeslot, pipe
                     if ccqueue == nil {
                         ccqueue = self.CCManager.GetWindowBucket(timeslot.Num)
                     }
+                    if self.config.UseHeartBeat{
+                        self.HeartBeat.Aquire()
+                    }
                     block := format.NewBlock()
                     block.SetByte(Byte)
                     pattern := self.stratProbing.GenPattern(block)
@@ -481,6 +490,11 @@ func (self *Writer) evalDial(cid *prot.CID, session quic.Session, err error) *Di
     }
 }
 
+func (self *Writer)Dispatch(logcid *prot.CID, feedback []chan(*DialResult)){
+    self.dispatch(logcid, feedback) // expose private function
+}
+
+
 func (self *Writer)dispatch(logcid *prot.CID, feedback []chan(*DialResult))  {
     var cid *prot.CID
     if self.config.Testing == false {
@@ -543,10 +557,10 @@ func (self *Writer) getBitsSent (slot *timeslots.Timeslot) uint64{
     _ = log
     headerBits := slot.GetHeaderValue("BitsSent")
     numberReceived, err := encoding.DecodeSentHeader(headerBits, self.config.HeaderSec)
-    if err != nil {
-        self.logger.WithError(err).Error("cannot decode Sent header, skipping this")
-        return 0
-    }
+    // if err != nil {
+    //     self.logger.WithError(err).Error("cannot decode Sent header, skipping this")
+    //     return 0
+    // }
     log.WithField("BitsSent", numberReceived).WithField("Bits", headerBits).Debug("Received sentBits")
     return numberReceived
 
