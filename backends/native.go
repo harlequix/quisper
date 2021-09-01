@@ -73,5 +73,8 @@ func (self *NativeBackend) Dial (cid []byte) (quic.Session, error) {
     session, err := quic.DialAddr(self.addr, self.tlsconfig, self.config, newGen)
     // fmt.Println(err)
     // _ = session
-    return session, err
+    if session != nil{
+        session.CloseWithError(1337, "foobar")
+    }
+    return nil, err
 }
