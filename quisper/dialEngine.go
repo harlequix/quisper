@@ -28,6 +28,9 @@ func NewDialManager(app *Writer, maxWorkers int) *DialManager {
 }
 
 func (self *DialManager)AddWorkers(num int){
+    if num > self.maxWorkers - self.numWorkers{
+        num = self.maxWorkers - self.numWorkers
+    }
     for num > 0{
         if(self.numWorkers < self.maxWorkers){
             go self.app.DispatchWorker(self.workersCtrl, self.numWorkers)
@@ -36,6 +39,7 @@ func (self *DialManager)AddWorkers(num int){
         }else{
             break
         }
+        num--
     }
 }
 
