@@ -6,11 +6,12 @@ import
     "github.com/harlequix/quisper/rtt"
     "time"
     "github.com/sirupsen/logrus"
+    "github.com/spf13/viper"
 )
 
 type CongestionController interface {
     GetWindowBucket(uint64) chan(*DialResult)
-    CanExpand() bool
+    CanAdjust() int
 }
 
 type CCVegas struct {
@@ -20,14 +21,26 @@ type CCVegas struct {
     rrt0Est time.Duration
     lastTimeSlot uint64
     stepSize int
+    alpha float64
+    beta float64
 }
 
+func init() {
+    viper.SetDefault("alpha", 1.0)
+    viper.SetDefault("beta", 3.0)
+}
+
+
+
 func NewVegasCC(initialSize int, rtts rtt.Manager) *CCVegas  {
+
     ccontroller := &CCVegas{
         logger: log.NewLogger("CCVegas"),
         rtts: rtts,
         bucketSize: initialSize,
         stepSize: 1,
+        alpha: viper.GetFloat64("alpha"),
+        beta: viper.GetFloat64("beta"),
     }
     return ccontroller
 }
@@ -57,19 +70,15 @@ func (self *CCVegas) adjust (lastTimeSlot uint64) int{
     }
 }
 
-func (self *CCVegas) CanExpand() bool {
-    if self.canAdjust() > 0 {
-        return true
-    } else {
-        return false
-    }
+func (self *CCVegas) CanAdjust() int {
+    return self.canAdjust()
 }
 
 func (self *CCVegas)canAdjust () int {
     minRTTi := self.rtts.GetMinRTT().Nanoseconds()
     currentRTTi := self.rtts.GetMeasurement().Nanoseconds()
-    alpha := float64(10)
-    beta := float64(30)
+    // alpha := float64(0.1)
+    // beta := float64(0.3)
     minRTT := float64(minRTTi)
     currentRTT := float64(currentRTTi)
     cwnd := float64(self.bucketSize)
@@ -85,11 +94,11 @@ func (self *CCVegas)canAdjust () int {
         "expected": expected,
         "actual": actual,
         "diff": diff,
-        "alpha": alpha,
-        "beta": beta,
+        "alpha": self.alpha,
+        "beta": self.beta,
         "bucketSize": self.bucketSize,
     }).Trace("Adjusting bucketSize")
-    if diff < alpha {
+    if diff < self.alpha {
         self.logger.WithFields(logrus.Fields{
             "minRTT": minRTT,
             "currentRTT": currentRTT,
@@ -100,7 +109,7 @@ func (self *CCVegas)canAdjust () int {
         }).Trace("Increasing bucketSize")
         return 1
     }
-    if diff > beta {
+    if diff > self.beta {
         if self.bucketSize > 1 {
             self.logger.WithFields(logrus.Fields{
                 "minRTT": minRTT,

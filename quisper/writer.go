@@ -46,6 +46,10 @@ type DialResult struct {
     Result int
     Session quic.Session
 }
+type DialTask struct {
+    CID *prot.CID
+    Callbacks []chan*DialResult
+}
 
 type QuisperConfig struct {
     TimeslotLength time.Duration
@@ -107,6 +111,9 @@ type Writer struct {
     CCManager CongestionController
     hashTemplate sha3.ShakeHash
     HeartBeat HeartBeatMonitor
+    startWorker int
+    DialManager *DialManager
+    delay chan bool
 }
 
 func newInstance(addr string, secret string, config QuisperConfig) *Writer{
@@ -149,7 +156,12 @@ func newInstance(addr string, secret string, config QuisperConfig) *Writer{
         stratProbing: stratProbing,
         Debug: NewDebugger(),
         hashTemplate: sha3.NewCShake256(nil, []byte(secret)),
+        startWorker: 16,
     }
+}
+
+func (self *Writer) Backlog()int {
+    return len(self.dispatchChan)
 }
 
 func SetConfig(configFile string){
@@ -218,23 +230,48 @@ func (self *Writer)Connect() (context.CancelFunc, error) {
 
 }
 
-func (self *Writer)addDispatcher(ctx context.Context, cap int)  {
-    for it := 0; it < cap; it++ {
-        go self.dispatchWorker(ctx, it)
+func (self *Writer) staggeringMananger(ctx context.Context){
+    self.delay = make(chan bool, 10)
+    default_refill := time.Duration(500)
+    for i := 0; i < cap; i++{
+        self.delay <- true
+    }
+    ticks := time.NewTicker(default_refill)
+    for {
+        select {
+        case <- ctx.Done():
+            return
+        case <- ticks.C:
+            select{
+            case self.delay <- true:
+            default:
+            }
+
+    }
+
     }
 
 }
 
-func (self *Writer) dispatchWorker(ctx context.Context, num int) {
+// func (self *Writer)addDispatcher(cap int)  {
+//     for it := 0; it < cap; it++ {
+//         self.availableChan <- true
+//         go self.DispatchWorker(self.workingChan, it)
+//     }
+//
+// }
+
+func (self *Writer) DispatchWorker(ctx chan bool, num int) {
     logger := self.logger.WithField("workerID", num)
     logger.Trace("Added worker")
     for {
         select {
-        case <-ctx.Done():
+        case <-ctx:
             return
         case entry := <- self.dispatchChan:
+            <- self.delay
             logger.WithField("CID", entry.String()).Trace("Dispatching CID")
-            self.dispatch(entry, []chan*DialResult{self.resultChan})
+            self.dispatch(entry, []chan*DialResult{self.resultChan, self.DialManager.DispatchChan})
         }
     }
 }
@@ -293,16 +330,21 @@ func (self *Writer)  MainLoop(ctx context.Context, pipeline chan(byte)){
     timeslotChn := make(chan uint64)
     timeslotStatusChn := make(chan bool)
     startWork := make(chan bool, 5)
+    go self.staggeringMananger(ctx)
     _ = startWork
     reportChn := make(chan uint64, 1)
     logger.Trace("about to place something into the reportChn")
     reportChn <- uint64(0)
     logger.Trace("placed into reportChn")
+    self.DialManager = NewDialManager(self, self.config.ConcurrentReads)
+    self.DialManager.AddWorkers(4)
+    go self.DialManager.Start(ctx)
     var sync bool = false
     _ = sync
     self.TimeslotScheduler.Logger = &log.Logger{self.logger.WithField("component", "scheduler")}
     go self.TimeslotScheduler.RunScheduler(ctx, timeslotChn)
-    self.addDispatcher(ctx, self.config.ConcurrentReads)
+
+    // self.addDispatcher(self.startWorker)
     go self.runEncoder(ctx)
     controlWork, cancel := context.WithCancel(ctx)
     for {
@@ -341,9 +383,9 @@ func (self *Writer)  MainLoop(ctx context.Context, pipeline chan(byte)){
                             }
                         }
                         if self.config.AdjustWindow == true && self.config.CCEnabled == true {
-                            if self.CCManager.CanExpand() == true {
+                            if self.CCManager.CanAdjust() > 0 {
                                 self.logger.WithField("Timeslot", self.timeslot.Num).WithField("numWorkers", leftover).Debug("expanding workers to catch up")
-                                self.addDispatcher(ctx, leftover)
+                                // self.addDispatcher(leftover)
                                 self.config.ConcurrentReads += leftover
                             }
                         }
@@ -402,6 +444,8 @@ func (self *Writer)  MainLoop(ctx context.Context, pipeline chan(byte)){
         }
     }
 }
+
+// func (self *Writer)expandWorker()
 
 
 func (self *Writer) work(ctx context.Context, timeslot *timeslots.Timeslot, pipeline chan(byte), report chan(uint64), maxBlocks uint64) {
